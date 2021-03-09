@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 3164.6 885.3" style="enable-background:new 0 0 3164.6 885.3;" xml:space="preserve">
+<style type="text/css">
+	.st0{opacity:0.6;fill:none;stroke:#5C88C6;stroke-width:12;stroke-miterlimit:10;enable-background:new    ;}
+	.st1{fill:#5C88C6;stroke:#5C88C6;stroke-width:0.75;stroke-miterlimit:10;}
+	.st2{fill:#5C88C6;}
+</style>
+<g id="Text_1_">
+	<rect x="166.2" y="212.7" class="st0" width="2553.3" height="487.3"/>
+	<g>
+		<path class="st1" d="M435.5,316.6v23.6H298.2v101.7h113.2v23.6H298.2V582h137.3v23.6H271.7v-289H435.5z"/>
+		<path class="st1" d="M542.5,316.6l113.2,253.9l113.2-253.9h28.9v289.1h-26.5V409.1c0-22.6,0.5-46.7,0.5-47.2
+			c-0.5,1-10.1,26.5-18.8,46.3l-87.7,197.5h-21.2l-87.7-197.5c-9.2-20.7-17.8-44.3-18.8-46.3c0,0.5,0.5,24.1,0.5,47.2v196.6h-25.5
+			V316.6H542.5z"/>
+		<path class="st1" d="M974.2,316.6c62.2,0,89.1,41.9,89.1,87.2c0,45.8-27,87.2-89.1,87.2h-63.1v114.7h-26.5V316.6H974.2z
+			 M1036.8,403.8c0-29.9-14.9-63.6-62.6-63.6h-63.1v127.2h63.1C1021.9,467.4,1036.8,434.1,1036.8,403.8z"/>
+		<path class="st1" d="M1102.8,605.6h-27.5l119.5-289.1h21.7L1336,605.6h-28.9l-34.7-83.8H1137L1102.8,605.6z M1204.5,356.1
+			l-57.8,142.1h116.1L1204.5,356.1z"/>
+		<path class="st1" d="M1332.2,340.2v-23.6h232.7v23.6h-103.1v265.5h-26.5V340.2H1332.2z"/>
+		<path class="st1" d="M1651.1,316.6v125.3h172.5V316.6h26.5v289.1h-26.5V465.4h-172.5v140.2h-26.5v-289H1651.1z"/>
+		<path class="st1" d="M1963.3,316.6v289.1h-26.5V316.6H1963.3z"/>
+		<path class="st1" d="M2184,310.3c34.2,0,71.8,11.6,94.9,28.9v27.9c-23.6-18.3-54-32.3-94.9-32.3c-69.9,0-120.4,50.6-120.4,126.2
+			s50.6,126.2,120.4,126.2c41,0,71.3-14,94.9-32.3V583c-23.1,17.3-60.7,28.9-94.9,28.9c-80.5,0-147.9-57.3-147.9-150.8
+			S2103.5,310.3,2184,310.3z"/>
+		<path class="st1" d="M2356.4,605.6H2329l119.5-289.1h21.7l119.5,289.1h-28.9l-34.7-83.8h-135.4L2356.4,605.6z M2458.1,356.1
+			l-57.8,142.1h116.1L2458.1,356.1z"/>
+	</g>
+</g>
+<g id="Ben_Blocks">
+	<rect x="2670.5" y="101" class="st2" width="70" height="700"/>
+	<rect x="2856.4" y="100.4" class="st2" width="70" height="700"/>
+	<rect x="2565.2" y="100.2" class="st2" width="466" height="15"/>
+	<rect x="2563.8" y="785.8" class="st2" width="466" height="15"/>
+</g>
+</svg>

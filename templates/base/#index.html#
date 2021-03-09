@@ -1,0 +1,489 @@
+<!-- templates/signup.html -->
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans 'Cognitive Affective Maps' %}{% endblock %}
+
+{% block content %}
+     <!---------- Custom Javascript Files----------------->
+        <script src="{% static 'jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+        <script src="{% static 'general_java/kepress_options.js' %}"></script>
+        <script src="{% static 'concept_java/slider.js' %}"></script>
+        <script src="{% static 'line_java/slider_link.js' %}"></script>
+        <script src="{% static 'concept_java/checkbox.js' %}"></script>
+        <script src="{% static 'concept_java/basic_concept.js' %}"></script>
+        <script src="{% static 'concept_java/existing_concept_init.js' %}"></script>
+        <script src="{% static 'line_java/line_def.js' %}"></script>
+        <script src="{% static 'line_java/line_select.js' %}"></script>
+        <script src="{% static 'line_java/Link_Update.js' %}"></script>
+        <script src="{% static 'concept_java/close_block.js' %}"></script>
+        <script src="{% static 'general_java/zoom.js' %}"></script>
+        <script src="{% static 'html2canvas.min.js' %}"></script>
+        <!------------------CUSTOM CSS FILES----------------->
+        <link rel="stylesheet" href="{% static 'CSS/CAM.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/block.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/link.css' %}">
+        {% include 'tour.html' %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper bg-topology">
+
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-9 mt-2">
+                <div class="card p-0 resizable-box">
+                    <div class="card-header" id="primary_head">
+                      <div class="row">
+                        <div class="col-md-4">
+                            <div> <!-- ZOOM -->
+                                  <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomIn"><i class="fas fa-plus-circle text-black"></i></a>
+                                  <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomOut"><i class="fas fa-minus-circle text-black"></i></a>
+                                  <!--<button class="btn btn-outline-info" id="btn_ZoomReset">Zoom Reset</button>-->
+                                  <a class="btn-floating btn-sm text-primary" id="zoom_lev">{% trans 'Zoom' %}: 1</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-center">
+                            <div> <!-- Links and Concepts -->
+                                <a class="btn-floating btn-sm align-content-center text-primary" id="select_" style="cursor:pointer;border:solid 1px blue" title="{% trans 'Cursor Mode' %}"><i class="fas fa-mouse-pointer GeneralFont text-primary"></i></a>
+                                <a class="btn-floating btn-sm align-content-center text-primary" id="concept_add" style="cursor:pointer" title="{% trans 'Concept Mode' %}"><i class="fas fa-shapes GeneralFont text-primary"></i></a>
+                                <a class="btn-floating btn-sm align-content-center text-primary" id="link_add" style="cursor:pointer" title="{% trans 'Link Mode' %}"><i class="fas fa-share-alt GeneralFont"></i></a>
+                            </div>
+                            <div id="SaveMessage"></div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                            <div class="float-right"> <!-- SAVING FEATURES -->
+                                <a id="btn-Save-Image" class="btn-floating btn-sm text-primary"  style="cursor:pointer" title="{% trans 'Save CAM' %}"><i class="fas fa-mouse-pointer fa-save GeneralFont"></i></a>
+
+                                {#  {% if user.language_preference == 'en' %}  #}
+                                     <a class="btn-floating btn-sm text-primary" id="btn-Preview-Image" style="cursor:pointer" title="{% trans 'Generate Image' %}"><i class="far fa-file-image GeneralFont"></i></a>
+                                <a class="btn-floating btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export CAM' %}"><i class="fas fa-download GeneralFont"></i></a>
+                                 <a  class="btn-floating btn-sm text-primary" data-toggle="modal" style="cursor:pointer" data-target="#exampleModal" title="{% trans 'Import CAM' %}">
+                                   <i class="fas fa-upload GeneralFont"></i>
+                                </a>
+                                    <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send CAM' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
+                                {# {% endif %} #}
+                                <a class="btn-floating btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset CAM' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i></a>
+                            </div>
+                        </div>
+                      </div>
+                  </div> <!-- END CARD HEADER -->
+                    <div class="card-body" id="CAM_items" style="position:relative;overflow-x: scroll;overflow-y: scroll; min-height: 700px">
+
+                    </div>
+                </div> <!-- END CARD -->
+            </div>
+            <div class="col-3 mt-2">
+                <div class="row col-md-12">
+                    <div class="card w-100" id="Link_Info_Card" hidden>
+                        <div class="card-header" id="primary_head">
+                          <h3 class="center-text">{% trans 'Link Info' %}</h3>
+                          </div> <!-- END CARD HEADER -->
+                            <div class="card-body center-text" style="min-height: 300px;height: 100%">
+                                <div class="alert alert-cascade" role="alert" id="No_Link_Info">{% trans 'Please Select a Link to Make Changes' %}</div>
+                                <div id="Link_Info" hidden>
+                                    <h4>{% trans 'Type of Link' %}</h4>
+                                    <div class="Link_Toggle" data-toggle="buttons" id="Link_Valence">
+                                      <label class="btn btn-primary col-8 active" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="Link_Valence_option1" autocomplete="off" style="margin-bottom:0rem;overflow-wrap:initial" data-line-style="Solid" checked>{% trans 'Agree' %}
+                                      </label>
+                                      <label class="btn btn-primary col-8" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="Link_Valence_option2" autocomplete="off" style="margin-bottom:0rem;overflow-wrap:initial" data-line-style="Dashed">{% trans 'Disagree' %}
+                                      </label>
+                                    </div>
+                                    <h4 class="mt-2">{% trans 'Strength' %}</h4>
+                                    <input type="range" class="custom-range" min="0" max="2" id="link_slider_choice">
+
+                                    <h4>{% trans 'Arrow Options' %}</h4>
+                                    <div class="Link_Toggle" data-toggle="buttons" id="arrow_type">
+                                      <label class="btn btn-primary active col-4" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="arrow_option1" autocomplete="off" checked value="none"><i class="fas fa-slash" style="transform:rotate(-38deg)"></i>
+                                      </label>
+                                      <label class="btn btn-primary col-4" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="arrow_option2" autocomplete="off" value="uni"><i class="fas fa-arrow-right"></i>
+                                      </label>
+                                    </div>
+                                    <button class="btn btn-outline-primary col-8 mt-2" id="swap_direction" style="margin-bottom:0rem;overflow-wrap:initial">{% trans 'Reverse Arrow' %}</button>
+
+                                    <button class="btn btn-outline-danger col-8 mt-2" id="delete_arrow" style="margin-bottom:0rem;overflow-wrap:initial">{% trans 'Delete Link' %}</button>
+                                </div>
+                        </div>
+                    </div> <!-- END CARD -->
+                </div>
+
+
+                <div class="row col-md-12">
+                    <div class="card w-100" id="Concept_Info_Card">
+                        <div class="card-header" id="primary_head">
+                            <h3 class="center-text">{% trans 'Concept Comment' %}</h3>
+                        </div> <!-- END CARD HEADER -->
+                        <div class="card-body center-text" style="min-height: 215px;height: 100%">
+                            <div class="alert alert-cascade" role="alert" id="No_Concept_Comment">{% trans 'Please Select a Single Concept to Add a Comment' %}</div>
+                            <div id="Comment_Info" hidden>
+                                <textarea id="Comment_Box" class="md-textarea form-control" rows="3" maxlength="300"></textarea>
+                                <button class="btn btn-outline-primary mt-2" id="Comment_Button">{% trans 'Add Comment' %}</button>
+                                <button class="btn btn-outline-danger mt-2" id="delete_block_btn">{% trans 'Delete Concept' %}</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STATIC LEGEND CARD -->
+                <div class="row col-md-12">
+                    <div class="card w-100" id="LEGEND_INFO_CARD">
+                        <div class="card-header" id="primary_head">
+                            <h3 class="center-text">{% trans 'Legend' %}</h3>
+                        </div> <!-- END CARD HEADER -->
+                        <div class="card-body center-text" style="min-height: 215px;height: 100%">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                                  aria-selected="true">{% trans 'Legend' %}</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                                   aria-selected="false">{% trans 'Concepts' %} &nbsp <i class="fas fa-shapes"> </i></a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                                  aria-selected="false">{% trans 'Links' %} &nbsp <i class="fas fa-share-alt"> </i></a>
+                              </li>
+                                <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#misc" role="tab" aria-controls="misc"
+                                  aria-selected="false">{% trans 'Misc.' %}</a>
+                              </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                              {% include 'Legend-Content.html' %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End Content Wrapper. Contained page content -->
+
+
+            </div>
+
+        <!-- Modal for DELETE CAM -->
+        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="DeleteModalLabel">{% trans 'Delete CAM' %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% trans 'Are you sure that you want to delete the CAM?' %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% trans 'Close' %}</button>
+                        <button type="button" id="reset_cam" class="btn btn-danger">{% trans 'Delete CAM' %}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal for IMPORT -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{% trans 'IMPORT FILE' %}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <form method="post" enctype="multipart/form-data" action="{% url 'import_CAM' %}">
+                                {% csrf_token %}
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="myfile" id="myfile">
+                                    <label class="custom-file-label" for="customFile" data-browse={% trans 'Browse' %}>{% trans 'Choose File' %}</label>
+                                </div>
+                                <div class="form-check mt-2">
+                                    <input class="form-check-input" type="checkbox" value="Non-Deletable" name="Deletable" id="Deletable" style="display: inline !important">
+                                    {% trans 'Check this box if you would like these concepts to be non-deletable' %}
+                                </div>
+                                <button class="btn btn-outline-primary btn-rounded float-right" type="submit">{% trans 'Upload' %}</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- END CONTAINER -->
+    {% include 'Concept/resize_function.html' %}
+    {% include 'Admin/SendEmail.html' %}
+    <script>
+     var currentZoom = 1.0; // var self = {};
+    </script>
+    {% include 'Concept/Initial_Placement.html' %}
+    {% include 'Concept/place_existing.html' %}
+    {% include 'Concept/drag_function.html' %}
+    {% include 'Concept/concept_placement.html' %}
+    {% include 'Concept/delete_block.html' %}
+    {% include 'base/action-selection.html' %}
+    {% include 'base/image-save-noDownload.html' %}
+    <script>
+
+    $(document).ready(function(e){
+        slider_changes();
+
+        // --------------------CONCEPT SELECTION -------------//
+        var DELAY = 200, clicks = 0, timer=null;
+        $(document).on("click", '.block',function(e){
+            e.preventDefault();
+            let ct_ = this.id.split("_")[1];
+            var target_el = $('#block_'+ct_);
+            click_element = 'concept';
+            if (concept_sel_bool === true){
+                clicks += 1;
+                if (clicks === 1) { //Single Click
+                    // Is the modification section open
+                    if (target_el.hasClass('Open')){
+                        $(e.target).select();
+                        $('#No_Concept_Comment').attr('hidden', true);
+                        $('#Comment_Info').attr('hidden', false);
+                        $('#Comment_Box').val('')
+                        $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                    }
+                    // Concept is closed
+                    else{
+                        console.log('single closed')
+                        // clicked on already selected element
+                       if (target_el.hasClass('Selected')) {
+                            target_el.removeClass('Selected');
+                            //clicks -= 1;
+                            $('#No_Concept_Comment').attr('hidden', false);
+                            $('#Comment_Info').attr('hidden', true);
+                        }
+                        // Concept isnt yet selected
+                        else {
+                            console.log('duce duces')
+                            // Unselect all other concepts
+                           $('.Selected').each(function(){
+                               $(this).removeClass('Selected')
+                           })
+                           target_el.addClass('Selected');
+                           // Update Comment Box
+                           $('#No_Concept_Comment').attr('hidden', true);
+                           $('#Comment_Info').attr('hidden', false);
+                           $('#Comment_Box').val('')
+                    $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                        }
+                    }timer = setTimeout(function () {
+                            clicks = 0;             //after action performed, reset counter
+                        }, DELAY);// End Single Click
+                } else { //Double Click
+                    clearTimeout(timer);    //prevent single-click action
+                    $('.block.Open').each(function(){ // Close existing blocks
+                        close_block_func(this);
+                      });
+                    $('#block_form_' + ct_).attr('hidden', false); //Set up form changes
+                    $('#success_block_' + ct_).empty();
+                    $('#block_'+ct_).addClass('Open');
+                    $('#title_'+ct_).select();
+                    $('.slider').slider('option', 'value', $('#shape_'+ct_).attr('value'));
+                    $('#No_Concept_Comment').attr('hidden', true); // Allow for concept comment changes
+                    $('#Comment_Info').attr('hidden', false);
+                    $('#Comment_Box').val('')
+                    $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                    clicks = 0;             //after action performed, reset counter
+                }//End Double Click
+            } // End Concept Selection for Concept Purposes
+            else if (line_sel_bool === true){
+                    target_el.addClass('Selected');
+                    if ($('.Selected').length === 1){
+                        /*$('#No_Concept_Comment').attr('hidden', true);
+                        $('#Comment_Info').attr('hidden', false);
+                        $('#Comment_Box').text($('#block_'+ct_+' > i').attr('title'));*/
+                    }
+                    if ($('.Selected').length === 2) {
+                        $('.Selected-link').each(function(){
+                            $(this).removeClass('Selected-link')
+                            $(this).children().each(function(){
+                                $(this).removeClass('Selected-arrow')
+                            })
+                        });
+                        create_link();
+                    }
+                /*}*/
+            } // End Concept Selection for Lines
+            else if (cursor_bool === true){
+                if (target_el.hasClass('Selected')) {
+                        // clicked on already selected element
+                        target_el.removeClass('Selected');
+                        $('#No_Concept_Comment').attr('hidden', false);
+                        $('#Comment_Info').attr('hidden', true);
+                } else {
+                    $('.Selected').each(function(){
+                        $(this).removeClass('Selected')
+                    })
+                    target_el.addClass('Selected');
+                    // Update Comment Box
+                    $('#No_Concept_Comment').attr('hidden', true);
+                    $('#Comment_Info').attr('hidden', false);
+                    $('#Comment_Box').val('')
+                    $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                    console.log($('#block_'+ct_+'>span'))
+                }
+            } // End Concept Selection for Lines
+        })
+        .on("dblclick", '.block',function(e){
+            e.preventDefault();  //cancel system double-click event
+        });
+        // SAVE IMAGE ON EXIT
+        $(window).on("beforeunload", function() {
+            unload_save()
+        })
+        window.setInterval(function(){
+            html2canvas(document.querySelector('#CAM_items')).then(function(canvas) {
+                 var dataImage = canvas.toDataURL("image/png");
+                $.ajax({
+                        async:false,
+                        url: "{% url 'image_CAM' %}",
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'html_to_convert': dataImage,
+                        },
+                })//end ajax
+            });
+        }, 60000)
+        {% include 'base/image-save.html' %}
+        // Variables for shift in position due to scroll/drag //
+        var shift_left_total = 0;
+        var shift_top_total = 0;
+        // DEAL WITH THE FACT THAT WE CAN SCROLL
+        var scroll_left = 0; var scroll_top = 0;
+        $('#primary_card').on("scroll", function (event) {
+            scroll_left = this.scrollLeft;
+            $('#primary_head').css("left",scroll_left);
+            $('#primary_foot').css("left",scroll_left);
+           // $('#CAM_items').css('left',scroll_left);
+            scroll_top = this.scrollTop;
+            $('#primary_head').css("top",scroll_top);
+            $('#primary_foot').css("top",scroll_top);
+            var CAM_elem = $("#CAM_items");
+            if (scroll_left > 0) {
+                CAM_elem.css('width', cam_width_max + scroll_left)
+            }
+            shift_left_total = scroll_left; shift_top_total = scroll_top;
+            });
+
+        //--------------------DELETE DEFINITION-------------------------//
+
+        //document.addEventListener('keydown',function(event){
+         $(document).on('keydown',function(event){
+            // DELETE BLOCKS AND LINKS ON BACKSPACE OR DELETE
+            if (event.keyCode === 46 || event.charCode === 46 || event.keyCode === 8 || event.charCode === 8){
+                if (event.target.id !== 'Comment_Box'){
+                    // SELECT BLOCK
+                    $('.Selected').each(function(){
+                        if ($(this).hasClass('Open')){
+                            // Do nothing if the block is open
+                        }
+                        else{
+                            // If block is closed we can delete it
+                            if ($(this).attr('data-modifiable') === 'True'){
+                                blk_delete($(this)[0]);
+                                $(this).remove()
+                            }
+                            else {
+                                console.log("Can't delete this node!")
+                            }
+                        }
+                    });
+                    // SELECT LINK
+                    $('.Selected-link').each(function(){
+                        delete_link($(this));
+                        $(this).remove()
+                    })
+                }
+            }
+        });// end keydown event listener
+        $(document)
+          .on("mousedown", "#CAM_items",function(event) {
+              // IF USER CLICKS ON CAM WHITESPACE -- ALL SELECTED ITEMS BECOME UNSELECTED
+              pageX_ = event.pageX;
+              pageY_ = event.pageY;
+              event.preventDefault();
+              var CAM = this;
+              click_element = 'CAM';
+              //Close any existing blocks by submitting them
+              timer = setTimeout(function(e) {
+              if ((cursor_bool === true || line_sel_bool === true || concept_sel_bool === true) && event.target === CAM) {
+                  $('#No_Concept_Comment').attr('hidden', false);
+                     $('#Comment_Info').attr('hidden', true);
+                  $('.Selected').each(function(){
+                      $(this).removeClass('Selected')
+                  });
+                  $('.Selected-link').each(function(){
+                      $(this).removeClass('Selected-link');
+                      $(this).children().each(function(){
+                        $(this).removeClass('Selected-arrow')
+                    })
+                      $('#Link_Info').attr('hidden',true);
+                      $('#No_Link_Info').attr('hidden',false)
+                  });
+              } // END CLOSE ALL IF CLICK ON WHITESPACE
+              // If concept object is selected
+              if ((concept_sel_bool === true) && event.target === CAM){
+                  if ($('.block.Open').length !== 0){
+                      $('.block.Open').each(function(){
+                        close_block_func(this);
+                      });
+                  }
+                  else{
+                      $('#No_Concept_Comment').attr('hidden', false);
+                      $('#Comment_Info').attr('hidden', true);
+                      clearTimeout(timer);
+                      prevent = true;
+                      place_ret = block_placement(event, $("#CAM_items"), -100-shift_left_total, -50-shift_top_total, concept_ct, 1/currentZoom);
+                      concept_ct = place_ret[0];X = place_ret[1]; Y = place_ret[2];
+                      $('.Selected').each(function(){
+                            $(this).removeClass("Selected");
+                        });
+                      $("#block_"+concept_ct).addClass('Selected Open');
+                  }
+              }
+              prevent = false;
+            }, delay);
+          });
+
+        //block_access(event, pageX_, pageY_);
+    });
+    </script>
+    <script>
+        {% include 'Admin/reset.html' %}
+
+    </script>
+    {% include 'base/comment.html' %}
+    <!-- LINK ELEMENT -->
+    {% include 'Lines/creation.html' %}
+    {% include 'Lines/update_link.html' %}
+    {% include 'Lines/delete_link.html' %}
+    {% include 'Lines/change_direction.html' %}
+    <button type="button" class="btn btn-primary" id="modal_mod_button" data-toggle="modal" data-target="#mod_modal" hidden></button>
+    <button type="button" class="btn btn-primary" id="modal_mod_button" data-toggle="modal" data-target="#del_modal" hidden></button>
+    <button id="form_cam_block_button" class="btn  btn-primary concept_btn" hidden>Add Concept</button>
+    <button id="form_cam_block_button_mod" class="btn  btn-primary modify_concept_btn" hidden>Mod Concept</button>
+    <!-- ADDITIONAL JAVASCRIPT FILES -->
+
+
+
+
+
+
+{% endblock %}
+

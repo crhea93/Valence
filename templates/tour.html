@@ -1,0 +1,28 @@
+<script>
+    $('#start_tour').on('click', function(){
+        var tour = new Tour({
+            steps: [
+                {
+                    element: "#concept_add",
+                    title: "Add concept",
+                    content: "In order to add concepts to the map, have this icon selected"
+                },
+                {
+                    element: "#link_add",
+                    title: "Add Link",
+                    content: "In order to add links to the map, have this icon selected"
+                }
+            ]});
+        // Clear bootstrap tour session data
+        localStorage.clear();
+
+        localStorage.removeItem('tour_current_step');
+        localStorage.removeItem('tour_end');
+        // Initialize the tour
+        tour.init();
+        // Start the tour
+        tour.start();
+    })
+    // Instance the tour
+
+</script>

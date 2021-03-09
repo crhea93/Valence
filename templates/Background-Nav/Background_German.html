@@ -1,0 +1,41 @@
+<!-- templates/signup.html -->
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans 'Background' %}{% endblock %}
+
+{% block content %}
+
+
+    <div class="fluid-container col-md-10 mx-auto">
+        <div class="card mt-3  bg-light mx-auto">
+            <div class="card-header bg-dark">
+                <h2 class="title text-center"  style="color: white">{% trans 'Infos Zur Studie' %}</h2>
+            </div>
+            <div class="card-body justify-content-center bg-light">
+                <p>
+                    Du  nimmst  gerade  an  einer  Studie  des  psychologischen  Instituts  der  Albert-Ludwigs-Universität Freiburg teil.
+                </p>
+                <p>
+                    Ziel unserer  Forschung  ist  es, menschliches Verhalten und  mentale  Prozessebesser  zu verstehen.
+                </p>
+                <p>
+                    Die Ergebnisse und Daten der Studie werden als wissenschaftliche Publikation in
+                    vollständig anonymisierter  Form  veröffentlicht  und  anderen  Forschendenzugänglich  gemacht.Wir erheben  keine  personenbezogenen  Daten,
+                    weshalb  keine  Zuordnung  zwischen  Dir  und Deinen Daten möglich ist.
+                </p>
+                <p>Du   kannst   die   Studie   jederzeit   beenden   und   Deine Einwilligung
+                    zur Teilnahme   und Speicherung der Daten widerrufen.
+                </p>
+                <p>
+                    Bei  Fragen  oder  Anmerkungen  kannst  Du  uns  jederzeit  eine  Nachricht  zukommen  lassen.
+                <p>
+                    Klicke dafür bitte rechts oben auf Dein Profil und wähle den Reiter „Kontakt“. Danke für Deine Teilnahme und viel Spaß beim Beenden des Versuchs!
+                </p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

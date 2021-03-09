@@ -1,0 +1,57 @@
+{% extends 'base2.html' %}
+{% block content %}
+
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper bg-topology">
+<div class="container ">
+    <div class="card mt-4">
+        <div class="panel-group" id="faqAccordion">
+            <div class="panel panel-default ">
+                <div class="card-header panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question0">
+                    <h4 class="panel-title">
+                        <a href="#" class="ing">Q: When should I place a link between concepts?</a>
+                    </h4>
+                </div>
+                <div id="question0" class="panel-collapse collapse card-body" style="height: 0px;">
+                    <div class="panel-body">
+                        <h5><span class="label label-primary">Answer</span></h5>
+
+                        <p>
+                            Place a link between concepts when thinking about the first one creates an almost instant association with the second one.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="panel-group" id="faqAccordion">
+            <div class="panel panel-default ">
+                <div class="card-header panel-heading accordion-toggle question-toggle collapsed" data-toggle="collapse" data-parent="#faqAccordion" data-target="#question1">
+                    <h4 class="panel-title">
+                        <a href="#" class="ing">Q: What does agreement and disagreement between concepts mean?
+                        </a>
+                    </h4>
+                </div>
+                <div id="question1" class="panel-collapse collapse card-body" style="height: 0px;">
+                    <div class="panel-body">
+                        <h5><span class="label label-primary">Answer</span></h5>
+                        <ul>
+                            <li>
+                                Agreement between concepts typically means that you feel similarly about them, or that the emotion you feel about the first concept is related to the second concept’s emotion in a similar way.
+                            </li>
+                            <li>
+                                Disagreement, on the other hand, typically means that you have different or opposing emotions about two concepts.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/panel-group-->
+</div>
+</div>
+{% endblock %}

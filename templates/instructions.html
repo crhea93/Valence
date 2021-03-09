@@ -1,0 +1,88 @@
+<!-- templates/signup.html -->
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}Getting Started{% endblock %}
+
+{% block content %}
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper bg-topology">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header cascadHeadercontainer">
+            <div class="container-fluid">
+                <div class="row mt-2 mb-2">
+                    <div class="col-sm-12 text-center">
+                        <h1 class="m-0 display-1 cascadHeaderh">{% trans 'Getting Started' %}</h1>
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <div class="card col-md-8 mx-auto mt-5">
+            <div class="card-header text-center">
+                <h3>Concepts</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <!-- <li class="list-group-item"></li> -->
+                    <li class="list-group-item">Click the "concept mode" icon <i class="fas fa-shapes GeneralFont text-primary"></i> at the top of the screen. Once that is selected, clicking anywhere on the workspace will add a concept.</li>
+                    <li class="list-group-item">Concepts are the individual components of the idea that the CAM represents. They form parts of the idea in the way that words form parts of sentences.</li>
+                    <li class="list-group-item">Enter text into the text box - usually a noun or short noun phrase - and adjust the settings bar below to assign the concept a valence.</li>
+                    <li class="list-group-item">If the concept triggers very little emotion, leave the bar in the middle at neutral setting.   <img class="float-right" src="{% static 'gettingstarted/CAMshapes_neutralopen.png' %}" alt="Image not found"></li>
+                    <li class="list-group-item">Adjust the bar to the left for a negative concept (the concept alone triggers unpleasant feelings). <img class="float-right" src="{% static 'gettingstarted/CAMshapes_negativeopen.png' %}" alt="Image not found"></li>
+                    <li class="list-group-item">Adjust the bar to the right for a positive concept (the concept alone triggers pleasant feelings). <img class="float-right" src="{% static 'gettingstarted/CAMshapes_positiveopen.png' %}" alt="Image not found"></li>
+                    <li class="list-group-item">If the concept is ambivalent - it can trigger either strong positive or strong negative feelings, depending on the context - check the box below the bar. <img class="float-right" src="{% static 'gettingstarted/CAMshapes_ambivalentopen.png' %}" alt="Image not found"></li>
+                    <li class="list-group-item">Use the tag at the bottom right corner of the concept to adjust the size of the object to fit the text.</li>
+                    <li class="list-group-item">One way to begin drawing a CAM is to first place a concept in the centre of the workspace that represents the idea being examined. Then consider what related concepts this idea immediately triggers, and begin placing these concepts adjacent. Proceed as each concept placed calls to mind another.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card col-md-8 mx-auto mt-5">
+            <div class="card-header text-center">
+                <h3>Links</h3>
+            </div>
+            <div class="card-body">
+                <ul class="list-group">
+                    <!-- <li class="list-group-item"></li> -->
+                    <li class="list-group-item">Click the "link mode" icon <i class="fas fa-share-alt GeneralFont"></i> at the top of the screen. Once that is selected, clicking any two concepts will create a link between them.</li>
+                    <li class="list-group-item">Links indicate that two concepts are related. Thinking about one in some way calls to mind the other.</li>
+                    <li class="list-group-item">Use the menu to the right of the workspace to set the strength and character of the relationship indicated by the selected link.</li>
+                    <li class="list-group-item">If the concepts are linked because they are in agreement with each other - one is inclined to feel the same way about both - then the line should be solid. <img class="" src="{% static 'gettingstarted/SolidLine.png' %}" alt="Image not found"></li>
+                    <li class="list-group-item">If the concepts are linked because they are opposed to each other - one would be inclined to feel the opposite way about them - then the line should be dashed. <img class="" src="{% static 'gettingstarted/DashedLine.png' %}" alt="Image not found"></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card col-md-8 mx-auto mt-5">
+        <div class="card-header text-center">
+            <h3>Finishing the CAM</h3>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <!-- <li class="list-group-item"></li> -->
+                <li class="list-group-item">Concepts can be moved around the screen, along with their attached links, by clicking and dragging them. Organize the concepts on the workspace as best you can so that linked concepts are adjacent to each other, to make the resulting image as neat as possible.</li>
+                <li class="list-group-item">If you wish to add additional concepts or links at any time, you can toggle between concept and link mode.</li>
+                <li class="list-group-item">If you need more space, use the zoom function on the upper-left corner (<i class="fas fa-plus-circle text-black"></i> and <i class="fas fa-minus-circle text-black"></i>)and the scroll bars to the right and bottom to adjust the visible workspace.</li>
+                <li class="list-group-item">Click Save <i class="fas fa-mouse-pointer fa-save GeneralFont"></i> to ensure that changes to your work have been saved. Generate Image <i class="far fa-file-image GeneralFont"></i> downloads your CAM as a .png image file, while Export CAM <i class="fas fa-download GeneralFont"></i> downloads the data in a spreadsheet file, which can then be loaded into a blank workspace using Import CAM <i class="fas fa-upload GeneralFont"></i>.</li>
+            </ul>
+        </div>
+    </div>
+
+    </div>
+
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+{% endblock %}
+

@@ -1,0 +1,148 @@
+{% load static %}
+<script>
+
+    //---------FUNCTION FOR PLACEMENT OF FUNCTIONS ------------//
+    function place_concept(title,x,y,width,height,shape,num,id,links_starting,links_ending,notes,modifiable){
+        num = parseInt(num);
+        //add shape
+        let notes_hidden = 'hidden';
+        if (notes !== 'None' && notes.trim() !== ''){
+            notes_hidden = '';
+        }
+        let def_created_concept = existing_concept_init(title,x,y,width,height,shape,num,notes_hidden,notes,modifiable);
+        //Add concept
+        $("#CAM_items").append(def_created_concept);
+        // add links to data-links attribute
+        $('#title_'+num).attr('data-links','['+eval(links_starting)+eval(links_ending)+']');
+        $('#title_'+num).value = title;
+        $('#success_block_'+num).append('<p>'+title+'</p>');
+        var block_ = $('#block_' + num);
+        block_.draggable({
+             containment: "#CAM_items",
+             //scroll: true,
+             start: function( event, ui ) {
+                 $(this).addClass('my_class');
+             },
+            drag: function(evt,ui){
+                 //update links
+                //ui.position.left =  event.pageX*currentZoom;
+                var factor = (1 / currentZoom) - 1;
+                 ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+                 ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
+                let link_numbers = $('#title_'+num).attr('data-links');
+                link_numbers = link_numbers.slice(1,-1);
+                link_numbers = link_numbers.split(',');
+                for (let link_ct in link_numbers){
+                    let link_number = link_numbers[link_ct].trim();
+                    // Make sure we have something in link numbers
+                    if (link_number !== '') {
+                        let link_sel = $('#' + link_number);
+                        if (block_.attr('data-title') === link_sel.attr('data-start_id')) {
+                            update_link_start(link_sel);
+                        } else {
+                            update_link_end(link_sel)
+                        }
+                    }
+                }// end updating links
+            },
+             stop: function( event, ui ) {
+                 $(this).removeClass('my_class');
+                 block_.css('position', 'absolute');
+                 drag_func(block_.attr("data-title"),num,block_.css("left"),block_.css("top"),block_.css('width'),block_.css('height'));
+             },
+         });
+
+         //---------CHECKBOX--------------//
+        $(document).on('mousedown','.checkbox',function () {
+            let ct = this.id.split("_")[1];
+            let blk_ = $('#block_'+ct);
+            var X = blk_.css('left');//event.pageX;
+            var Y = blk_.css('top');//event.pageY;
+            var width = blk_.css('width').trim('px');
+            var height = blk_.css('height').trim('px');
+            console.log(X+' '+Y)
+            shape_ = 3;
+            if (blk_.hasClass('hexagonAmb')){
+                shape_ = 7
+            }
+            else {
+                shape_ = $('#shape_'+ct).attr('value')
+            }
+            checkbox_changes($('#check_'+ct),$("#block_"+ct),ct)
+            console.log(shape_)
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "{% url 'update_block' %}",
+                data: {
+                    'title': $('#title_'+ct).val(),
+                    'shape': shape_,
+                    'x_pos': X,
+                    'y_pos': Y,
+                    'width': width,
+                    'height': height,
+                    'num_block': ct,
+                    'local_block_id': blk_.attr("data-title"),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'update_valid': true,
+                },
+                success: function (data) {
+                },
+                error: function () {
+                }
+            })//end ajax
+        });
+
+         //----------Define Modification Button---------//
+        $('#form_cam_block_button_mod_'+num).click(function (e) {
+                e.preventDefault();
+                let block_curr = $('#block_'+ct);
+                $('#title_'+num).value = title;
+                console.log(block_curr.css('left'), block_curr.css('width'))
+                var block_id = $(this).attr('id').slice(-1);
+                var X = block_curr.css('left').trim('px');//event.pageX;
+                var Y = block_curr.css('top').trim('px');//event.pageY;
+                var width = block_curr.css('width').trim('px');
+                var height = block_curr.css('height').trim('px');
+                //console.log(X+' '+Y)
+                let shape_ = 1;
+                if (block_curr.hasClass('hexagonAmb')){
+                    shape_ = 7
+                }
+                else {
+                    shape_ = $('#shape_'+num).attr('value')
+                }
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "{% url 'update_block' %}",
+                    data: {
+                        'title': $('#title_'+num).val(),
+                        'shape': shape_,
+                        'x_pos': X,
+                        'y_pos': Y,
+                        'width': width,
+                        'height': height,
+                        'num_block':block_id,//$('#block_'+block_id).attr("title"),
+                        'local_block_id':  $('#block_'+block_id).attr("data-title"),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'update_valid': true,
+                    },
+                    success: function (data) {
+                        $('#block_form_'+data.num).attr('hidden',true);
+                        $('#success_block_'+data.num).empty();
+                        $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                        $('.Selected').each(function(){
+                            $(this).removeClass("Selected");
+                            $(this).removeClass('Open')
+                        });
+                    },
+                    error: function () {
+                        console.log("Error")
+                    }
+                })//end ajax
+            }); //end block modification button
+
+    }
+
+</script>

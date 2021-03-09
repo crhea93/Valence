@@ -1,0 +1,181 @@
+{% load static %}
+{% load i18n %}
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4 toggled" style="background-color: #5b5b5b">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar Title -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="info">
+                <a class="brand-text pl-0">
+                    <img class="small" src="{% static 'Valence.png' %}" alt="cant find" style="height:3rem; width:auto"/>
+                </a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{% url 'dashboard' %}" class="nav-link">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Dashboard
+                        </p>
+                    </a>
+                </li>
+
+
+
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>
+                            Documentation
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-4">
+                            <a href="{% url 'instructions' %}" class="nav-link">
+                                <p>
+                                    Getting started
+                                </p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-4">
+                            <a class="nav-link" href="{% url 'Background' %}">{% trans 'Theoretical Background' %}</a>
+                        </li>
+                        <li class="nav-item ml-4">
+                            <a href="{% url 'FAQ' %}" class="nav-link">
+                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <p>FAQ</p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item has-treeview">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            About
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item ml-4">
+                            <a href="{% url 'contact_form' %}" class="nav-link">{% trans 'Contact' %}</a>
+                        </li>
+                    <li class="nav-item ml-4">
+                            <a href="{% url 'contributors' %}" class="nav-link">
+                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <p>Contributors</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-4">
+                            <a href="https://www.termsfeed.com/live/e029a935-a622-463a-92b1-893869e15dd0" target="_blank" class="nav-link">
+                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <p>Privacy</p>
+                            </a>
+                        </li>
+                        <li class="nav-item ml-4">
+                            <a href="" class="nav-link">
+                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <p>Term of Use</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                {% if user.project_set.all|length > 0 %}
+                    <li class="nav-item has-treeview menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-project-diagram"></i>
+                            <p>
+                                My Projects
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            {% for project in user.project_set.all %}
+                                <li class="nav-item ml-4">
+                                    <a id="project_{{ project.id }}" class="nav-link ind_project" style="cursor:pointer">
+                                        {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                        <p>{{ project.name }}</p>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+            {% endif %}
+
+
+
+
+            <li class="nav-item has-treeview menu-open">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-draw-polygon"></i>
+                        <p>
+                            My CAMs
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        {% for CAM in user.cam_set.all %}
+                            <li class="nav-item ml-4">
+                                <a id="cam_{{ CAM.id }}" class="nav-link ind_cam" style="cursor:pointer">
+                                    <p>{{ CAM.name }}</p>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
+
+<script>
+    $('.ind_cam').on('click', function(){
+        $.ajax({
+            async:false,
+            url: "{% url 'load_cam' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'cam_id': $(this).attr('id').split('_')[1],
+            },
+            success: function(data){
+                window.location.href = "{% url 'index' %}"
+            },
+            error: function(){
+                console.log("Error")
+            },
+        })//end ajax
+    })
+    $('.ind_project').on('click', function(){
+        $.ajax({
+            async:false,
+            url: "{% url 'load_project' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'project_id': $(this).attr('id').split('_')[1],
+            },
+            success: function(data){
+                window.location.href = "{% url 'project_page' %}"
+            },
+            error: function(){
+                console.log("Error")
+            },
+        })//end ajax
+    })
+</script>

@@ -1,0 +1,277 @@
+{% load static %}
+
+<script>
+    function block_placement(event,cam_element,drag_width,drag_height,concept_ct,zoom_scale){
+        event.stopPropagation();
+         if( event.target.id !== cam_element.attr('id') ) {
+             return false; //Dont add element if child is clicked!
+         }
+        //get the current x and y of the mouse pointer
+        concept_ct += 1;
+        var X = zoom_scale*(event.pageX)-100;
+        var Y = zoom_scale*(event.pageY)-150;
+        var cam_item = def_concept(X, Y, concept_ct, 'hidden', '');
+        //add concept to CAM
+        $("#CAM_items").append(cam_item);
+        let block_ = $('#block_'+concept_ct);
+        block_.css('position', 'absolute');
+        //block_.addClass('Open');
+        block_.resizable({
+            aspectRatio: 4/3,
+            ghost: true,
+            start: function(event, ui){
+                init_width = ui.size.width;
+                init_height = ui.size.height
+            },
+            stop: function(event, ui){
+                let num_block_global = $(this).attr('id').split('_')[1];
+                let num_block_local = $(this).attr('id').split('_')[1];
+                let left = $(this).css('left'); let top = $(this).css('top');
+                let height = $(this).css('height'); let width = $(this).css('width');
+                resize_func(num_block_global,num_block_local,left,top,height,width)
+                let scale = (ui.size.width)/(init_width)
+                let current_fontsize = parseFloat($(this).find('.success_blk').children().css('font-size'))
+                console.log($(this).find('.success_blk').children().css('font-size', scale*current_fontsize))
+                console.log(scale)
+                console.log(current_fontsize)
+                $(this).find('.success_blk').children().css('font-size', scale*current_fontsize)
+            }
+        });
+        $('#title_'+concept_ct).select();
+        $('#shape_'+concept_ct).slider({
+             value: 3,
+             step: 1,
+             min: 0,
+             max: 6,
+             create: function() {
+
+              },
+             slide: function(event, ui){
+
+             },
+             stop: function (event, ui) {
+                 let slide_val = ui.value;
+                 ct = $(this).attr('id').split('_')[1];
+                 let block__ = $('#block_'+ct);
+                 block__.removeClass();
+                 if (slide_val === 0) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content hexagonNegStrong Open');
+                 $(this).attr('value', 0);
+             } else if (slide_val === 1) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content hexagonNeg Open');
+                 $(this).attr('value', 1);
+             } else if (slide_val === 2) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content hexagonNegWeak Open');
+                 $(this).attr('value', 2);
+             } else if (slide_val === 3) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content rectangle Open');
+                 $(this).attr('value', 3);
+             } else if (slide_val === 4) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content rounded-circle-weak Open');
+                 $(this).attr('value', 4);
+             } else if (slide_val === 5) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content rounded-circle-normal Open');
+                 $(this).attr('value', 5);
+             }  else if (slide_val === 6) {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content rounded-circle-strong Open');
+                 $(this).attr('value', 6);
+
+             } else {
+                 block__.addClass('block shadow-none card resizable draggable ui-widget-content hexagonAmb hexagonAmbCircle Open') //default to neutral
+             }
+             }
+     })
+        return [concept_ct,X,Y]
+    }
+
+    /*$(document).on('click',".close",function(){
+        var block_ = $(this).parent();
+        block_.remove();
+        blk_delete(block_[0])  // This will throw an error unless the concept is already in the database -- this isnt really an issue :)
+    });*/
+    //---------CHECKBOX--------------//
+    $(document).on('mousedown','.checkbox',function () {
+        let ct = this.id.split("_")[1];
+        let blk_ = $('#block_'+ct);
+        var X = blk_.css('left');//event.pageX;
+        var Y = blk_.css('top');//event.pageY;
+        var width = blk_.css('width').trim('px');
+        var height = blk_.css('height').trim('px');
+        console.log(X+' '+Y)
+        shape_ = 3;
+        if (blk_.hasClass('hexagonAmb')){
+            shape_ = 7
+        }
+        else {
+            shape_ = $('#shape_'+ct).attr('value')
+        }
+        checkbox_changes($('#check_'+ct),$("#block_"+ct),ct)
+        console.log(shape_)
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "{% url 'update_block' %}",
+            data: {
+                'title': $('#title_'+ct).val(),
+                'shape': shape_,
+                'x_pos': X,
+                'y_pos': Y,
+                'width': width,
+                'height': height,
+                'num_block': ct,
+                'local_block_id': blk_.attr("data-title"),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'update_valid': true,
+            },
+            success: function (data) {
+            },
+            error: function () {
+            }
+        })//end ajax
+
+    });
+
+    //-------------SEND DATA TO DJANGO FOR SAVE----------------//
+    $(document).on('click','.concept_btn',function (e) {
+        e.preventDefault();
+        let ct = $(this).attr('data-title');
+        let blk_ = $('#block_'+ct);
+        var X = blk_.css('left').replace('px','');
+        var Y = blk_.css('top').replace('px','');
+        var height = blk_.css('height').replace('px','');
+        var width = blk_.css('width').replace('px','');
+        console.log(X,Y)
+        let shape_ = 1;
+        if (blk_.hasClass('hexagonAmb')){
+            shape_ = 5
+        }
+        else {
+            shape_ = $('#shape_'+ct).attr('value')
+        }
+        if ($('#title_'+ct).val()){
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "{% url 'add_block' %}",
+                data: {
+                    'title': $('#title_'+ct).val(),
+                    'shape': shape_,
+                    'checked': $('#check_'+ct).is(':checked'),
+                    'x_pos': X,
+                    'y_pos': Y,// - drag_height,
+                    'height': height,
+                    'width': width,
+                    'num_block': ct,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'add_valid': true,
+                },
+                //dataType: 'json',
+                success: function (data) {
+                    //ADD BLOCKS and CREATE LINK SETUP
+                    $('.Selected').each(function(){
+                        $(this).removeClass('Selected');
+                        $(this).removeClass('Open')
+                    });
+                    $('#block_form_'+data.num).attr('hidden',true);
+                    $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                    $("#link_blocks").load(location.href + " #link_blocks");
+                    $("#link_blocks_del").load(location.href + " #link_blocks_del");
+                    var block_ = $('#block_' + data.num);
+                    block_.attr('data-title',data.num);
+                    block_.removeClass('Open');
+                    var title_ = $('#title_' + data.num);
+                    title_.attr('data-links','[,'+data.links+']');
+                    //--------------BLOCK DRAGGING-------------------------------//
+                    block_.draggable({
+                         containment: "#CAM_items",
+                         scroll: true,
+                         start: function( event, ui ) {
+                             $(this).addClass('my_class');
+                         },
+                        drag: function(evt,ui){
+                             var factor = (1 / currentZoom) - 1;
+                             ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+                             ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
+                            let link_numbers = $('#title_'+data.num).attr('data-links');
+                            link_numbers = link_numbers.slice(1,-1);
+                            link_numbers = link_numbers.split(',');
+                            for (let link_ct in link_numbers){
+                                let link_number = link_numbers[link_ct].trim();
+                                // Make sure we have something in link numbers
+                                if (link_number !== '') {
+                                    let link_sel = $('#' + link_number);
+                                    if (block_.attr('data-title') === link_sel.attr('data-start_id')) {
+                                        update_link_start(link_sel);
+                                    } else {
+                                        update_link_end(link_sel)
+                                    }
+                                }
+                            }// end updating links
+                        },
+                         stop: function( event, ui ) {
+                             $(this).removeClass('my_class');
+                             let this_block = $('#block_' + data.num);
+                             drag_func(data.num,data.num,this_block.css("left"),this_block.css("top"),this_block.css("width"),this_block.css("height"))
+                         }
+                     })
+                },
+                error: function () {
+                    console.log("Error")
+                }
+            });//Ajax done
+        } // if title
+        else {
+            // if no title --> delete concept
+            blk_.remove()
+        }
+    }); //end of clicking form
+    //---------------------CONCEPT MODIFICATION INFORMATION AND DJANGO CALL-----------------------//
+     $(document).on('click','.modify_concept_btn',function (e) {
+        e.preventDefault();
+        //var X = e.pageX;//-drag_width;
+        //var Y = e.pageY;//-3*drag_height;
+        let ct = $(this).attr('data-title');
+        let blk_ = $('#block_'+ct);
+        var X = blk_.css('left');//event.pageX;
+        var Y = blk_.css('top');//event.pageY;
+         var width = blk_.css('width').trim('px');
+         var height = blk_.css('height').trim('px');
+         console.log(X+' '+Y)
+        shape_ = 3;
+        if (blk_.hasClass('hexagonAmb')){
+            shape_ = 7
+        }
+        else {
+            shape_ = $('#shape_'+ct).attr('value')
+        }
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "{% url 'update_block' %}",
+            data: {
+                'title': $('#title_'+ct).val(),
+                'shape': shape_,
+                'x_pos': X,
+                'y_pos': Y,
+                'width': width,
+                'height': height,
+                'num_block': ct,
+                'local_block_id': blk_.attr("data-title"),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'update_valid': true,
+            },
+            success: function (data) {
+                $('#block_form_'+data.num).attr('hidden',true);
+                let success_blk = $('#success_block_'+data.num);
+                success_blk.empty();
+                success_blk.append('<p>'+$('#title_'+data.num).val()+'</p>');
+                $(".Selected").each(function(){
+                     $(this).removeClass("Selected");
+                 });
+            },
+            error: function () {
+                console.log("Error")
+            }
+        })//end ajax
+    }); //end block modification button
+</script>

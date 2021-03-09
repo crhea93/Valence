@@ -1,0 +1,123 @@
+{% load static %}
+{% load i18n %}
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h4 class="m-0 section-title">Projects</h4>
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <section class="content">
+            <div class="container-fluid">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    {% for project in user.project_set.all %}
+                        <div class="col-3 d-flex align-items-stretch">
+                            <!-- small box -->
+                            <!-- Custom tabs (Charts with tabs)-->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">
+                                        <i class="fas fa-draw-polygon mr-1"></i>
+
+                                        {{ project.name }}
+                                    </h4>
+                                    <div class="float-right DeleteProject" id="projectDel_{{ project.id }}" style="cursor: pointer">
+                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
+                                    </div>
+                                    <div class="card-tools">
+                                    </div>
+                                </div><!-- /.card-header -->
+                                <div class="card-body ind_project" id="project_{{ project.id }}" style="cursor: pointer">
+                                    <div class="tab-content p-0">
+                                        {% if user.language_preference == 'de' %}
+                                            <img src="{% static 'CAM.png' %}"
+                                                 style="width:100%;object-fit: contain;">
+                                        {% else %}
+                                            <img src="{% static 'CAM.png' %}"
+                                                 style="width:100%;object-fit: contain;">
+                                        {% endif %}
+
+                                    </div>
+                                </div><!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    {% endfor %}
+                    <!-- ./col -->
+                    <div class="col-3">
+                        <!-- small box -->
+                        <!-- Custom tabs (Charts with tabs)-->
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">
+                                    <a href="{% url 'create_project' %}" class="text-primary">
+                                        <i class="fas fa-plus-circle"></i>
+                                        {% trans 'Create New Project' %}
+                                    </a>
+                                </h4>
+                            </div><!-- /.card-header -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- ./col -->
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+                <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+
+        <script>
+            $('#createNewProject').on('click', function(){
+                let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                  if (delete_ !== 'DELETE') {
+                      txt = "User cancelled the prompt.";
+                  }
+                  else{
+                      $.ajax({
+                        async:false,
+                        url: "{% url 'create_project' %}",
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        },
+                        success: function(data){
+                            window.location.href = "{% url 'index' %}"
+                        },
+                        error: function(){
+                            console.log("Error")
+                        },
+                    })//end ajax
+                  }
+
+            })
+            $('.DeleteProject').on('click', function(){
+                let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                  if (delete_ !== 'DELETE') {
+                      txt = "User cancelled the prompt.";
+                  }
+                  else{
+                      $.ajax({
+                        async:false,
+                        url: "{% url 'delete_project' %}",
+                        type: "POST",
+                        data: {
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'project_id': $(this).attr('id').split('_')[1],
+                        },
+                        success: function(data){
+                            window.location.reload()
+                        },
+                        error: function(){
+                            console.log("Error")
+                        },
+                    })//end ajax
+                  }
+
+            })
+        </script>

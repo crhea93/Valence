@@ -1,0 +1,74 @@
+    {% load static %}
+
+    <script>
+        function create_link()  {
+            var start_block_id = $('.Selected:first').attr("id").split("_")[1];
+            var end_block_id = $('.Selected:last').attr("id").split("_")[1];
+            if (start_block_id === end_block_id){
+                return false
+            }
+            var start_x = parseFloat($('#block_'+start_block_id).css('left'));
+            var start_y = parseFloat($('#block_'+start_block_id).css('top'));
+            var end_x = parseFloat($('#block_'+end_block_id).css('left'));
+            var end_y = parseFloat($('#block_'+end_block_id).css('top'));
+            var point_array = [start_x,start_y,end_x,end_y];
+            for (let i=0; i<point_array.length; i++){
+                if (typeof point_array[i] === 'undefined'){
+                    point_array[i] = 0;
+                }
+            }
+            //-------------DJANGO CALL-------------------//
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: '{% url 'add_link' %}',
+                data: {
+                    'starting_block': start_block_id,
+                    'ending_block': end_block_id,
+                    'line_style': 'Solid-Weak',//$('#line_style').val(),
+                    'arrow_type': 'none',
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'link_valid': true,
+                    'line_type': 'bold'
+                },
+                //dataType: 'json',
+                success: function (data) {
+                    //Get x and y coordinates of starting and ending block
+                    var link = createLine(data.id,data.id,point_array,-100,50,start_block_id,end_block_id,'Solid-Weak');
+                    let end_block = $('#title_'+end_block_id);
+                    let start_block = $('#title_'+start_block_id);
+                    // Add link to blocks data-links
+                    if (end_block.attr('data-links').slice(0,-1).length > 0){
+                        end_block.attr('data-links',end_block.attr('data-links').slice(0,-1)+', '+data.id+']');
+                    }
+                    else{
+                        end_block.attr('data-links','[,'+data.id+']');
+                    }
+                    if (start_block.attr('data-links').slice(0,-1).length > 0){
+                        start_block.attr('data-links',start_block.attr('data-links').slice(0,-1)+', '+data.id+']');
+                    }
+                    else{
+                        start_block.attr('data-links','[,'+data.id+']');
+                    }
+                    // Add new item with chosen attributes and make draggable
+                    $("#CAM_items").append(link);
+                    //unselect blocks
+                    $('.Selected').each(function(){
+                        $(this).removeClass("Selected");
+                    });
+                    // Select and Open Link
+                    const link_ = $('#'+data.id);
+                    link_.addClass('Selected-link');
+                    $('#Link_Info').attr('hidden', false);
+                    $("#No_Link_Info").attr('hidden', true);
+                    // Set link slider choice
+                    $("#link_slider_choice").val('0');
+                    //location.reload()
+                },
+                error: function(){
+                     console.log("Error")
+                }
+            });//Ajax done
+            //Now to add the new item in the CAM
+        } //end of clicking form
+    </script>

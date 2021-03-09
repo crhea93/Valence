@@ -1,0 +1,91 @@
+<!-- templates/signup.html -->
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}Researcher Dashboard{% endblock %}
+
+{% block content %}
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper bg-topology">
+
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header cascadHeadercontainer">
+            <div class="container-fluid">
+                <div class="row mt-2 mb-2">
+                    <div class="col-sm-12 text-center">
+                        <h1 class="m-0 display-1 cascadHeaderh">{% trans 'DASHBOARD' %}</h1>
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+
+
+
+
+
+
+
+
+        <!-- /.content -->
+        {% if user.is_researcher %}
+            {% include 'ProjectList.html' %}
+        {% endif %}
+        {% include 'CAMList.html' %}
+
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+
+
+
+    <script>
+    $('.ind_cam').on('click', function(){
+        $.ajax({
+            async:false,
+            url: "{% url 'load_cam' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'cam_id': $(this).attr('id').split('_')[1],
+            },
+            success: function(data){
+                window.location.href = "{% url 'index' %}"
+            },
+            error: function(){
+                console.log("Error")
+            },
+    })//end ajax
+    })
+    $('.ind_project').on('click', function(){
+        $.ajax({
+            async:false,
+            url: "{% url 'load_project' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'project_id': $(this).attr('id').split('_')[1],
+            },
+            success: function(data){
+                window.location.href = "{% url 'project_page' %}"
+            },
+            error: function(){
+                console.log("Error")
+            },
+        })//end ajax
+    })
+    </script>
+
+{% endblock %}
+

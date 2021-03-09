@@ -1,0 +1,137 @@
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Dashboard - Cognitive Affective Maps' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <div class="card mt-5 col-md-6 mx-auto">
+        <div class="card-body register-card-body">
+
+            <h1>Settings</h1>
+
+            <!-- CREATE PARTICIPANT FORM -->
+            <form id="participantForm" class="form-horizontal" method="POST" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+
+                <h3>Profile</h3>
+
+                <div class="row">
+
+                    <div class="col-6">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
+                                <label for="inputUsername">{% trans "User Name" %}:</label>
+                                <input class="form-control" value="{{ user.username }}" disabled>
+                                <!--{{ form.username|add_class:'form-control' }}-->
+                                <span class="text-danger">{{ form.username.errors.0}}</span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="inputEmail">{% trans 'Email' %}:</label>
+                                <input class="form-control" value="{{ user.email }}">
+                                <!--{{ form.language_preference|add_class:'form-control' }}-->
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!--<div class="col-6 float-center">
+                        <div class="image-wrapper">
+                            <div style="text-align: center">
+                            <label for="id_image" style="cursor: pointer"><img class="profile-user-img img-fluid img-circle mt-4"
+                                 src="{{ user.avatar }}" alt="Image not found" onerror="this.src='{% static 'dist/img/user1-128x128.jpg' %}'"
+                                 style="display: block;" id="Avatar_settings">
+                            </label>
+                                <input id="id_image" type="file" class="" name="id_image" style="display: none;" onchange="loadFile(event)">
+                            </div>
+                        </div>
+                        <div class="text-secondary text-sm-center">
+                            Upload Avatar
+                        </div>
+                    </div>-->
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputOrganization">{% trans 'Organization' %}:</label>
+                        <input class="form-control">
+                        <!--{{ form.language_preference|add_class:'form-control' }}-->
+                    </div>
+                </div>
+                <h3>Security</h3>
+
+                <div class="form-row">
+                    <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
+                        <label for="inputPassword">{% trans 'Password' %}:</label>
+                        <input class="form-control">
+                        <!--{{ form.password1|add_class:'form-control' }}-->
+<!--
+                        <span class="text-danger">{{ form.password1.errors.0}}</span>
+-->
+                    </div>
+
+                    <div class="col-6">
+                        <label for="inputConfirmPassword">{% trans 'Confirm Password' %}:</label>
+                        <input class="form-control">
+                        <!--{{ form.password1|add_class:'form-control' }}-->
+<!--
+                        <span class="text-danger">{{ form.password1.errors.0}}</span>
+-->
+                    </div>
+
+                </div>
+
+
+                <div class="row mt-2">
+                    <div class="col-8"></div>
+                 <!-- /.col -->
+                    <div class="col-4 float-right">
+                        <button type="submit" class="btn btn-primary btn-block">{% trans 'Update' %}</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+
+            </form>
+
+        </div>
+
+        <!-- /.form-box -->
+
+    </div><!-- /.card -->
+
+</div>
+<!-- /.register-box -->
+
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+    <script>
+    $('#Avatar_settings').mouseover(function(){
+        $(this).css('opacity', '0.5')
+    })
+    .mouseleave(function () {
+        $(this).css('opacity', '1.0')
+    })
+    </script>
+<script>
+  var loadFile = function(event) {
+    var output = document.getElementById('Avatar_settings');
+    output.src = URL.createObjectURL(event.target.files[0]);
+    output.onload = function() {
+      URL.revokeObjectURL(output.src) // free memory
+    }
+  };
+</script>
+{% endblock %}

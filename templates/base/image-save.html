@@ -1,0 +1,41 @@
+<script>
+    $("#btn-Preview-Image").on('click', function (e) {
+        html2canvas(document.querySelector('#CAM_items')).then(function(canvas) {
+            var dataImage = canvas.toDataURL("image/png");
+        $.ajax({
+            async:false,
+            url: "{% url 'image_CAM' %}",
+            type: "POST",
+            data: {
+                'html_to_convert': dataImage,
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            success: function(data){
+                console.log(data)
+                saveAs(data.file_name, 'CAM.png');
+            },
+            error: function(){
+                console.log("Error")
+            },
+            complete: function(){
+            }
+        })//end ajax
+        });
+        });
+    function saveAs(uri, filename) {
+        var link = document.createElement('a');
+        if (typeof link.download === 'string') {
+            link.href = uri;
+            link.download = filename;
+            console.log('here')
+            //Firefox requires the link to be in the body
+            document.body.appendChild(link);
+            //simulate click
+            link.click();
+            //remove the link when done
+            document.body.removeChild(link);
+        } else {
+            window.open(uri);
+        }
+    }
+</script>

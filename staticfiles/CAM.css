@@ -1,0 +1,12 @@
+/*#CAM_items {
+    overflow-y:auto;
+    overflow-x:auto;
+}/*
+/*#selectable{
+    overflow: scroll;
+}*/
+
+#primary_card{
+    overflow-y:auto;
+    overflow-x:auto;
+}/*

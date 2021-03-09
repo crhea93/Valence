@@ -1,0 +1,25 @@
+{% load static %}
+$("#reset_cam").click(function (e) {
+    e.preventDefault();
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: '{% url 'clear_CAM' %}',
+        data: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'clear_cam_valid': true
+        },
+        success: function (data) {
+            console.log("RESET CAM");
+            //location.reload(true)
+            $('#CAM_items').children().each(function(){
+                $(this).remove();
+            })
+            $('#DeleteModal').modal('hide');
+            concept_ct = 0;
+        },
+        error: function () {
+            console.log("Error")
+        }
+    });//Ajax done
+}); //end of clicking form

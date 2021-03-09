@@ -1,0 +1,15 @@
+<!-- templates/signup.html -->
+{% extends 'base/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}Cognitive Affective Maps{% endblock %}
+
+{% block content %}
+
+<div class="embed-responsive embed-responsive-16by9">
+    <iframe class="embed-responsive-item" src="../{{ user.cam_pdf }}"></iframe>
+</div>
+
+
+{% endblock %}

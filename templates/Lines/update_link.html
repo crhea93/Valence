@@ -1,0 +1,102 @@
+{% load static %}
+<script>
+
+    function line_style_func(link_sel){
+        let line_style; // Initiate line style
+        if (link_sel.hasClass('Solid')){
+            line_style = 'Solid'
+        }
+        else if (link_sel.hasClass('Solid-Strong')){
+            line_style = 'Solid-Strong'
+        }
+        else if (link_sel.hasClass('Solid-Weak')){
+            line_style = 'Solid-Weak'
+        }
+        else if (link_sel.hasClass('Dashed')){
+            line_style = 'Dashed'
+        }
+        else if (link_sel.hasClass('Dashed-Strong')){
+            line_style = 'Dashed-Strong'
+        }
+        else if (link_sel.hasClass('Dashed-Weak')){
+            line_style = 'Dashed-Weak'
+        }
+        return line_style
+
+    }
+
+    function update_link_form_slider(link_sel, slider_type){
+        // Check if link is directional
+        let arrow_type = 'none';
+        if (link_sel.hasClass('uni')){
+            arrow_type = 'uni';
+        }
+        else if (link_sel.hasClass('bi')){
+            arrow_type = 'bi';
+        }
+        const line_style = line_style_func(link_sel);
+        $.ajax({
+            async:false,
+            url: '{% url 'update_link' %}',
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_id': link_sel.attr('id'),
+                'line_style': line_style,
+                'arrow_type': arrow_type,
+            },
+            success: function(data){
+                //Recreate link
+                link_sel.remove();
+                var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
+                var link = createLine(data.id,data.id,point_array,-100,50,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
+                $("#CAM_items").append(link);
+                $('#'+data.id).children().each(function(){
+                     $(this).addClass('Selected-arrow')
+                 })
+            },
+            error: function(){
+                console.log("Error")
+            }
+        })
+    };
+
+    function update_link(link_sel){
+        let start_block_id = link_sel.attr('data-start_id');
+        let end_block_id = link_sel.attr('data-end_id')
+        var start_x = parseFloat($('#block_'+start_block_id).css('left'));
+        var start_y = parseFloat($('#block_'+start_block_id).css('top'));
+        var end_x = parseFloat($('#block_'+end_block_id).css('left'));
+        var end_y = parseFloat($('#block_'+end_block_id).css('top'));
+        let arrow_type = 'none';
+        if (link_sel.hasClass('uni')){
+            arrow_type = 'uni';
+        }
+        else if (link_sel.hasClass('bi')){
+            arrow_type = 'bi';
+        }
+        $.ajax({
+            async:false,
+            url: '{% url 'update_link_pos' %}',
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_id': link_sel.attr('id'),
+                'start_x': start_x,
+                'start_y': start_y,
+                'end_x': end_x,
+                'end_y': end_y
+            },
+            success: function(data){
+                var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
+                console.log(data)
+                var link = createLine(data.id,data.id,point_array,-100,50,data.starting_block,data.ending_block, data.line_style+' '+arrow_type);
+                $("#CAM_items").append(link);
+            },
+            error: function(){
+                console.log("Error")
+            }
+        })
+    }
+
+</script>

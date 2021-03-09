@@ -1,0 +1,87 @@
+{% load static %}
+<script>
+    function delete_link(target_el){
+        console.log(target_el)
+        $.ajax({
+            async:false,
+            url: '{% url 'delete_link' %}',
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_id': target_el.attr('id'),
+                'link_delete_valid': true
+            },
+            success: function(data){
+                console.log("Delete link");
+                // Update connected blocks to reflect the fact that this link is being deleted
+                // Start-block update
+                let link_num = target_el.attr('id');
+                try {
+                    let block_start_id = target_el.attr('data-start_id'); //global id
+                    let title_start = $('#title_' + block_start_id);
+                    title_start.attr('data-links',title_start.attr('data-links').replace(link_num, "")); // remove link from its list
+                }
+                catch (e) {
+
+                }
+                // End-block update
+                try {
+                    let block_end_id = target_el.attr('data-end_id'); //global id
+                    let title_end = $('#title_' + block_end_id);
+                    title_end.attr('data-links',title_end.attr('data-links').replace(link_num , "")); // remove link from its list
+                }
+                catch (e) {
+
+                }
+                target_el.remove();
+
+            },
+            error: function(){
+                console.log("Error")
+            }
+        })
+    }
+    $('#delete_arrow').on('click', function(){
+        console.log('meow')
+        let link_sel = $('.Selected-link').first();
+        $.ajax({
+            async:false,
+            url: '{% url 'delete_link' %}',
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'link_id': link_sel.attr('id'),
+                'link_delete_valid': true
+            },
+            success: function(data){
+                console.log("Delete link");
+                // Update connected blocks to reflect the fact that this link is being deleted
+                // Start-block update
+                let link_num = link_sel.attr('id');
+                try {
+                    let block_start_id = link_sel.attr('data-start_id'); //global id
+                    let title_start = $('#title_' + block_start_id);
+                    title_start.attr('data-links',title_start.attr('data-links').replace(link_num, "")); // remove link from its list
+                }
+                catch (e) {
+
+                }
+                // End-block update
+                try {
+                    let block_end_id = link_sel.attr('data-end_id'); //global id
+                    let title_end = $('#title_' + block_end_id);
+                    title_end.attr('data-links',title_end.attr('data-links').replace(link_num , "")); // remove link from its list
+                }
+                catch (e) {
+
+                }
+                link_sel.remove();
+
+            },
+            error: function(){
+                console.log("Error")
+            }
+        })
+    })
+
+</script>

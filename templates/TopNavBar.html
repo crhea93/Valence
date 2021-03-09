@@ -1,0 +1,109 @@
+{% load i18n %}
+{% load static %}
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-white navbar-light navWords">
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav col-12">
+        <!-- Messages Dropdown Menu -->
+
+        <li class="nav-item ml-auto">
+            <img src="{% static 'Valence.png' %}" alt="cant find" style="height:3rem; width:auto"/>
+        </li>
+        <li class="nav-item dropdown ml-auto">
+            <a class="nav-link text-primary" data-toggle="dropdown" href="{% url 'tutorials' %}" id="start_tour">
+                <i class="far fa-question-circle"></i>
+            </a>
+        </li>
+        <!-- Notifications Dropdown Menu -->
+        {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+                <a class="nav-link text-primary" data-toggle="dropdown" href="#">
+                    <span class="mr-2 d-none d-lg-inline small">
+                          {{ user.username }}
+                    </span>
+                    <i class="far fa-user-circle"></i>
+                </a>
+                {% if user.random_user %}
+                    <a href="{% url 'signup' %}">Make an Account</a>
+                {% endif %}
+                <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <li><a href="{% url 'settings_account' %}" class="dropdown-item text-primary">{% trans 'Settings' %}</a></li>
+                    <li class="dropdown-divider"></li>
+                    {% if user.language_preference %}
+                        <div class="dropdown-item">
+                        {% if user.language_preference == 'de' %}
+                            <div class="english_lang text-primary">
+                              <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                              {% trans 'English' %}
+                            </div>
+                        {% else %}
+                            <div class="german_lang text-primary">
+                              <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                              {% trans 'German' %}
+                            </div>
+                        {% endif %}
+                        </div>
+                    {% endif %}
+                    <li class="dropdown-divider"></li>
+                    {% if user.is_authenticated %}
+                        <li><a href="{% url 'logout' %}" class="dropdown-item text-primary">{% trans 'Logout' %}</a></li>
+                    {% else %}
+                        <li><a href="{% url 'loginpage' %}" class="dropdown-item text-primary">{% trans 'Login' %}</a></li>
+                        <li><a href="{% url 'signup' %}" class="dropdown-item text-primary">{% trans 'Signup' %}</a></li>
+                    {% endif %}
+
+                </ul>
+            </li>
+        {% else %}
+            <li class="nav-item dropdown">
+            <a class="nav-link text-primary" href="{% url 'language_change_anonymous' %}">
+                    <h5>En/De</h5>
+                </a>
+            </li>
+        {% endif %}
+
+
+    </ul>
+</nav>
+<script>
+    $(document).ready(function () {
+        $('.german_lang').click(function () {
+            $.ajax({
+                async: false,
+                method: "POST",
+                url: '{% url "language_change" %}',
+                data: {
+                    'language': 'de',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    print("Language Changed to German");
+                },
+                error: function (data) {
+                    console.log('fail muffins')
+                }
+            });
+            location.reload(true);
+        });
+        $('.english_lang').click(function () {
+            $.ajax({
+                async: false,
+                method: "POST",
+                url: '{% url "language_change" %}',
+                data: {
+                    'language': 'en',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Language Changed to English");
+                },
+
+            });
+            location.reload(true);
+        })
+    })
+</script>
+<!-- /.navbar -->

@@ -1,0 +1,54 @@
+{% load static %}
+
+<script>
+    function resize_func(num_block_global,num_block_local,left,top,height,width){
+        //Pass information to django to update database
+        $.ajax({
+            async:false,
+            url: "{% url 'drag_function' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'block_id': num_block_global,
+                'user_block_id':num_block_local,
+                'x_pos':left,
+                'y_pos':top,
+                'height': height,
+                'width': width,
+                'drag_width':0,
+                'drag_height':0,
+                'drag_valid': true
+            },
+            success: function(data){
+                //update line
+                for (var link=0; link<data.id.length; link++){
+                    let arrow_type = 'none';
+                    const link__ = $('#'+data.id[link]);
+                    if (link__.hasClass('none')){
+                         arrow_type = 'none'
+                     }
+                     else if (link__.hasClass('uni')){
+                         arrow_type = 'uni'
+                     }
+                     else if (link__.hasClass('bi')){
+                         arrow_type = 'bi'
+                     }
+                     else{
+                         arrow_type = 'none'//link__.css('border').split(" ")[1]
+                     }
+                     var new_link = createLine(data.id[link],data.id[link],[data.start_x[link],data.start_y[link],data.end_x[link],data.end_y[link]],-100,50,data.starting_block[link],data.ending_block[link],data.style[link]+' '+arrow_type);
+                    link__.remove();
+                    $("#CAM_items").append(new_link);
+                }
+            },
+            error: function(){
+                console.log("Error")
+            }
+        }); //end ajax
+        $('.Selected').each(function(){
+            $(this).removeClass("Selected");
+        });
+        $('#Link_Info').attr('hidden',true);
+        $('#No_Link_Info').attr('hidden',false)
+    }
+</script>

@@ -1,0 +1,121 @@
+{% load static %}
+<script>
+    function blk_delete(blk_elem){
+     $.ajax({
+            async: false,
+            type: "POST",
+            url: "{% url 'delete_block' %}",
+            data: {
+                'block_id': blk_elem.id.split('_')[1],
+                'user_block_id': blk_elem.id.split('_')[1],
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'delete_valid': true,
+            },
+            success: function (data) {
+                blk_elem.remove();
+                // Delete all related links
+                for (n_link = 0; n_link < data.links.length; n_link++) {
+                    let link_num = data.links[n_link].id;
+                    const link_sel = $('#'+data.links[n_link].id)
+                    // Update connected blocks to reflect the fact that this link is being deleted
+                    // Start-block update
+                    try {
+                        let block_start_id = link_sel.attr('data-start_id'); //global id
+                        let block_start = $('[data-title|=' + block_start_id + ']');
+                        let block_start_id_local = block_start.attr('id').split('_')[1]; // get local id
+                        let title_start = $('#title_' + block_start_id_local);
+                        title_start.attr('data-links',title_start.attr('data-links').replace(link_num, "")); // remove link from its list
+                    }
+                    catch (e) {
+                        
+                    }
+                    // End-block update
+                    try {
+                        let block_end_id = link_sel.attr('data-end_id'); //global id
+                        let block_end = $('[title|=' + block_end_id + ']');
+                        let block_end_id_local = block_end.attr('id').split('_')[1]; // get local id
+                        let title_end = $('#title_' + block_end_id_local);
+                        title_end.attr('data-links',title_end.attr('data-links').replace(link_num , "")); // remove link from its list
+                    }
+                    catch (e) {
+                        
+                    }
+                    link_sel.remove();
+                }
+
+            }
+    })
+}
+    $('.DeleteProject').on('click', function(){
+        let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+        if (delete_ !== 'DELETE') {
+            txt = "User cancelled the prompt.";
+        }
+        else{
+            $.ajax({
+                async:false,
+                url: "{% url 'delete_project' %}",
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'project_id': $(this).attr('id').split('_')[1],
+                },
+                success: function(data){
+                    window.location.reload()
+                },
+                error: function(){
+                    console.log("Error")
+                },
+            })//end ajax
+        }
+
+    })
+$('#delete_block_btn').on('click', function(){
+    let blk_elem = $('.Selected').first();
+    $.ajax({
+            async: false,
+            type: "POST",
+            url: "{% url 'delete_block' %}",
+            data: {
+                'block_id': blk_elem.attr("data-title"),
+                'user_block_id': blk_elem.attr("data-title"),
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'delete_valid': true,
+            },
+            success: function (data) {
+                blk_elem.remove();
+                // Delete all related links
+                for (n_link = 0; n_link < data.links.length; n_link++) {
+                    let link_num = data.links[n_link].id;
+                    const link_sel = $('#'+data.links[n_link].id)
+                    // Update connected blocks to reflect the fact that this link is being deleted
+                    // Start-block update
+                    try {
+                        let block_start_id = link_sel.attr('data-start_id'); //global id
+                        let block_start = $('[data-title|=' + block_start_id + ']');
+                        let block_start_id_local = block_start.attr('id').split('_')[1]; // get local id
+                        let title_start = $('#title_' + block_start_id_local);
+                        title_start.attr('data-links',title_start.attr('data-links').replace(link_num, "")); // remove link from its list
+                    }
+                    catch (e) {
+
+                    }
+                    // End-block update
+                    try {
+                        let block_end_id = link_sel.attr('data-end_id'); //global id
+                        let block_end = $('[title|=' + block_end_id + ']');
+                        let block_end_id_local = block_end.attr('id').split('_')[1]; // get local id
+                        let title_end = $('#title_' + block_end_id_local);
+                        title_end.attr('data-links',title_end.attr('data-links').replace(link_num , "")); // remove link from its list
+                    }
+                    catch (e) {
+
+                    }
+                    link_sel.remove();
+                }
+
+            }
+    })
+})
+</script>
+

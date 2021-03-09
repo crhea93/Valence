@@ -1,0 +1,47 @@
+{% load i18n %}
+<script>
+    $(document).on("mousedown", "#Comment_Button",function(event) {
+    let curr_block = $('.Selected');
+    let comment = $('#Comment_Box').val()
+    const curr_block_num = curr_block.attr("data-title");
+    let note_span = $('.Selected > span');
+    let note_icon = $('.Selected > span > i');
+    note_icon.attr('hidden', false);
+    note_span.attr('title',comment);
+    let shape_ = 1;
+    if (curr_block.hasClass('hexagonAmb')){
+        shape_ = 7
+    }
+    else {
+        shape_ = $('#shape_'+curr_block_num).attr('value')
+    }
+    var X = event.pageX;
+    var Y = event.pageY;
+    $.ajax({
+        async: false,
+        type: "POST",
+        url: "{% url 'update_block' %}",
+        data: {
+            'title': $('#title_'+curr_block_num).val(),
+            'shape': shape_,
+            'x_pos': curr_block.css('left'),
+            'y_pos': curr_block.css('top'),
+            'height': curr_block.css('height'),
+            'width': curr_block.css('width'),
+            'num_block':curr_block_num,//$('#block_'+block_id).attr("title"),
+            'global_block_id':  curr_block_num,
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'update_valid': true,
+            'comment': comment
+        },
+        success: function (data) {
+            let fadeComment = '<div class="fadeCom">{% trans 'You response has been saved' %}</div>';
+            $('#Comment_Info').prepend(fadeComment);
+            $('.fadeCom').fadeOut(5000);
+        },
+        error: function () {
+            console.log("Error")
+        }
+    })//end ajax
+    })
+</script>

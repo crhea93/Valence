@@ -1,0 +1,55 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- JQUERY UI  CSS -->
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.9/css/mdb.min.css" rel="stylesheet">
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.9/js/mdb.min.js"></script>
+        <!--<script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>-->
+
+         <!---------- Custom Javascript Files----------------->
+        <script src="{% static 'jquery-ui-1.12.1.custom/jquery-ui.js' %}"></script>
+        <script src="{% static 'general_java/kepress_options.js' %}"></script>
+        <script src="{% static 'concept_java/slider.js' %}"></script>
+        <script src="{% static 'line_java/slider_link.js' %}"></script>
+        <script src="{% static 'concept_java/checkbox.js' %}"></script>
+        <script src="{% static 'concept_java/basic_concept.js' %}"></script>
+        <script src="{% static 'concept_java/existing_concept_init.js' %}"></script>
+        <script src="{% static 'line_java/line_def.js' %}"></script>
+        <script src="{% static 'line_java/line_select.js' %}"></script>
+        <!--<script src="{% static 'general_java/pan.js' %}"></script>-->
+        <script src="{% static 'line_java/Link_Update.js' %}"></script>
+        <script src="{% static 'concept_java/close_block.js' %}"></script>
+        <script src="{% static 'general_java/zoom.js' %}"></script>
+        <script src="{% static 'html2canvas.min.js' %}"></script>
+        <!------------------CUSTOM CSS FILES----------------->
+        <link rel="stylesheet" href="{% static 'CSS/CAM.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/block.css' %}">
+        <link rel="stylesheet" href="{% static 'CSS/link.css' %}">
+
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+  <body>
+        {% include 'TopNavBar.html' %}
+        {% block content %}
+        {% endblock %}
+  </body>
+</html>

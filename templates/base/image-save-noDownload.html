@@ -1,0 +1,52 @@
+{% load i18n %}
+<script>
+    //-------------------- IMAGE SAVE -------------------//
+    function unload_save(){
+        html2canvas(document.querySelector('#CAM_items')).then(function(canvas) {
+            var dataImage = canvas.toDataURL("image/png");
+            $.ajax({
+                async:false,
+                url: "{% url 'image_CAM' %}",
+                type: "POST",
+                data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'html_to_convert': dataImage,
+                },
+                success: function(data){
+                //saveAs(canvas.toDataURL(), 'CAM.png');
+                },
+                error: function(){
+                console.log("Error")
+                },
+                complete: function(){
+                }
+            })//end ajax
+        });
+    }
+    $("#btn-Save-Image").on('click', function (e) {
+        html2canvas(document.querySelector('#CAM_items'), width=1000).then(function(canvas) {
+            //var dataImage = canvas.toDataURL("image/png");
+            $.ajax({
+                async:false,
+                url: "{% url 'image_CAM' %}",
+                type: "POST",
+                data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                //'html_to_convert': dataImage,
+                },
+                success: function(data){
+                //saveAs(canvas.toDataURL(), 'CAM.png');
+                },
+                error: function(){
+                console.log("Error")
+                },
+                complete: function(){
+                }
+            })//end ajax
+        });
+        console.log('Saved')
+        let fadeComment = '<div class="text-success text-center fadeCom">{% trans 'You response has been saved' %}</div>';
+        $('#SaveMessage').prepend(fadeComment);
+        $('.fadeCom').fadeOut(5000);
+    })
+</script>

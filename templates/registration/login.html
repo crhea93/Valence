@@ -1,0 +1,126 @@
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}{% trans 'Dashboard - Cognitive Affective Maps' %}{% endblock %}
+
+{% block content %}
+<div class="container-fluid bg-topology">
+
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header cascadHeadercontainer">
+            <div class="container-fluid">
+                <div class="row mt-2 mb-2">
+                    <div class="col-sm-12 text-center">
+
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+    <div class="col-4 mt-5 mx-auto">
+        <button class="btn btn-primary btn-block" id="noregister" style="background-color: #5c88c6">{% trans 'Continue without registering' %}</button>
+    </div>
+    <div class="login-box col-12 mx-auto pt-5">
+
+
+
+<!--      <div class="login-logo">
+        <h3 class="mt-5">{% trans 'Cognitive Affective Maps' %}</h3>
+      </div>-->
+      <!-- /.login-logo -->
+
+      <div class="card mt-5">
+        <div class="card-body login-card-body">
+          <p class="login-box-msg">{% trans 'Sign in to start your session' %}</p>
+          {% if message %}
+            <div class="alert alert-danger">
+                <p>{{ message }}</p>
+            </div>
+          {% endif %}
+          <form method="POST" novalidate>
+             {% csrf_token %}
+            <div class="form-row">
+                <div class="form-group col-12" data-toggle="tooltip" data-placement="right" title="{{ form.username.help_text}}">
+                    <label for="inputUsername">{% trans 'Username' %}:</label>
+                        {{ form.username|add_class:'form-control' }}
+                    <span class="text-danger">{{ form.username.errors.0}}</span>
+                </div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-12" data-toggle="tooltip" data-placement="left" data-html="true" title="{{ form.password.help_text}}">
+                    <label for="inputPassword">{% trans 'Password' %}:</label>
+                        {{ form.password|add_class:'form-control' }}
+                    <span class="text-danger">{{ form.password.errors.0}}</span>
+                </div>
+            </div>
+
+            <div class="row">
+              <div class="col-8 col-sm-12">
+                  <p class="mb-0">
+                    <a href="{% url 'signup' %}" class="text-center text-bold text-blue-cascade">{% trans 'Register a new membership' %}</a>
+                      <div class="">
+                    <a class="small text-blue-cascade" href="{% url 'password_reset' %}">{% trans "Forgot Password?" %}</a>
+                  </div>
+                  </p>
+              </div>
+              <!-- /.col -->
+              <div class="col-5">
+                <button type="submit" class="btn btn-primary btn-block" style="background-color: #5c88c6">{% trans 'Sign In' %}</button>
+              </div>
+              <!-- /.col -->
+            </div>
+          </form>
+
+
+          <!--<p class="mb-1">
+            <a href="forgot-password.html">I forgot my password</a>
+          </p>-->
+
+        </div>
+
+        <!-- /.login-card-body -->
+      </div>
+        <div class="alert alert-light mt-5 col-12 mx-auto text-center  alert-dismissible"  role="alert">
+            {% trans 'The site works best with Google Chrome, Safari, or Opera' %}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- /.login-box -->
+</div>
+    <script>
+    $('#noregister').click(function(){
+        $.ajax({
+            async:false,
+            url: "{% url 'create_random' %}",
+            type: "POST",
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            success: function(data){
+                console.log('Successs')
+                window.location = "{% url 'index' %}"
+            },
+            error: function(){
+                console.log("Error")
+            },
+        })//end ajax
+    })
+    </script>
+    <!-- jQuery -->
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+{% endblock %}
+

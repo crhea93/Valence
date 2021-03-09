@@ -1,0 +1,171 @@
+<!-- templates/signup.html -->
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+{% block title %}Contributors{% endblock %}
+
+{% block content %}
+
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper bg-topology">
+
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header cascadHeadercontainer">
+            <div class="container-fluid">
+                <div class="row mt-2 mb-2">
+                    <div class="col-sm-12 text-center">
+                        <h1 class="m-0 display-1 cascadHeaderh">{% trans 'Contributors' %}</h1>
+                    </div><!-- /.col -->
+
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <div class="container">
+            <div class="col-md-12">
+                <div class="text-center mt-2">
+                    <h1>
+                        Valence
+                        <small class="text-muted">[vā′ləns]</small>
+                    </h1>
+                    <hr>
+                    <div class="text-muted">
+                        n. The attraction or aversion that an individual feels toward a specific object or event.
+                    </div>
+                </div>
+                <div class="text-left font-weight-bolder mt-5">
+                    Valence is a software tool designed to facilitate the use of Cognitive Affective Mapping (CAM) in academic research, conflict resolution, and political activism. CAM draws from the theory of emotional coherence developed by Paul Thagard. The method was refined by a research team at the University of Waterloo under the supervision of Thomas Homer-Dixon and Paul Thagard, including Michael Lawrence, Manjana Milkoreit, Steven Mock and Tobias Schröder.                    <br>
+                    <br>
+                    An earlier software tool, "Empathica," was created under the supervision of Paul Thagard by Alex Bass, Rob Disano, Ian Forneri, James Kendle, and Corey Manning.
+                    <br>
+                    Valence was developed under the auspices of the <a href="https://www.ideologicalconflict.org/">Ideological Conflict Project (ICP)</a>, an international, interdisciplinary research team based at the University of Waterloo that seeks to advance understanding of how beliefs, ideas, and emotions influence behavior during conflicts using methods drawn from the field of complexity theory. ICP researchers who contributed to the design of the software include Thomas Homer-Dixon, Scott Janzwood, Jordan Mansell, Steven Mock, Jinelle Piereder, Carter Rhea, Tobias Schröder, and Paul Thagard.
+                    <br>
+                    The Ideological Conflict Project is funded by an Insight Grant of the Social Sciences and Humanities Research Council of Canada (SSHRC), 2018-2021.
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="container my-5">
+
+
+            <!--Section: Content-->
+            <section class="team-section text-center dark-grey-text">
+                <h2>Software Team</h2>
+
+                <!-- Section heading -->
+
+                <!-- Grid row-->
+                <div class="row text-center text-md-left">
+                    <div class="col-lg-6 col-md-12 mb-5 d-md-flex justify-content-between">
+                        <div class="mx-4">
+                            <h4 class="font-weight-bold mb-3">Carter Rhea</h4>
+                            <p class="grey-text pb-2">PhD Candidate in Astrophysics at l'Université de Montréal. Co-founder
+                            of non for profit <a href="https://www.cadena.ca/livres/query?next=/" target="_blank">Cadena</a>.
+                            </p>
+                            <a class="p-2" href="https://crhea93.github.io/">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                            <p class="text-muted">carterrhea93@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12 mb-5 d-md-flex justify-content-between">
+                        <div class="mx-4">
+                            <h4 class="font-weight-bold mb-3">Christian Thibeault</h4>
+                            <p class="grey-text pb-2">PhD Candidate in Solar Physics at l'Université de Montréal. Co-founder
+                                of non for profit <a href="https://www.cadena.ca/livres/query?next=/" target="_blank">Cadena</a>.
+                            </p>
+                            <a class="p-2" href="https://christianthibeault.github.io/">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <p class="text-center">All information required for citations can be found at <a href="https://osf.io/9tza2/" target="_blank">https://osf.io/9tza2/</a>.</p>
+                    <!-- Grid column -->
+                    <!--<div class="col-lg-6 col-md-12 mb-5 d-md-flex justify-content-between">
+                        <div class="avatar mb-md-0 mb-4 mx-4">
+                            <img src="../media/team/Carter.jpg" class="rounded z-depth-1 w-100" alt="Sample avatar">
+                        </div>
+                        <div class="mx-4">
+                            <h4 class="font-weight-bold mb-3">Carter Rhea</h4>
+                            <h6 class="font-weight-bold grey-text mb-3">Web designer</h6>
+                            <p class="grey-text pb-2">PhD Candidate in Astrophysics at l'Université de Montréal</p>
+                            <a class="p-2" href="https://crhea93.github.io/">
+                                <i class="fa fa-globe fa-2x"></i>
+                            </a>
+                            <a class="p-2" href="https://github.com/crhea93">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                            <a class="p-2" href="https://www.facebook.com/carter.rhea">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>-->
+                    <!-- Grid column -->
+
+                    <!-- Grid column -->
+                    <!--
+                    <div class="col-lg-6 col-md-12 mb-5 d-md-flex justify-content-between">
+                        <div class="avatar mb-md-0 mb-4 mx-4">
+                            <img src="{% static 'team/Christian.jpg' %}" class="rounded z-depth-1 w-100" alt="Sample avatar">
+                        </div>
+                        <div class="mx-4">
+                            <h4 class="font-weight-bold mb-3">Christian Thibeault</h4>
+                            <h6 class="font-weight-bold grey-text mb-3">Web designer</h6>
+                            <p class="grey-text pb-2">PhD Candidate in Solar Physics at Université de Montréal</p>
+                            <a class="p-2" href="https://www.linkedin.com/in/christian-thibeault-980317160/">
+                                <i class="fab fa-linkedin fa-2x"></i>
+                            </a>
+                            <a class="p-2" href="https://github.com/ChristianThibeault">
+                                <i class="fab fa-github fa-2x"></i>
+                            </a>
+                            <a class="p-2" href="https://www.facebook.com/christian.thibeault.96">
+                                <i class="fab fa-facebook fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>-->
+                    <!-- Grid column -->
+
+                </div>
+                <!-- Grid row-->
+
+
+
+
+            </section>
+            <!--Section: Content-->
+
+            <div class="col-10 mx-auto">
+                <h4>Development of this software was funded by the Social Sciences and Humanities Research Council of Canada as part of an Insight Award to the Ideological Conflict Project.
+                </h4>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+    </div>
+
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+
+
+
+
+
+
+{% endblock %}
+

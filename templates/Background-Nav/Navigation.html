@@ -1,0 +1,134 @@
+{% load static %}
+{% load i18n %}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
+
+
+    <!-- Topbar Navbar -->
+<ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'index' %}">{% trans 'CAM' %}</a>
+      </li>
+      <li class="nav-item">
+          {% if user.language_preference == 'de' %}
+              <a class="nav-link" href="{% url 'Background_German' %}">{% trans 'Theoretical Background' %}</a>
+          {% else %}
+            <a class="nav-link" href="{% url 'Background' %}">{% trans 'Theoretical Background' %}</a>
+          {% endif %}
+      </li>
+
+
+    </ul>
+    <ul class="navbar-nav ml-auto">
+
+
+        {% if user.is_authenticated %}
+        <!-- Nav Item - Alerts -->
+        <!-- Nav Item - Messages -->
+
+
+        <div class="topbar-divider d-none d-sm-block"></div>
+
+        <!-- Nav Item - User Information -->
+
+        <li class="nav-item dropdown no-arrow">
+            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+               aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline small"
+                      >{{ user.first_name }} {{ user.last_name }}</span>
+                <i class="far fa fa-user-circle"></i>
+                <!--<img class="img-file rounded-circle">-->
+            </a>
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                <a class="nav-link" style="color: var(--primary)" href="{% url 'contact_form' %}">
+                    <i class="far fa-address-book" style="color: var(--primary)"></i>
+                    {% trans 'Contact Us' %}
+                </a>
+                <div class="dropdown-divider"></div>
+                {% if user.language_preference %}
+                    <div class="dropdown-item">
+                    {% if user.language_preference == 'de' %}
+                        <div class="english_lang">
+                          <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                          English
+                        </div>
+                    {% else %}
+                        <div class="german_lang">
+                          <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                          Deutsch
+                        </div>
+                    {% endif %}
+                    </div>
+                {% else %}
+                     <div class="dropdown-item">
+                        <div class="english_lang">
+                          <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                          English
+                        </div>
+                     </div>
+                     <div class="dropdown-item">
+                        <div class="german_lang">
+                          <i class="fas fa-globe fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                          Deutsch
+                        </div>
+                     </div>
+                {% endif %}
+
+                <div class="dropdown-divider"></div>
+                {% if user.is_authenticated %}
+                    <a class="dropdown-item" href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2" style="color: var(--primary)"></i>
+                        {% trans 'logout' %}
+                    </a>
+                {% endif %}
+            </div>
+        </li>
+        {% else %}
+            <a class="nav-item" style="color: white" href={% url 'signup' %}>{% trans 'Signup' %}</a> &nbsp; &nbsp;
+            <a class="nav-item" style="color: white" href="{% url 'login' %}">{% trans 'Login' %}</a>
+        {% endif %}
+    </ul>
+
+</nav>
+<!-- End of Topbar -->
+
+
+<script>
+    $(document).ready(function () {
+        $('.german_lang').click(function () {
+            $.ajax({
+                async: false,
+                method: "POST",
+                url: '{% url "language_change" %}',
+                data: {
+                    'language': 'de',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Language Changed to German");
+                },
+            });
+            location.reload(true);
+        });
+        $('.english_lang').click(function () {
+            $.ajax({
+                async: false,
+                method: "POST",
+                url: '{% url "language_change" %}',
+                data: {
+                    'language': 'en',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log("Language Changed to English");
+                },
+
+            });
+            location.reload(true);
+        })
+    })
+</script>

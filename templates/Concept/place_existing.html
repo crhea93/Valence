@@ -1,0 +1,39 @@
+
+<script>
+//------------------PLACE EXISTING CAM ----------------//
+        concept_ct = 0;
+        $.ajax({
+            async: false,
+            type: "GET",
+            url: '{% url 'index' %}',
+            data: {
+                'first': true,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            success: function (data) {
+                //Place existing blocks for the user
+                {% for block in existing_blocks %}
+                    place_concept("{{ block.title }}","{{ block.x_pos }}","{{ block.y_pos }}",
+                        "{{ block.width }}", "{{ block.height }}",
+                        "{{ block.shape }}", "{{ block.num }}","{{ block.id }}",
+                        "{{ block.starting_block_set|get_links }}", "{{ block.ending_block_set|get_links }}",
+                        "{{ block.comment }}", "{{ block.modifiable }}");
+                    if ({{ block.num }} > concept_ct )
+                    {
+                        concept_ct = {{ block.num }}
+                    }
+                    //concept_ct += 1;
+                {% endfor %}
+                {% for line in existing_lines %}
+                    var link = createLine( "{{ line.id }}","{{ line.id }}",["{{ line.starting_block.x_pos }}",
+                        "{{ line.starting_block.y_pos }}","{{ line.ending_block.x_pos }}","{{ line.ending_block.y_pos }}"]
+                        ,-100,50, "{{ line.starting_block.num|integer }}", "{{ line.ending_block.num|integer }}",
+                        "{{ line.line_style }}"+" "+"{{ line.arrow_type }}");
+                    $("#CAM_items").append(link);
+                {% endfor %}
+            },
+            error: function () {
+                console.log("Error")
+            }
+        });//Ajax done
+</script>

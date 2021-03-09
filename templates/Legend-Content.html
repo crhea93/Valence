@@ -1,0 +1,51 @@
+{% load static %}
+{% load i18n %}
+
+
+<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+    <h5>Every concept is given a basic emotional value:</h5>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'concept_svgs/Neutral.svg' %}" alt="" style="height:1.5rem; width: auto">{% trans 'Neutral Concept' %}</li>
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'concept_svgs/Positive.svg' %}" alt="" style="height:1.5rem; width: auto">{% trans 'Positive Concept' %}</li>
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'concept_svgs/Hexagon.svg' %}" alt="" style="height:1.5rem; width: auto">{% trans 'Negative Concept' %}</li>
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'concept_svgs/Ambivalent.svg' %}" alt="" style="height:1.5rem; width: auto">{% trans 'Ambivalent Concept' %}</li>
+        <h5>Draw links between concepts that are related to each other:</h5>
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'line_svgs/line_med.svg' %}" alt="" style="height:1rem; width: 2rem">{% trans 'Concepts in Agreement' %}</li>
+        <li class="list-group-item d-inline-block"><img class="float-left" src="{% static 'line_svgs/dashed_med-mini.svg' %}" alt="" style="height:1rem; width: 2rem">{% trans 'Concepts in Disagreement' %}</li>
+    </ul>
+</div>
+
+<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><span class="text-blue">{% trans 'Create' %}</span>: {% trans 'Single click on blank drawing space' %}</li>
+      <li class="list-group-item"><span class="text-blue">{% trans 'Update' %}</span>: {% trans 'Double click on existing concept' %}</li>
+      <li class="list-group-item"><span class="text-blue">{% trans 'Delete' %}</span>: {% trans 'Select a concept with a single click and press “delete” on your keyboard' %}</li>
+      <li class="list-group-item"><span class="text-blue">{% trans 'Add Comment' %}</span>: {% trans 'Select concept with any selector-mode and type comment in the “Concept Comment” section and press submit.' %}</li>
+    </ul>
+</div>
+
+<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><span class="text-blue">{% trans 'Create' %}</span>: {% trans 'Select two concepts (they will become highlighted)' %}</li>
+      <li class="list-group-item"><span class="text-blue">{% trans 'Update' %}</span>: {% trans 'Single Click on link' %}</li>
+      <li class="list-group-item"><span class="text-blue">{% trans 'Delete' %}</span>: {% trans 'Select Link with a single click and press “delete” on your keyboard' %}</li>
+    </ul>
+</div>
+
+<div class="tab-pane fade" id="misc" role="tabpanel" aria-labelledby="misc-tab">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><i class="fas fa-save float-left"></i>{% trans 'Save CAM' %}</li>
+        <li class="list-group-item"><i class="fas fa-file-image float-left"></i>{% trans 'Generate Image' %}</li>
+        <li class="list-group-item"><i class="fas fa-download float-left"></i>{% trans 'Export CAM' %}</li>
+        <li class="list-group-item"><i class="fas fa-upload float-left"></i>{% trans 'Import CAM' %}</li>
+        <li class="list-group-item"><i class="fas fa-trash float-left text-danger"></i>{% trans 'Delete CAM' %}</li>
+    </ul>
+</div>
+
+<div class="tab-pane fade" id="example" role="tabpanel" aria-labelledby="example-tab">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+            <img class="col-12" src="{% static 'CAM.png' %}" alt="Sample Cam">
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,52 @@
+<script>
+    // ------------------- ACTION SELECTION -------------------------//
+    let cursor_bool = true;
+    var concept_sel_bool = false;
+    var line_sel_bool = false;
+    let sel_ = $("#select_");
+    let con_ = $('#concept_add');
+    let lin_ = $('#link_add');
+    sel_.on('click', function () {
+        cursor_bool = true;
+        concept_sel_bool = false; line_sel_bool = false;
+        highlight(sel_, con_, lin_);
+        $('.block.Open').each(function(){
+            close_block_func(this);
+            });
+        $('#Link_Info_Card').attr('hidden', true);
+        $('#Concept_Info_Card').attr('hidden', false)
+    });
+    con_.click(function(){
+        concept_sel_bool = true;
+        cursor_bool = false; line_sel_bool = false;
+        highlight(con_, sel_, lin_);
+        $('.block.Open').each(function(){
+            close_block_func(this);
+            });
+        $('#Link_Info_Card').attr('hidden', true);
+        $('#Concept_Info_Card').attr('hidden', false)
+    });
+    lin_.click(function(){
+        line_sel_bool = true;
+        cursor_bool = false; concept_sel_bool = false;
+        highlight(lin_, sel_, con_)
+        $('.block.Open').each(function(){
+            close_block_func(this);
+            });
+        $('#Concept_Info_Card').attr('hidden', true)
+        $('#Link_Info_Card').attr('hidden', false);
+    });
+
+    //---------------------VARIABLES------------------------------//
+    var pageX_ = 0; var pageY_ = 0;
+    var cam_height_max = 600;
+    // Click vs Double Click Variablies //
+    var delay = 200; var prevent = false;
+    var click_element;
+    // Function that outlines the current button and unhighlights all others
+    function highlight(add_, del1_, del2_) {
+        $(add_).css('border', 'solid 1px blue');
+        $(del1_).css('border', '');
+        $(del2_).css('border', '');
+    }
+</script>

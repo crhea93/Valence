@@ -1,0 +1,174 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- JQUERY UI  CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href='{% static "plugins/fontawesome-free/css/all.min.css" %}'>
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DATA TABLE CSS -->
+    <link rel="stylesheet" href="{% static 'plugins/datatables-bs4/css/dataTables.bootstrap4.css' %}">
+    <!-- Tempusdominus Bbootstrap 4 -->
+    <link rel="stylesheet"
+          href='{% static "plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css" %}'>
+    <!-- iCheck -->
+    <link rel="stylesheet" href='{% static "plugins/icheck-bootstrap/icheck-bootstrap.min.css" %}'>
+    <!-- JQVMap -->
+    <link rel="stylesheet" href='{% static "plugins/jqvmap/jqvmap.min.css" %}'>
+    <!-- Theme style -->
+    <link rel="stylesheet" href='{% static "dist/css/adminlte.min.css" %}'>
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href='{% static "plugins/overlayScrollbars/css/OverlayScrollbars.min.css" %}'>
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href='{% static "plugins/daterangepicker/daterangepicker.css" %}'>
+    <!-- summernote -->
+    <link rel="stylesheet" href='{% static "plugins/summernote/summernote-bs4.css" %}'>
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- BOOTSTRAP TOUR CSS -->
+    <!--<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/css/bootstrap-tour-standalone.min.css" rel="stylesheet">-->
+    <!-- jQuery -->
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <!--<script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>-->
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- BOOTSRAP TOUR -->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.12.0/js/bootstrap-tour-standalone.min.js"></script>-->
+    <!-- ChartJS -->
+    <script src="{% static 'plugins/chart.js/Chart.min.js' %}"></script>
+    <!-- Sparkline -->
+    <script src="{% static 'plugins/sparklines/sparkline.js' %}"></script>
+    <!-- JQVMap -->
+    <script src="{% static 'plugins/jqvmap/jquery.vmap.min.js' %}"></script>
+    <script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="{% static 'plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+    <!-- daterangepicker -->
+    <script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+    <script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+    <!-- Summernote -->
+    <script src="{% static 'plugins/summernote/summernote-bs4.min.js' %}"></script>
+    <!-- overlayScrollbars -->
+    <script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/adminlte.js' %}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="{% static 'dist/js/pages/dashboard.js' %}"></script>
+    <!-- AdminLTE for demo purposes -->
+     <script type="application/javascript">
+    $('input[type="file"]').change(function(e){
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+    });
+    </script>
+
+
+</head>
+
+
+{% comment %}  <body>{% endcomment %}
+{% comment %}
+        {% include 'Navigation.html' %}
+{% endcomment %}
+<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+
+<div class="wrapper">
+{% include 'TopNavBar.html' %}
+{% include 'SideBar.html' %}
+
+{% block content %}
+{% endblock %}
+</div>
+<!-- ./wrapper -->
+
+</body>
+{% comment %}  </body>{% endcomment %}
+
+{% include 'footer.html' %}
+</html>
+
+
+<style>
+
+    .bg-topology {
+        background-image: url("{% static 'images/CITerrainGreyVerticalCut.svg' %}") ;
+        background-color: white;
+        background-repeat: no-repeat;
+        background-size: cover;
+        box-shadow: 0 0 30px 30px white inset;
+    }
+
+    .GeneralFont {
+        /*font-family: 'Proxima-Nova',proxima-nova,sans-serif !important;*/
+        color: #535252 !important;
+    }
+
+    .cascadHeadercontainer {
+        background-image: linear-gradient(to right, rgba(92, 136, 198, 0.6), #5C88C6);
+    }
+
+    .cascadHeaderh {
+        font-family: Montserrat, sans-serif;
+        font-weight: 700;
+        font-size: 26px;
+        letter-spacing: 3px;
+        text-align: center;
+        color: #ffffff;
+    }
+
+
+    .text-primary {
+        color: #3a3a3a !important;
+    }
+
+
+    .text-blue-cascade {
+        font-family: mr-eaves-modern, Verdana, Arial, sans-serif;
+        color: #5c88c6;
+    }
+
+    .card-title {
+        font-family: mr-eaves-modern, Verdana, Arial, sans-serif;
+        color: #5c88c6;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 1.4;
+        text-align: center;
+    }
+
+    .section-title {
+        font-family: mr-eaves-modern, Verdana, Arial, sans-serif;
+        color: #535252;
+        font-weight: 600;
+        font-size: 25px;
+
+    }
+
+    .alert-cascade {
+        color: #fff;
+        background: #5c88c6;
+        border-color: #5c88c6;
+    }
+
+   .navWords{
+         font-family: 'Brandon-Grotesque',brandon-grotesque,sans-serif !important;
+    }
+
+</style>
