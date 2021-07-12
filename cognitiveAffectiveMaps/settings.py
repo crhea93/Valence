@@ -69,8 +69,24 @@ TEMPLATES = [
 ]
 WSGI_APPLICATION = 'cognitiveAffectiveMaps.wsgi.application'
 DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-if os.getenv('FREIBURG') is True:
-    from cognitiveAffectiveMaps.settings_freiburg import *
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.getenv('DBNAME'),
+        'USER': os.getenv('DBUSER'),
+        'PASSWORD': os.getenv('DBPASSWORD'),
+        'HOST': os.getenv('DBHOST'),
+        'PORT': os.getenv('DBPORT'),
+    }
+}
+
+if os.getenv('WATERLOO') is True:
+    DATABASE_URL = os.getenv('DBWATERLOO')
+    DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+
+
 # DjangoSecure Requirements -- SET ALL TO FALSE FOR DEV
 # Redirect all requests to SSL
 SECURE_SSL_REDIRECT = True
