@@ -1,0 +1,44 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+                <div class="row col-md-12">
+                    <div class="card w-100" id="Link_Info_Card" hidden>
+                        <div class="card-header" id="primary_head">
+                          <h3 class="center-text">{% trans 'Link Info' %}</h3>
+                          </div> <!-- END CARD HEADER -->
+                            <div class="card-body center-text" style="min-height: 300px;height: 100%">
+                                <div class="alert alert-cascade" role="alert" id="No_Link_Info">{% trans 'Please Select a Link to Make Changes' %}</div>
+                                <div id="Link_Info" hidden>
+                                    <h4>{% trans 'Type of Link' %}</h4>
+                                    <div class="Link_Toggle" data-toggle="buttons" id="Link_Valence">
+                                      <label class="btn btn-primary col-8 active" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="Link_Valence_option1" autocomplete="off" style="margin-bottom:0rem;overflow-wrap:initial" data-line-style="Solid" checked>{% trans 'Agreement' %}
+                                      </label>
+                                      <label class="btn btn-primary col-8" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="Link_Valence_option2" autocomplete="off" style="margin-bottom:0rem;overflow-wrap:initial" data-line-style="Dashed">{% trans 'Disagreement' %}
+                                      </label>
+                                    </div>
+                                    <h4 class="mt-2">{% trans 'Strength' %}</h4>
+                                    <input type="range" class="custom-range" min="0" max="2" id="link_slider_choice" list="tickmarks">
+                                    <datalist id="tickmarks">
+                                        <option value="0"></option>
+                                        <option value="1"></option>
+                                        <option value="2"></option>
+                                    </datalist>
+                                    <h4>{% trans 'Arrow Options' %}</h4>
+                                    <div class="Link_Toggle" data-toggle="buttons" id="arrow_type">
+                                      <label class="btn btn-primary active col-4" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="arrow_option1" autocomplete="off" checked value="none"><i class="fas fa-slash" style="transform:rotate(-38deg)"></i>
+                                      </label>
+                                      <label class="btn btn-primary col-4" style="padding: 0.1rem">
+                                        <input type="radio" name="options" id="arrow_option2" autocomplete="off" value="uni"><i class="fas fa-arrow-right"></i>
+                                      </label>
+                                    </div>
+                                    <button class="btn btn-outline-primary col-8 mt-2" id="swap_direction" style="margin-bottom:0rem;overflow-wrap:initial">{% trans 'Reverse Arrow' %}</button>
+
+                                    <button class="btn btn-outline-danger col-8 mt-2" id="delete_arrow" style="margin-bottom:0rem;overflow-wrap:initial">{% trans 'Delete Link' %}</button>
+                                </div>
+                        </div>
+                    </div> <!-- END CARD -->
+                </div>

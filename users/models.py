@@ -51,6 +51,16 @@ class Project(models.Model):
     def __str__(self):
         return f"Name: {self.name}"
 
+    def update(self, form_info):
+        if self._state.adding:
+            raise self.DoesNotExist
+        for field, value in form_info.items():
+            # Let's get updating
+            setattr(self, field, value)
+        # And finally save
+        self.save(update_fields=list(form_info.keys()))
+
+
 
 class CAM(models.Model):
     name = models.CharField(max_length=50, default='')
@@ -63,6 +73,23 @@ class CAM(models.Model):
 
     def __str__(self):
         return f"Name: {self.name}"
+
+    def update(self, form_info):
+        """Update the model.
+
+        Parameters
+        ----------
+        form_info : dict
+            The dictionary of updated values.
+        """
+
+        if self._state.adding:
+            raise self.DoesNotExist
+        for field, value in form_info.items():
+            # Let's get updating
+            setattr(self, field, value)
+        # And finally save
+        self.save(update_fields=list(form_info.keys()))
 
 
 class Participant(models.Model):

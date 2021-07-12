@@ -13,7 +13,7 @@ def add_link(request):
             # Get the starting and ending block information
             cam = CAM.objects.get(id=request.user.active_cam_num)
             start_block = cam.block_set.get(num=request.POST.get('starting_block'))
-            end_block= cam.block_set.get(num=request.POST.get('ending_block'))
+            end_block = cam.block_set.get(num=request.POST.get('ending_block'))
             # Set up link form data
             link_data['starting_block'] = start_block.id
             link_data['ending_block'] = end_block.id
@@ -25,10 +25,15 @@ def add_link(request):
             else:
                 link_data['creator'] = 1
             # Check that link doesn't already exist
+            print(link_data)
             if cam.link_set.filter(starting_block=start_block.num).filter(ending_block=end_block.num):
+                print('sad')
                 pass
+
             else:
+                print('link')
                 form_link = LinkForm(link_data)  # Create from for link
+                print(form_link.errors)
                 link = form_link.save()  # Save form for link
                 link_data['num_link'] = link.id  # Getting additional information to pass to JQuery
                 link_data['id'] = link.id

@@ -2,7 +2,7 @@
     $(document).ready(function(e){
         let init_width; let init_height;
         $( ".resizable" ).resizable({
-            aspectRatio: 4.2/3,
+            aspectRatio: 140/75,
             start: function(event, ui){
                 init_width = ui.size.width;
                 init_height = ui.size.height
@@ -12,13 +12,14 @@
                 let num_block_local = $(this).attr('id').split('_')[1];
                 let left = $(this).css('left'); let top = $(this).css('top');
                 let height = $(this).css('height'); let width = $(this).css('width');
-                resize_func(num_block_global,num_block_local,left,top,height,width)
                 let scale = (ui.size.width)/(init_width)
                 let current_fontsize = parseFloat($(this).find('.success_blk').children().css('font-size'))
                 console.log($(this).find('.success_blk').children().css('font-size', scale*current_fontsize))
                 console.log(scale)
                 console.log(current_fontsize)
                 $(this).find('.success_blk').children().css('font-size', scale*current_fontsize)
+                let text_scale = scale*current_fontsize;
+                resize_func(num_block_global,num_block_local,left,top,height,width, text_scale)
             }
         });
 

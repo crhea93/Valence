@@ -55,7 +55,6 @@ def create_users(project, researcher, num_part, call_id, language_pref, input_fi
                 filename = default_storage.save(input_file.name, input_file)
                 project.Initial_CAM = filename
                 project.save()
-                print(model_to_dict(project))
                 block_resource = BlockResource()
                 link_resource = LinkResource()
                 dataset = Dataset()

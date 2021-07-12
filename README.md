@@ -1,11 +1,13 @@
-# Valence
-Valence software tool
+# Welcome to the Valence software tool.
 
-Information on this tool can be found at https://osf.io/9tza2/.
+## What is Valence?
 
-Users need to update the following:
- - settings.py
-    - line 21: SECRET_KEY
-    - lines 101-103: DUSER, DNAME, DPWORD
- - settings_dev.py
-    - line 11: DATABASE_URL
+
+## How do I use Valence?
+
+
+## How do I contribute?
+If you wish to contribute, please check out the current issues (or make a new one!), or simply email us at thibeaultrheaprogramming@gmail.com to get involved.
+We have documentation set up at https://crhea93.github.io/Valence/.
+
+Further information on this tool can be found at https://osf.io/9tza2/.

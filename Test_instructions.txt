@@ -1,0 +1,1 @@
+Postgres needs to first be installed. you must also create a user carter with the password ILoveLuci3! with privileges on the db camdev.

@@ -4,7 +4,7 @@ from block.models import Block
 from link.models import Link
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMultiAlternatives
-import os
+from pathlib import Path
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .forms import ContactForm, ResearcherSignupForm, ParticipantSignupForm, CustomUserChangeForm
@@ -22,13 +22,15 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.decorators import login_required
 from users.models import CAM, Project, CustomUser
 from .views_CAM import upload_cam_participant, create_individual_cam, create_individual_cam_randomUser
-from users.Plots.DataToPlot import data_to_plot
 import datetime
 from random_username.generate import generate_username
 import re
 import base64
+from weasyprint import HTML
 User = get_user_model()
 
+
+import pdfkit
 
 @login_required(login_url='loginpage')
 def index(request):
@@ -150,8 +152,7 @@ def loginpage(request):
 def signup(request):
     """This view accept deals with the account creation form.
     In POST mode, it accepts the account creation form, validates it,
-    create the user in the DB if the form is valid and sends an email with
-    the token to activate the account.
+    create the user in the DB if the form is valid.
     In GET mode, it renders the form template for the account registration:
     'registration/register.html'.
     """
@@ -177,65 +178,93 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'registration/register.html', context={'form': form, 'projects': Project.objects.all()})
 
+
 def create_participant(request):
+    """
+    This function is called if a user tries to create a participant account
+    The first thing is to create a participant account using the participant signup form. Then, we determine whether
+    or not a user wishes to join a project.
+
+    Functionality to create a user and assign them to a project.
+    If the user wants to join a project and enters the correct password, then an account will be made with the following code:
+    1. Call views_CAM/upload_cam_participant
+    2. Call views_CAM/create_project_cam to create a CAM and associate it with a project
+    3. views_CAM/upload_cam_participant continues with uploading the initial project CAM to the user's CAM if one exists
+    """
     if request.method == 'POST':
         form = ParticipantSignupForm(request.POST)
+        print(form.errors)
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
             # Set project
+            print('checking project')
             project_name = request.POST.get('project_name')
-            project_password = request.POST.get('project_password')
-            project = Project.objects.get(name=project_name)
-            print(project_password, project.password)
-            if project_password == project.password or project.password == 'None' or project.password is None or project.password == project_name:
-                user.project = project_name
-                user.save()
-                print('uploading CAM')
-                upload_cam_participant(user, project)
-                return redirect('index')
+            project_password = str(request.POST.get('project_password'))
+            project = None
+            # Check if they entered a project name
+            if len(project_name) > 0:
+                # If yes then we need to make sure the project exists
+                project_names = [project.name for project in Project.objects.all()]
+                if project_name not in project_names:
+                    # Not a project name!
+                    print('Project does not exist')
+                    context = {
+                        'message': form.errors,
+                        "form": form,
+                        'projects': Project.objects.all(),
+                        'password_message': "Project does not exist. Please select from the following options: \n"+', '.join(project_names),
+                    }
+                    return render(request, 'registration/register.html', context=context)
+                else:  # Project does exist
+                    project = Project.objects.get(name=project_name)
+                    project_pword = project.password
+                    # If user has entered a project, we need to check that the password is correct
+                    if project_pword is not None:  # User entered a password for the project
+                        if project_password == project.password:# or project.password == 'None' or project.password is None or project.password == project_name:
+                            # Correct password! Create user and sign them up for the project using upload_cam_participant
+                            # User with a project
+                            form.save()
+                            username = form.cleaned_data.get('username')
+                            raw_password = form.cleaned_data.get('password1')
+                            user = authenticate(username=username, password=raw_password)
+                            login(request, user)
+                            user.project = project
+                            user.active_project_num = project.id
+                            user.save()
+                            upload_cam_participant(user, project)
+                            #print('Created user affiliated to project')
+                            return redirect('index')
+                        elif project_password != '' and project_password != project.password:
+                            # Incorrect password --> Return error message
+                            print('fail')
+                            context = {
+                                'message': form.errors,
+                                "form": form,
+                                'projects': Project.objects.all(),
+                                'password_message': "Incorrect Project Password",
+                            }
+                            return render(request, 'registration/register.html', context=context)
+                        else:  # TODO: Double check this case
+                            form.save()
+                            username = form.cleaned_data.get('username')
+                            raw_password = form.cleaned_data.get('password1')
+                            user = authenticate(username=username, password=raw_password)
+                            login(request, user)
+                            user.project = project
+                            user.active_project_num = project.id
+                            user.save()
+                            upload_cam_participant(user, project)
+                            return redirect('index')
             else:
-                print('NO!')
-                return redirect('dashboard')
-            # Create CAM
-
-        else:
-            context = {
-                'message': form.errors,
-                "form": form,
-                'projects': Project.objects.all()
-            }
-            return render(request, 'registration/register.html', context=context)
-    '''
-    if request.method == 'POST':
-        form = ParticipantSignupForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            # Set project
-
-            if request.POST.get('project_password') != 'None':
-                project_name = request.POST.get('project_name')
-                project_password = request.POST.get('project_password')
-                project = Project.objects.get(name=project_name)
-                if project_password == project.password or project.password == 'None' or project.password is None:
-                    user.project = project_name
-                    user.save()
-                    print('uploading CAM')
-                    upload_cam_participant(user, project)
-                    return redirect('index')
-                else:
-                    return redirect('dashboard')
-            # Create CAM
-            else:
+                # Create a user without a project
+                print('User without project')
+                form.save()
+                username = form.cleaned_data.get('username')
+                raw_password = form.cleaned_data.get('password1')
+                user = authenticate(username=username, password=raw_password)
+                login(request, user)
                 create_individual_cam(request)
                 return redirect('index')
+            # Create CAM
 
 
         else:
@@ -245,23 +274,13 @@ def create_participant(request):
                 'projects': Project.objects.all()
             }
             return render(request, 'registration/register.html', context=context)
-    '''
-def join_project(request):
-    project_name = request.POST.get('project_name')
-    project = Project.objects.get(name=project_name)
-    print('Project checked: '+request.POST.get('project_checked'))
-    if request.POST.get('project_checked') == 'true':
-        if request.POST.get('project_password') == project.password:
-            upload_cam_participant(request.user, project)
-            return JsonResponse({"message": "Success"})
-        else:
-            return  JsonResponse({"message": "Failure"})
-    else:
-        create_individual_cam(request)
-        return redirect('index')
 
 
 def create_researcher(request):
+    """
+    Basic functionality to create a researcher. This also creates a blank CAM for the researcher.This is only called if
+    the user specifically signs up as a researcher.
+    """
     if request.method == 'POST':
         form = ResearcherSignupForm(request.POST)
         if form.is_valid():
@@ -281,10 +300,15 @@ def create_researcher(request):
 
 
 def clear_CAM(request):
+    """
+    Function to clear a CAM. This function simply deletes all the blocks and links in a current CAM. After this function,
+     the user's page will be refreshed and they will have a blank CAM. The CAM name/id does not change.
+    """
     clear_cam_valid = request.POST.get('clear_cam_valid')  # clear cam
     if clear_cam_valid:
         # clear blocks associated with user
-        current_cam = CAM.objects.get(id=request.user.active_cam_num)
+        user = CustomUser.objects.get(username=request.user.username)
+        current_cam = CAM.objects.get(id=user.active_cam_num)
         blocks = current_cam.block_set.all()
         for block in blocks:
             block.delete()
@@ -309,28 +333,31 @@ def clear_CAM(request):
     current_cam.cam_image = file_name
     current_cam.save()
     return JsonResponse({'file_name': '../../'+file_name})"""
-
+def makepdf(html):
+    """Generate a PDF file from a string of HTML."""
+    htmldoc = HTML(string=html, base_url="")
+    return None#htmldoc.write_pdf()
 def Image_CAM(request):
-    '''
-    For more pdf options look at wkhtmltopdf documentation
-    :param request:
-    :return:
-    '''
-    #config = pdfkit.configuration(wkhtmltopdf='./bin/wkhtmltopdf')
     image_data = request.POST.get('html_to_convert')
-    print(request.user)
-    print(request.user.active_cam_num)
-    file_name = 'media/CAMS/'+request.user.username+'_'+str(request.user.active_cam_num)+'.png'
+    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    image_data = dataUrlPattern.match(image_data).group(2)
+    image_data = image_data.encode()
+    image_data = base64.b64decode(image_data)
+    user = CustomUser.objects.get(username=request.user.username)
+    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.pdf'
+    pdf = makepdf(image_data)
+    Path('outfile.pdf').write_bytes(pdf)
+    #print(image_data)
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
     image_data = dataUrlPattern.match(image_data).group(2)
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
     with open(file_name, 'wb') as f:
         f.write(image_data)
-    current_cam = CAM.objects.get(id=request.user.active_cam_num)
+    current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
-    print('Saved')
+
     return JsonResponse({'file_name': '../../'+file_name})
 
     #return JsonResponse({'file_name': file_name})
@@ -347,7 +374,13 @@ def view_pdf(request):
 
 
 def export_CAM(request):
-    current_cam = CAM.objects.get(id=request.user.active_cam_num)
+    """
+    Function to export CAM data. We export the block and link information (i.e. what's in the database) as individual csv
+    files. The files are then zipped into a single file called username_CAM.zip.The file is then downloaded to the Downloads
+    file via the Jquery/Ajax call that envokes this function.
+    """
+    user = CustomUser.objects.get(username=request.user.username)
+    current_cam = CAM.objects.get(id=user.active_cam_num)
     block_resource = BlockResource().export(current_cam.block_set.all()).csv
     link_resource = LinkResource().export(current_cam.link_set.all()).csv
     outfile = BytesIO()  # io.BytesIO() for python 3
@@ -363,14 +396,23 @@ def export_CAM(request):
 
 
 def import_CAM(request):
+    """
+    Functionality to import a CAM. The workflos is as follows:
+    1 - Read in file from Jquery/Ajax call. This file is in the format of a zip file containing csvs for both the
+    blocks and links. The input here is the output of the export_CAM function.
+    2 - Clear any blocks/links from the current CAM in case any exist
+    3 -
+    """
     if request.method == 'POST':
         block_resource = BlockResource()
         link_resource = LinkResource()
         dataset = Dataset()
+        print(request.POST)
         uploaded_CAM = request.FILES['myfile']
         deletable = request.POST.get('Deletable')
         # Clear all current blocks and links
-        current_cam = CAM.objects.get(id=request.user.active_cam_num)
+        user = CustomUser.objects.get(username=request.user.username)
+        current_cam = CAM.objects.get(id=user.active_cam_num)
         user = request.user
         blocks = current_cam.block_set.all()
         for block in blocks:
@@ -379,37 +421,45 @@ def import_CAM(request):
         for link in links:
             link.delete()
         ct = 0
-        print(current_cam)
         try:
+            # Read zip file
             with ZipFile(uploaded_CAM) as z:
                 for filename in z.namelist():
+                    # Step through csv file
                     if filename.endswith('.csv'):
                         data = z.extract(filename)
                         test = pd.read_csv(data)
-                        print(test)
+                        # Set creator and CAM to the current user and their CAM
                         #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                         test['creator'] = test['creator'].apply(lambda x: request.user.id)
                         test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
+                        # Read in information from csvs
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
-                        if ct == 0:
+                        blocks_imported = current_cam.block_set.all()
+                        print([block.id for block in blocks_imported])
+                        if ct == 0:  # first csv is blocks.csv
                             result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
                                 block_resource.import_data(imported_data, dry_run=False)  # Actually import now
                             else:
-                                print('sad')
-                        else:
+                                print('Error in reading in concepts')
+                                print(result.row_errors())
+                        else:  # Second csv is links.csv
                             result = link_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
                                 link_resource.import_data(imported_data, dry_run=False)  # Actually import now
+                            else:
+                                print('Error in reading in links')
+                                print(result.row_errors())
                         ct += 1
                     else:
                         pass
         except:
-            print('didnt work')
+            print('Import didnt work')
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
-        print(blocks_imported)
+        print([block.id for block in blocks_imported])
         for block in blocks_imported:
             # Clean up Comments ('none' -> '')
             if block.comment == 'None' or block.comment == 'none':
@@ -420,7 +470,6 @@ def import_CAM(request):
             block.creator = request.user
             block.save()
         links_imported = current_cam.link_set.all()
-
         for link in links_imported:
             link.creator = request.user
             link.save()
@@ -561,5 +610,3 @@ def create_random(request):
         login(request, user)
         create_individual_cam_randomUser(request, user)
         return redirect('index')
-
-

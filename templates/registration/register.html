@@ -10,13 +10,13 @@
   <div class="card mt-5 col-md-6 mx-auto">
     <div class="card-body register-card-body">
       <p class="login-box-msg">{% trans 'Register a new membership' %}</p>
+       {% if password_message %}
+           <div class="alert alert-danger" role="alert">
+               {{ password_message }}
+           </div>
+       {% endif %}
        <div class="row pb-2" id="accountType">
-       <!--<div class="col-6 ml-auto">
-          <button class="btn btn-primary btn-block" id="participantAccount" style="background-color: #5c88c6">{% trans 'General/Participant Account' %}</button>
-        </div>
-         <div class="col-6 mr-auto">
-          <button class="btn btn-primary btn-block" id="researcherAccount" style="background-color: #5c88c6">{% trans 'Researcher Account' %}</button>
-        </div>-->
+
       </div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -31,179 +31,14 @@
         </ul>
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-  <!-- CREATE ADMIN FORM -->
-
-      <form id="researcherForm" class="form-horizontal" method="POST" action="{% url 'create_researcher' %}" enctype="multipart/form-data" novalidate>
-      {% csrf_token %}
-
-        <div class="form-row">
-            <div class="col-6">
-
-                        <div class="form-row">
-                <label for="inputFirstName">{% trans 'First Name' %}:</label>
-                    {{ form.first_name|add_class:'form-control' }}
-                    <span class="text-danger">{{ form.first_name.errors.0}}</span>
-                        </div>
-
-
-                        <div class="form-row">
-                            <label for="inputLastName">{% trans 'Last Name' %}:</label>
-                                {{ form.last_name|add_class:'form-control' }}
-                            <span class="text-danger">{{ form.last_name.errors.0}}</span>
-                        </div>
-
-
-            </div>
-                    <div class="col-6 float-center">
-                        <div class="image-wrapper">
-                            <div style="text-align: center">
-                            <label for="id_image" style="cursor: pointer"><img class="profile-user-img img-fluid img-circle mt-4"
-                                 src="{{ user.avatar }}" alt="Image not found" onerror="this.src='{% static 'dist/img/user1-128x128.jpg' %}'"
-                                 style="display: block;" id="Avatar_settings">
-                            </label>
-                                <!--<label for="id_image" style="cursor: pointer">Change avatar/photo</label>-->
-                                <input id="id_image" type="file" class="" name="id_image" style="display: none;" onchange="loadFile(event)">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-        <div class="form-row">
-            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
-                <label for="inputUsername">{% trans "User Name" %}*:</label>
-                    {{ form.username|add_class:'form-control' }}
-                <span class="text-danger">{{ form.username.errors.0}}</span>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
-                <label for="inputEmail">{% trans "Email Address" %}:</label>
-                    {{ form.email|add_class:'form-control' }}
-                <span class="text-danger">{{ form.email.errors.0}}</span>
-            </div>
-        </div>
-
-
-        <div class="form-row">
-            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
-                <label for="inputPassword">{% trans 'Password' %}*:</label>
-                    {{ form.password1|add_class:'form-control' }}
-                <span class="text-danger">{{ form.password1.errors.0}}</span>
-            </div>
-
-            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="right">
-                <label for="inputPassword2">{% trans 'Password Verification' %}*:</label>
-                    {{ form.password2|add_class:'form-control'  }}
-                <span class="text-danger">{{ form.password2.errors.0}}</span>
-            </div>
-        </div>
-
-
-          <div class="row">
-           <div class="form-group col-5">
-                <label for="inputlanguage_preference">{% trans 'Language Preference' %}*:</label>
-               {{ form.language_preference|add_class:'form-control' }}
-            </div>
-       </div>
-
-        <div class="row">
-
-            <div class="col-8"></div>
-          <!--<div class="col-7">
-               {{ form.captcha|add_class:'form-control' }}
-          </div>-->
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block" style="background-color: #5c88c6">{% trans 'Register' %}</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
+            {% include 'registration/register_researcher.html' %}
             </div>
 
 
             <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
+            {% include 'registration/register_participant.html' %}
 
-<!-- CREATE PARTICIPANT FORM -->
-  <form id="participantForm" class="form-horizontal" method="POST" action="{% url 'create_participant' %}" novalidate>
-      {% csrf_token %}
-
-
-        <div class="form-row">
-            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
-                <label for="inputUsername">{% trans "User Name" %}*:</label>
-                    {{ form.username|add_class:'form-control' }}
-                <span class="text-danger">{{ form.username.errors.0}}</span>
-            </div>
-        </div>
-
-      <div class="form-row">
-          <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
-              <label for="inputEmail">{% trans "Email Address" %}:</label>
-              {{ form.email|add_class:'form-control' }}
-              <span class="text-danger">{{ form.email.errors.0}}</span>
-              <span class="text-muted text-small">This is not required, but it will facilitate password resets if necessary.</span>
-          </div>
-      </div>
-
-      <div class="row">
-           <div class="form-group col-5">
-                <label for="inputlanguage_preference">{% trans 'Language Preference' %}*:</label>
-               {{ form.language_preference|add_class:'form-control' }}
-            </div>
-       </div>
-
-        <div class="row">
-            <div class="form-check">
-                <input type="checkbox" class="form-check-input" id="project_check">
-                <label class="form-check-label" for="project_check">
-                    Project Participant <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="If you are a participant of a project, please click this checkbox to select the project."></i>
-                </label>
-            </div>
-        </div>
-      <span class="text-muted text-small">This is only required if you are signing up as a participant in a project.</span>
-        {% if projects %}
-        <div class="row proj" hidden>
-           <div class="form-group col-5">
-                <label for="project_name">{% trans 'Project Name' %}*:</label>
-                <select class="form-control" id="project_name" name="project_name">
-                    {% for project in projects %}
-                        <option>{{ project.name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="form-group col-5">
-                <label for="project_password">{% trans 'Project Password' %}*:</label>
-                <input class="form-control" id="project_password" name="project_password" placeholder="{% trans 'Project Password' %}" value="None"/>
-            </div>
-       </div>
-        {% endif %}
-        <div class="form-row mt-5">
-            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
-                <label for="inputPassword">{% trans 'User Password' %}*:</label>
-                    {{ form.password1|add_class:'form-control' }}
-                <span class="text-danger">{{ form.password1.errors.0}}</span>
-            </div>
-
-            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="right">
-                <label for="inputPassword2">{% trans 'User Password Verification' %}*:</label>
-                    {{ form.password2|add_class:'form-control'  }}
-                <span class="text-danger">{{ form.password2.errors.0}}</span>
-            </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block" style="background-color: #5c88c6">{% trans 'Register' %}</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
             </div>
         </div>
 

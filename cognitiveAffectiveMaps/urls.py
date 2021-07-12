@@ -19,6 +19,7 @@ from django.conf.urls import include
 from users.views import index
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib import admin
 
 urlpatterns = [
     path('',index,name='home'),
@@ -28,4 +29,5 @@ urlpatterns = [
     path('users/',include('users.urls')),
     path('users/', include('django.contrib.auth.urls')),  # Logout and Password reset
     path('config_admin/', include("config_admin.urls")),
+    path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

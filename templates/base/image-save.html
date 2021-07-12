@@ -8,14 +8,15 @@
             type: "POST",
             data: {
                 'html_to_convert': dataImage,
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
             },
             success: function(data){
                 console.log(data)
-                saveAs(data.file_name, 'CAM.png');
+                saveAs(data.file_name, 'CAM.pdf');
             },
             error: function(){
                 console.log("Error")
+                saveAs(dataImage, 'CAM.png');
             },
             complete: function(){
             }

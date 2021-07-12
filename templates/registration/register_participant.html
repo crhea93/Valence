@@ -1,0 +1,90 @@
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+
+<!-- CREATE PARTICIPANT FORM -->
+  <form id="participantForm" class="form-horizontal" method="POST" action="{% url 'create_participant' %}" novalidate>
+      {% csrf_token %}
+
+
+        <div class="form-row">
+            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
+                <label for="inputUsername">{% trans "User Name" %}*:</label>
+                    {{ form.username|add_class:'form-control' }}
+                <span class="text-danger">{{ form.username.errors.0}}</span>
+            </div>
+        </div>
+
+
+      <div class="form-row">
+          <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
+              <label for="inputEmail">{% trans "Email Address" %}:</label>
+              {{ form.email|add_class:'form-control' }}
+              <span class="text-danger">{{ form.email.errors.0}}</span>
+              <span class="text-muted text-small">This is not required, but it will facilitate password resets if necessary.</span>
+          </div>
+      </div>
+
+        <div class="form-row mt-5">
+            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
+                <label for="inputPassword">{% trans 'User Password' %}*:</label>
+                    {{ form.password1|add_class:'form-control' }}
+                <span class="text-danger">{{ form.password1.errors.0}}</span>
+            </div>
+
+            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="right">
+                <label for="inputPassword2">{% trans 'User Password Verification' %}*:</label>
+                    {{ form.password2|add_class:'form-control'  }}
+                <span class="text-danger">{{ form.password2.errors.0}}</span>
+            </div>
+        </div>
+
+
+
+        <div class="row">
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input" id="project_check">
+                <label class="form-check-label" for="project_check">
+                    Project Participant <i class="fas fa-question-circle" data-toggle="tooltip" data-placement="right" title="If you are a participant of a project, please click this checkbox to select the project."></i>
+                </label>
+            </div>
+        </div>
+      <span class="text-muted text-small">This is only required if you are signing up as a participant in a project.</span>
+        {% if projects %}
+        <div class="row proj" hidden>
+           <div class="form-group col-5">
+                <label for="project_name">{% trans 'Project Name' %}*:</label>
+                <!--<select class="form-control" id="project_name" name="project_name">
+                    {% for project in projects %}
+                        <option>{{ project.name }}</option>
+                    {% endfor %}
+                </select>-->
+               <input class="form-control" id="project_name" name="project_name" placeholder="{% trans 'Project Name' %}"/>
+                <span class="text-muted text-small">Please enter the project name. If the wrong name is entered, you will receive an error message and a list of available projects</span>
+            </div>
+            <div class="form-group col-5">
+                <label for="project_password">{% trans 'Project Password' %}*:</label>
+                <input class="form-control" id="project_password" name="project_password" placeholder="{% trans 'Project Password' %}"/>
+                <span class="text-danger">{{ form.password1.errors.0}}</span>
+            </div>
+       </div>
+        {% endif %}
+
+        <div class="row">
+           <div class="form-group col-5">
+                <label for="inputlanguage_preference">{% trans 'Language Preference' %}*:</label>
+               {{ form.language_preference|add_class:'form-control' }}
+            </div>
+       </div>
+
+        <div class="row">
+          <div class="col-8">
+
+          </div>
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block" style="background-color: #5c88c6">{% trans 'Register' %}</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>

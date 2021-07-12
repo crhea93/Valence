@@ -35,6 +35,11 @@
             <span aria-hidden="true">&times;</span>
         </button>
 	</div>
+    {% if password_message %}
+           <div class="alert alert-danger" role="alert">
+               {{ password_message }}
+           </div>
+       {% endif %}
 
 
 

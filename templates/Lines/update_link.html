@@ -62,6 +62,7 @@
     };
 
     function update_link(link_sel){
+        console.log('make arrow')
         let start_block_id = link_sel.attr('data-start_id');
         let end_block_id = link_sel.attr('data-end_id')
         var start_x = parseFloat($('#block_'+start_block_id).css('left'));

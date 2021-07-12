@@ -1,0 +1,17 @@
+{% load i18n %}
+<div class="row col-md-12">
+<div class="card w-100" id="Concept_Info_Card">
+    <div class="card-header" id="primary_head">
+        <h3 class="center-text">{% trans 'Concept Comment' %}</h3>
+    </div> <!-- END CARD HEADER -->
+    <div class="card-body center-text" style="min-height: 215px;height: 100%">
+        <div class="alert alert-cascade" role="alert" id="No_Concept_Comment">{% trans 'Please Select a Single Concept to Add a Comment' %}</div>
+        <div id="Comment_Info" hidden>
+            <textarea id="Comment_Box" class="md-textarea form-control" rows="3" maxlength="300"></textarea>
+            <button class="btn btn-outline-primary mt-2" id="Comment_Button">{% trans 'Add Comment' %}</button>
+            <button class="btn btn-outline-danger mt-2" id="delete_block_btn">{% trans 'Delete Concept' %}</button>
+        </div>
+
+    </div>
+</div>
+</div>

@@ -1,0 +1,73 @@
+{% load widget_tweaks %}
+{% load static %}
+{% load i18n %}
+<!-- CREATE ADMIN FORM -->
+
+      <form id="researcherForm" class="form-horizontal" method="POST" action="{% url 'create_researcher' %}" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+
+        <div class="form-row">
+                <div class="form-group col-6">
+                <label for="inputFirstName">{% trans 'First Name' %}:</label>
+                    {{ form.first_name|add_class:'form-control' }}
+                    <span class="text-danger">{{ form.first_name.errors.0}}</span>
+                </div>
+                <div class="form-group col-6">
+                    <label for="inputLastName">{% trans 'Last Name' %}:</label>
+                        {{ form.last_name|add_class:'form-control' }}
+                    <span class="text-danger">{{ form.last_name.errors.0}}</span>
+                </div>
+            </div>
+
+
+        <div class="form-row">
+            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
+                <label for="inputUsername">{% trans "User Name" %}*:</label>
+                    {{ form.username|add_class:'form-control' }}
+                <span class="text-danger">{{ form.username.errors.0}}</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
+                <label for="inputEmail">{% trans "Email Address" %}:</label>
+                    {{ form.email|add_class:'form-control' }}
+                <span class="text-danger">{{ form.email.errors.0}}</span>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
+                <label for="inputPassword">{% trans 'Password' %}*:</label>
+                    {{ form.password1|add_class:'form-control' }}
+                <span class="text-danger">{{ form.password1.errors.0}}</span>
+            </div>
+
+            <div class="form-group col-md-6" data-toggle="tooltip" data-placement="right">
+                <label for="inputPassword2">{% trans 'Password Verification' %}*:</label>
+                    {{ form.password2|add_class:'form-control'  }}
+                <span class="text-danger">{{ form.password2.errors.0}}</span>
+            </div>
+        </div>
+
+
+          <div class="row">
+           <div class="form-group col-5">
+                <label for="inputlanguage_preference">{% trans 'Language Preference' %}*:</label>
+               {{ form.language_preference|add_class:'form-control' }}
+            </div>
+       </div>
+
+        <div class="row">
+
+            <div class="col-8"></div>
+          <!--<div class="col-7">
+               {{ form.captcha|add_class:'form-control' }}
+          </div>-->
+          <!-- /.col -->
+          <div class="col-4">
+            <button type="submit" class="btn btn-primary btn-block" style="background-color: #5c88c6">{% trans 'Register' %}</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>

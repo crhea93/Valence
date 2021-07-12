@@ -2,20 +2,20 @@
 <script>
 
     //---------FUNCTION FOR PLACEMENT OF FUNCTIONS ------------//
-    function place_concept(title,x,y,width,height,shape,num,id,links_starting,links_ending,notes,modifiable){
+    function place_concept(title,x,y,width,height,text_scale,shape,num,id,links_starting,links_ending,notes,modifiable){
         num = parseInt(num);
         //add shape
         let notes_hidden = 'hidden';
         if (notes !== 'None' && notes.trim() !== ''){
             notes_hidden = '';
         }
-        let def_created_concept = existing_concept_init(title,x,y,width,height,shape,num,notes_hidden,notes,modifiable);
+        let def_created_concept = existing_concept_init(title,x,y,width,height,text_scale,shape,num,notes_hidden,notes,modifiable);
         //Add concept
         $("#CAM_items").append(def_created_concept);
         // add links to data-links attribute
         $('#title_'+num).attr('data-links','['+eval(links_starting)+eval(links_ending)+']');
         $('#title_'+num).value = title;
-        $('#success_block_'+num).append('<p>'+title+'</p>');
+        $('#success_block_'+num).append('<p class="card-text">'+title+'</p>');
         var block_ = $('#block_' + num);
         block_.draggable({
              containment: "#CAM_items",
@@ -27,8 +27,8 @@
                  //update links
                 //ui.position.left =  event.pageX*currentZoom;
                 var factor = (1 / currentZoom) - 1;
-                 ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
-                 ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
+                ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+                ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
                 let link_numbers = $('#title_'+num).attr('data-links');
                 link_numbers = link_numbers.slice(1,-1);
                 link_numbers = link_numbers.split(',');
@@ -61,7 +61,7 @@
             var width = blk_.css('width').trim('px');
             var height = blk_.css('height').trim('px');
             console.log(X+' '+Y)
-            shape_ = 3;
+            shape_ = 5;
             if (blk_.hasClass('hexagonAmb')){
                 shape_ = 7
             }
@@ -105,7 +105,7 @@
                 var width = block_curr.css('width').trim('px');
                 var height = block_curr.css('height').trim('px');
                 //console.log(X+' '+Y)
-                let shape_ = 1;
+                let shape_ = 5;
                 if (block_curr.hasClass('hexagonAmb')){
                     shape_ = 7
                 }
@@ -131,7 +131,7 @@
                     success: function (data) {
                         $('#block_form_'+data.num).attr('hidden',true);
                         $('#success_block_'+data.num).empty();
-                        $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                        $('#success_block_'+data.num).append('<p class="card-text">'+$('#title_'+data.num).val()+'</p>');
                         $('.Selected').each(function(){
                             $(this).removeClass("Selected");
                             $(this).removeClass('Open')

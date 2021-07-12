@@ -35,26 +35,6 @@
         <!-- /.content-header -->
 
 
-
-    <!-- Content Header (Page header) -->
-<!--    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-4">
-                    <h1 class="m-0 text-dark">
-                        <i class="fas fa-chart-pie text-primary"></i>
-                        {{ active_project.name }}
-                    </h1>
-
-                </div>&lt;!&ndash; /.col &ndash;&gt;
-
-            </div>&lt;!&ndash; /.row &ndash;&gt;
-        </div>&lt;!&ndash; /.container-fluid &ndash;&gt;
-    </div>-->
-    <!-- /.content-header -->
-
-
-
     <!-- Content Header (Page header) -->
     <div class="content-header GeneralFont">
         <div class="container-fluid">
@@ -80,6 +60,12 @@
                     <p>See Password: <i class="fas fa-eye" id="show_pword"></i></p>
                     <h5 class="text-info ml-3" id="pword" hidden>{{ active_project.password }}</h5>
                 {% endif %}
+                <div class="col-1  ml-3">
+                    <p>Edit Project</p>
+                    <a class="btn btn-primary" href="{% url 'project_settings' %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </div>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
     </div>

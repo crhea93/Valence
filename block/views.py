@@ -23,6 +23,12 @@ def integer(val):
 
 
 def add_block(request):
+    """
+    Functionality to add a block to the databaase. This functionality is called from templates/Concept/concept_placement.html
+    or templates/Concept/Initial_Placement. The Jquery/Ajax call passes all block information to django. The information is
+    augmented to include any other relavent features (i.e. creator id). The block is then created in the database
+    via the BlockForm form defined in block/forms.py. The complete block data is then passed back to the drawing canvas.
+    """
     block_data = {}
     if request.method == 'POST':
         add_valid = request.POST.get('add_valid')
@@ -56,6 +62,13 @@ def add_block(request):
 
 
 def update_block(request):
+    """
+    Function to update the information associated with a block. This is called whenever a block is modified (with
+    the exception of being moved/dragged -- See below for that function). This can be invoked either from templates/Concept/concept_placement.html
+    or templates/Concept/Initial_Placement or templates/Concept/resize_function.html. The block data is taken from the Jquery/Ajax
+    call. The block is updated using the block.update() command defined in block/model.py. The block data is returned to
+    the Jquery call to update the drawing canvas.
+    """
     block_data = {}
     if request.method == 'POST':
         update_valid = request.POST.get('update_valid')
@@ -83,7 +96,13 @@ def update_block(request):
 
 
 def delete_block(request):
-    links = []
+    """
+    Function to delete a block from the current CAM. The id of the block to be deleted is passed through the Jquery/Ajax call
+    defined in templates/Concept/delete_block.html. After deleting the block all links associated with the block are deleted
+    from the database. The function returns a list of those links so that the Jquery/Ajax call can delete from them the
+    drawing canvas.
+    """
+    links_ = []
     if request.method == 'POST':
         delete_valid = request.POST.get('delete_valid')  # block delete
         if delete_valid:
@@ -98,10 +117,17 @@ def delete_block(request):
 
 
 def drag_function(request):
+    """
+    Functionality to update a block's position after it is dragged on the canvas. This call is invoked via a Jquery/Ajax
+    call defined in templates/Concepts/drag_function.html. The function takes the new positions of the block and updates the current blocks
+    position. Then each link associated with the block is collected and their information is passed back to the drawing
+    canvas in order to be updated via a Jquery call.
+    """
     if request.method == 'POST':
         drag_valid = request.POST.get('drag_valid')
         if drag_valid:
             cam = CAM.objects.get(id=request.user.active_cam_num)
+
             # Just need this information for later
             ids = []; starting_x_ = []; ending_x_ = []; starting_y_ = []; ending_y_ = []
             style_ = []; width_ = []; starting_block_ = []; ending_block_ = []
@@ -109,10 +135,15 @@ def drag_function(request):
             block_id = request.POST.get('block_id')
             if cam.block_set.get(num=block_id):  # Make sure block exists (it really should)
                 block = cam.block_set.get(num=block_id)
+                try:
+                    text_scale = float(request.POST.get('text_scale'))
+                except:
+                    text_scale = block.text_scale
                 block.x_pos = float(request.POST.get('x_pos')[:-2])  # get rid of px at the end
                 block.y_pos = float(request.POST.get('y_pos')[:-2])  # Ditto
                 block.width = float(request.POST.get('width')[:-2])  # get rid of px at the end
                 block.height = float(request.POST.get('height')[:-2])  # Ditto
+                block.text_scale = text_scale
                 block.save()  # Update position
                 # Link will be automatically updated, but we need to get the information to pass to JQuery!
                 links = cam.link_set.filter(starting_block=block.id)|cam.link_set.filter(ending_block=block.id)

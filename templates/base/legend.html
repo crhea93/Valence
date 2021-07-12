@@ -1,0 +1,40 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load i18n %}
+
+
+<div class="row col-md-12">
+                    <div class="card w-100" id="LEGEND_INFO_CARD">
+                        <div class="card-header" id="primary_head">
+                            <h3 class="center-text">{% trans 'Quick Reference' %}</h3>
+                        </div> <!-- END CARD HEADER -->
+                        <div class="card-body center-text" style="min-height: 215px;height: 100%">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                                  aria-selected="true">{% trans 'Legend' %}</a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+                                   aria-selected="false">{% trans 'Concepts' %} &nbsp <i class="fas fa-shapes"> </i></a>
+                              </li>
+                              <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact"
+                                  aria-selected="false">{% trans 'Links' %} &nbsp <i class="fas fa-share-alt"> </i></a>
+                              </li>
+                                <li class="nav-item">
+                                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#misc" role="tab" aria-controls="misc"
+                                  aria-selected="false">{% trans 'Misc.' %}</a>
+                              </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#example" role="tab" aria-controls="example"
+                                       aria-selected="false">{% trans 'Example' %}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                              {% include 'Legend-Content.html' %}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>

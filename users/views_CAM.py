@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .forms import IndividualCAMCreationForm, ProjectCAMCreationForm
 from django.http import HttpResponse, JsonResponse
 from users.models import CAM, Project
+from block.models import Block
 from .resources import BlockResource, LinkResource
 from zipfile import ZipFile
 from io import BytesIO
@@ -14,8 +15,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-from block.models import Block
-from link.models import Link
+
 
 def create_individual_cam(request):
     """
@@ -44,10 +44,12 @@ def create_project_cam(user, project):
     form = ProjectCAMCreationForm({"name": user.username, 'user': user.id, 'project': project})  # Fill in form
     # Initiate CAM
     cam = None
+    project_name = Project.objects.get(id=project).name
     if form.is_valid():
         cam = form.save()
         user.active_cam_num = cam.id
         user.save()
+        cam.name = project_name
         cam.creation_date = datetime.datetime.now()
         cam.save()
 
@@ -60,6 +62,7 @@ def upload_cam_participant(participant, project):
     Assign CAM to participant when they make a linked account
     """
     cam = create_project_cam(participant, project.id)
+    #print('created project cam')
     try:
         # If we are given an initial import file add the concepts/links
         if project.Initial_CAM:
@@ -67,45 +70,62 @@ def upload_cam_participant(participant, project):
             block_resource = BlockResource()
             link_resource = LinkResource()
             dataset = Dataset()
+            current_cam = CAM.objects.get(id=participant.active_cam_num)
+            # Clear all current blocks and links
+            blocks = current_cam.block_set.all()
+            for block in blocks:
+                block.delete()
+            links = current_cam.link_set.all()
+            for link in links:
+                link.delete()
             ct = 0
-            print(project.Initial_CAM.name.split('/'))
             project_cam_name = project.Initial_CAM.name.split('/')[-2] + '/' + project.Initial_CAM.name.split('/')[-1]
-            print(project_cam_name)
             with ZipFile(settings.MEDIA_ROOT+'/'+project_cam_name) as z:
                 for filename in z.namelist():
                     if filename.endswith('.csv'):
                         data = z.extract(filename)
                         test = pd.read_csv(data)
-                        test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
+                        # Set creator and CAM to the current user and their CAM
+                        # test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                         test['creator'] = test['creator'].apply(lambda x: participant.id)
-                        test['CAM'] = test['CAM'].apply(lambda x: cam.id)
+                        test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
+                        # Read in information from csvs
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
-                        if ct == 0:
+                        blocks_imported = current_cam.block_set.all()
+                        print([block.id for block in blocks_imported])
+                        if ct == 0:  # first csv is blocks.csv
                             result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
                                 block_resource.import_data(imported_data, dry_run=False)  # Actually import now
                             else:
-                                print('error block')
-                        else:
+                                print('Error in reading in concepts')
+                                print(result.row_errors())
+                        else:  # Second csv is links.csv
                             result = link_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
                                 link_resource.import_data(imported_data, dry_run=False)  # Actually import now
                             else:
-                                print('error link')
+                                print('Error in reading in links')
+                                print(result.row_errors())
+                        ct += 1
                     else:
                         pass
-                    ct += 1
+
                     # We now have to clean up the blocks' links...
             blocks_imported = cam.block_set.all()
             for block in blocks_imported:
                 # Clean up Comments ('none' -> '')
                 if block.comment == 'None' or block.comment == 'none':
                     block.comment = ''
-                    block.modifiable = False
+                #if deletable is not None:
+                #    block.modifiable = False
+                # Change block creator to current user
+                block.creator = participant
                 block.save()
-            links_imported = cam.link_set.all()
+            links_imported = current_cam.link_set.all()
             for link in links_imported:
+                link.creator = participant
                 link.save()
     except:
         pass
@@ -114,6 +134,7 @@ def upload_cam_participant(participant, project):
 def load_cam(request):
     """
     Change user's current CAM and go to the CAM
+    TODO: TEST
     """
     user_ = request.user
     # Get current CAM number
@@ -125,6 +146,7 @@ def load_cam(request):
 
 def delete_cam(request):
     # Get current CAM
+    # TODO: TEST
     curr_cam = CAM.objects.get(id=request.POST.get('cam_id'))
     print(curr_cam)
     curr_cam.delete()
@@ -133,15 +155,18 @@ def delete_cam(request):
 
 def update_cam_name(request):
     # Get current CAM
+    # TODO: TEST
     curr_cam = CAM.objects.get(id=request.POST.get('cam_id'))
     new_name = request.POST.get('new_name')
     print(new_name)
     curr_cam.name = new_name
     curr_cam.save()
+    print(curr_cam)
     return HttpResponse('Name Updated')
 
 
 def download_cam(request):
+    # TODO: TEST
     current_cam = CAM.objects.get(id=request.GET.get('pk'))
     block_resource = BlockResource().export(current_cam.block_set.all()).csv
     link_resource = LinkResource().export(current_cam.link_set.all()).csv
@@ -182,6 +207,7 @@ def initial_cam(request):
 def create_individual_cam_randomUser(request, user_):
     """
     Create New CAM not tied to a project
+    # TODO:TEST
     """
     # Get current number of cams for user and add one to value
     num = len(user_.cam_set.all()) + 1
@@ -201,25 +227,53 @@ def create_individual_cam_randomUser(request, user_):
 def clone_CAM(request):
     """
     Clone a CAM for a user
+    TODO: TEST
     """
     user_ = User.objects.get(username=request.user.username)
     cam_ = CAM.objects.get(id=request.POST.get('cam_id'))  # Get current CAM
     blocks_ = cam_.block_set.all()
     links_ = cam_.link_set.all()
+    link_dict = {}
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
     num = len(user_.cam_set.all()) + 1
     cam_.name = cam_.name + '_clone'
+    print(cam_.name)
     cam_.save()  # Save new CAM
+    print('Making new CAM')
+    # Create dictionary for links  {link: [start_concept_new, end_concept_new]}
+    for link_ in links_:
+        link_dict[link_.pk] = [link_.starting_block.id, link_.ending_block.id]
     # Add blocks and links
     for block_ in blocks_:
+        # Check if block is the starting block for some link
+        old_id = block_.pk
+        print('old '+ str(old_id))
         block_.pk = None
         block_.creator = user_
         block_.CAM = cam_
         block_.save()
+        print('new '+str(block_.pk))
+        for link_id, link_blocks in link_dict.items():
+            if old_id in link_blocks:  # need to update
+                print(link_blocks)
+                for ct, blk in enumerate(link_blocks):
+                    if old_id == blk:
+                        link_blocks[ct] = block_.pk
+                #link_blocks[link_blocks == old_id] = block_.pk
+                print(link_blocks)
+                # Now update dictionary
+                link_dict[link_id] = link_blocks
     for link_ in links_:
+        old_id = link_.pk
         link_.pk = None
         link_.creator = user_
         link_.CAM = cam_
+        link_.starting_block = Block.objects.get(id=link_dict[old_id][0])
+        link_.ending_block = Block.objects.get(id=link_dict[old_id][1])
         link_.save()
+        # Now update link starting and ending IDs with the new block ids
+        print(link_.starting_block.id, link_.ending_block.id)
+
+    print(cam_.name)
     return JsonResponse({'message':'Success'})

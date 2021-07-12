@@ -29,15 +29,7 @@
                                 <div class="card-header">
                                     <h4 class="card-title">
                                         <i class="fas fa-draw-polygon mr-1"></i>
-                                        {% if user.is_participant %}
-                                            {% if cam.project %}
-                                            {{ cam.project.name }}
-                                            {% else %}
-                                                {{ cam.name }}
-                                            {% endif %}
-                                        {% else %}
                                             {{ cam.name }}
-                                        {% endif %}
                                     </h4>
 
                                     <div class="float-right DeleteCAM" id="camDel_{{ cam.id }}">
@@ -46,7 +38,7 @@
                                     <div type="button" class="float-right" data-toggle="modal" data-target="#camNewName_{{ cam.id }}">
                                         <i class="far fa-edit"></i>
                                     </div>
-                                    <div class="float-right CloneCAM" id="Clone_{{ cam.id }}">
+				                    <div class="float-right CloneCAM" id="Clone_{{ cam.id }}">
                                         <i class="fas fa-copy text-dark mr-auto" style="cursor:pointer"></i>
                                     </div>
                                     <div class="card-tools">
@@ -126,6 +118,7 @@
                                       {% csrf_token %}
                                       <div class="row">
                                           <div class="form-check">
+                                              <span class="text-muted text-small">If you are joining a project, please check the button below. If nothing happens, please click again.</span><br>
                                               <input type="checkbox" class="form-check-input" id="project_check">
                                               <label class="form-check-label" for="project_check">Project Participant</label>
                                           </div>
@@ -134,11 +127,8 @@
                                         <div class="row proj" hidden>
                                            <div class="form-group col-5">
                                                 <label for="project_name">{% trans 'Project Name' %}:</label>
-                                                <select class="form-control" id="project_name" name="project_name">
-                                                    {% for project in projects %}
-                                                        <option>{{ project.name }}</option>
-                                                    {% endfor %}
-                                                </select>
+                                                <input class="form-control" id="project_name" name="project_name" placeholder="{% trans 'Project Name' %}"/>
+                                            <span class="text-muted text-small">Please enter the project name. If the wrong name is entered, you will receive an error message and a list of available projects</span>
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="project_password">{% trans 'Project Password' %}:</label>
@@ -151,7 +141,7 @@
                                           <!-- /.col -->
                                         </div>
                                       <div class="form-group col-5 float-right">
-                                          <button id="participantFormSubmit" type="submit" class="btn btn-primary btn-block mt-4">{% trans 'Join Project' %}</button>
+                                          <button id="participantFormSubmit" type="submit" class="btn btn-primary btn-block mt-4">{% trans 'Create CAM' %}</button>
                                       </div>
                                       </form>
                             </div>
@@ -166,7 +156,7 @@
         </section>
         <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
         <script>
-            $('.CloneCAM').on('click', function(){
+	   $('.CloneCAM').on('click', function(){
                     $.ajax({
                         async:false,
                         url: "{% url 'clone_cam' %}",
@@ -183,8 +173,9 @@
                         },
                     })//end ajax
 
-            })
-            function update_cam_name(cam_id){
+           })
+	  
+          function update_cam_name(cam_id){
                 $.ajax({
                     async:false,
                     url: "{% url 'update_cam_name' %}",
@@ -273,18 +264,24 @@
                         'project_password': $('#project_password').val()
                     },
                     success: function(data){
-                        if (data.message === 'Failure'){
+                        console.log(data)
+                        if (data.message !== 'Success'){
                             $('#userCAMS').append('<div class="alert alert-danger" role="alert">\n' +
-                                '  Please Enter the Correct Password!\n' +
+                                data.error_message+
                                 '</div>')
+                            //window.location.reload()
                         }
-                        else {
+                        else if (data.message === 'Success'){
                             window.location.reload()
                             console.log('YAY')
                         }
                     },
-                    error: function(){
+                    error: function(data){
                         console.log("Error")
+                        console.log(data)
+                        $('#userCAMS').append('<div class="alert alert-danger" role="alert">\n' +
+                                data.error_message+
+                                '</div>')
                     },
                 })//end ajax
             })

@@ -17,7 +17,7 @@
         block_.css('position', 'absolute');
         //block_.addClass('Open');
         block_.resizable({
-            aspectRatio: 4/3,
+            aspectRatio: 140/75,
             ghost: true,
             start: function(event, ui){
                 init_width = ui.size.width;
@@ -28,13 +28,15 @@
                 let num_block_local = $(this).attr('id').split('_')[1];
                 let left = $(this).css('left'); let top = $(this).css('top');
                 let height = $(this).css('height'); let width = $(this).css('width');
-                resize_func(num_block_global,num_block_local,left,top,height,width)
+
                 let scale = (ui.size.width)/(init_width)
                 let current_fontsize = parseFloat($(this).find('.success_blk').children().css('font-size'))
                 console.log($(this).find('.success_blk').children().css('font-size', scale*current_fontsize))
                 console.log(scale)
                 console.log(current_fontsize)
                 $(this).find('.success_blk').children().css('font-size', scale*current_fontsize)
+                let text_scale = scale*current_fontsize;
+                resize_func(num_block_global,num_block_local,left,top,height,width, text_scale)
             }
         });
         $('#title_'+concept_ct).select();
@@ -98,7 +100,7 @@
         var width = blk_.css('width').trim('px');
         var height = blk_.css('height').trim('px');
         console.log(X+' '+Y)
-        shape_ = 3;
+        shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
             shape_ = 7
         }
@@ -141,9 +143,9 @@
         var height = blk_.css('height').replace('px','');
         var width = blk_.css('width').replace('px','');
         console.log(X,Y)
-        let shape_ = 1;
+        let shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
-            shape_ = 5
+            shape_ = 7
         }
         else {
             shape_ = $('#shape_'+ct).attr('value')
@@ -173,7 +175,7 @@
                         $(this).removeClass('Open')
                     });
                     $('#block_form_'+data.num).attr('hidden',true);
-                    $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                    $('#success_block_'+data.num).append('<p class="card-text">'+$('#title_'+data.num).val()+'</p>');
                     $("#link_blocks").load(location.href + " #link_blocks");
                     $("#link_blocks_del").load(location.href + " #link_blocks_del");
                     var block_ = $('#block_' + data.num);
@@ -237,7 +239,7 @@
          var width = blk_.css('width').trim('px');
          var height = blk_.css('height').trim('px');
          console.log(X+' '+Y)
-        shape_ = 3;
+        shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
             shape_ = 7
         }

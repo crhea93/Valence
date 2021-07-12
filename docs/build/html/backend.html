@@ -1,0 +1,355 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Backend &mdash; Valence v.1.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Frontend" href="frontend.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Valence
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frontend.html">Frontend</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Backend</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-users.views">Users/views.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-block.views">Block/views.py</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Valence</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Backend</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/backend.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="backend">
+<span id="id1"></span><h1>Backend<a class="headerlink" href="#backend" title="Permalink to this headline">¶</a></h1>
+<p>This section of the documentation contains a description of the django views used to do anything with users, CAMS, and projects.</p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="module-users.views">
+<span id="users-views-py"></span><h2>Users/views.py<a class="headerlink" href="#module-users.views" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.clear_CAM">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">clear_CAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.clear_CAM" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Function to clear a CAM. This function simply deletes all the blocks and links in a current CAM. After this function,</dt><dd><p>the user’s page will be refreshed and they will have a blank CAM. The CAM name/id does not change.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.create_participant">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">create_participant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.create_participant" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function is called if a user tries to create a participant account
+The first thing is to create a participant account using the participant signup form. Then, we determine whether
+or not a user wishes to join a project.</p>
+<p>Functionality to create a user and assign them to a project.
+If the user wants to join a project and enters the correct password, then an account will be made with the following code:
+1. Call views_CAM/upload_cam_participant
+2. Call views_CAM/create_project_cam to create a CAM and associate it with a project
+3. views_CAM/upload_cam_participant continues with uploading the initial project CAM to the user’s CAM if one exists</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.create_random">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">create_random</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.create_random" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create user with randomized username and password</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.create_researcher">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">create_researcher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.create_researcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic functionality to create a researcher. This also creates a blank CAM for the researcher.This is only called if
+the user specifically signs up as a researcher.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.delete_user">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">delete_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.delete_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple view to delete user</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.export_CAM">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">export_CAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.export_CAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to export CAM data. We export the block and link information (i.e. what’s in the database) as individual csv
+files. The files are then zipped into a single file called username_CAM.zip.The file is then downloaded to the Downloads
+file via the Jquery/Ajax call that envokes this function.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.import_CAM">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">import_CAM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.import_CAM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functionality to import a CAM. The workflos is as follows:
+1 - Read in file from Jquery/Ajax call. This file is in the format of a zip file containing csvs for both the
+blocks and links. The input here is the output of the export_CAM function.
+2 - Clear any blocks/links from the current CAM in case any exist
+3 -</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.makepdf">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">makepdf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.makepdf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a PDF file from a string of HTML.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.settings">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.settings" title="Permalink to this definition">¶</a></dt>
+<dd><p>This view is the user settings view.
+Depending of the request, we want to either show the user’s settings
+or change them. In either case, we re-render the same page with
+the final settings.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="users.views.signup">
+<span class="sig-prename descclassname"><span class="pre">users.views.</span></span><span class="sig-name descname"><span class="pre">signup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#users.views.signup" title="Permalink to this definition">¶</a></dt>
+<dd><p>This view accept deals with the account creation form.
+In POST mode, it accepts the account creation form, validates it,
+create the user in the DB if the form is valid.
+In GET mode, it renders the form template for the account registration:
+‘registration/register.html’.</p>
+</dd></dl>
+
+</div>
+<hr class="docutils" />
+<div class="section" id="module-block.views">
+<span id="block-views-py"></span><h2>Block/views.py<a class="headerlink" href="#module-block.views" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="block.views.add_block">
+<span class="sig-prename descclassname"><span class="pre">block.views.</span></span><span class="sig-name descname"><span class="pre">add_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#block.views.add_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functionality to add a block to the databaase. This functionality is called from templates/Concept/concept_placement.html
+or templates/Concept/Initial_Placement. The Jquery/Ajax call passes all block information to django. The information is
+augmented to include any other relavent features (i.e. creator id). The block is then created in the database
+via the BlockForm form defined in block/forms.py. The complete block data is then passed back to the drawing canvas.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="block.views.delete_block">
+<span class="sig-prename descclassname"><span class="pre">block.views.</span></span><span class="sig-name descname"><span class="pre">delete_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#block.views.delete_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to delete a block from the current CAM. The id of the block to be deleted is passed through the Jquery/Ajax call
+defined in templates/Concept/delete_block.html. After deleting the block all links associated with the block are deleted
+from the database. The function returns a list of those links so that the Jquery/Ajax call can delete from them the
+drawing canvas.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="block.views.drag_function">
+<span class="sig-prename descclassname"><span class="pre">block.views.</span></span><span class="sig-name descname"><span class="pre">drag_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#block.views.drag_function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Functionality to update a block’s position after it is dragged on the canvas. This call is invoked via a Jquery/Ajax
+call defined in templates/Concepts/drag_function.html. The function takes the new positions of the block and updates the current blocks
+position. Then each link associated with the block is collected and their information is passed back to the drawing
+canvas in order to be updated via a Jquery call.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="block.views.trans_slide_to_shape">
+<span class="sig-prename descclassname"><span class="pre">block.views.</span></span><span class="sig-name descname"><span class="pre">trans_slide_to_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">slide_val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#block.views.trans_slide_to_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate between slider value and shape</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="block.views.update_block">
+<span class="sig-prename descclassname"><span class="pre">block.views.</span></span><span class="sig-name descname"><span class="pre">update_block</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#block.views.update_block" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to update the information associated with a block. This is called whenever a block is modified (with
+the exception of being moved/dragged – See below for that function). This can be invoked either from templates/Concept/concept_placement.html
+or templates/Concept/Initial_Placement or templates/Concept/resize_function.html. The block data is taken from the Jquery/Ajax
+call. The block is updated using the block.update() command defined in block/model.py. The block data is returned to
+the Jquery call to update the drawing canvas.</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="frontend.html" class="btn btn-neutral float-left" title="Frontend" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, Carter Rhea, Christian Thibeault.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

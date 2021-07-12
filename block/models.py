@@ -19,6 +19,7 @@ class Block(models.Model):
     comment = models.CharField(max_length=300, blank=True, default=' ', null=True)
     timestamp = models.TimeField(auto_now=False, auto_now_add=False, null=True, blank=True)
     modifiable = models.BooleanField(null=True, blank=True, default=True)
+    text_scale = models.FloatField(default=14, blank=True)
     CAM = models.ForeignKey(CAM, on_delete=models.CASCADE, default='')
 
     def __str__(self):
