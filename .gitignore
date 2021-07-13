@@ -7,8 +7,8 @@ dist
 *.egg-info
 .eggs
 __pycache__/
-static/*
-staticfiles/*
+#static/*
+#staticfiles/*
 .idea
 .env*
 */*.pyc
