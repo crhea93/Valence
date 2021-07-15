@@ -134,6 +134,8 @@
                         $('#success_block_'+data.num).append('<p class="card-text">'+$('#title_'+data.num).val()+'</p>');
                         $('.Selected').each(function(){
                             $(this).removeClass("Selected");
+                            $(this).removeClass("FirstSelected");
+                            $(this).removeClass("SecondSelected");
                             $(this).removeClass('Open')
                         });
                     },
