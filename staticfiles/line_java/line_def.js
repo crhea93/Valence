@@ -31,12 +31,13 @@ function createLine(line_num,name,point_array,drag_height,drag_width,start_block
   var transform = 'rotate('+angle+'rad)';
   let hidden_arrow = 'hidden'; let hidden_arrow2 = 'hidden';
   let line = '';
+
   if (~Add_class.indexOf("uni")){
       // Need to make sure the arrow (if there is one and only one) is pointing from the starting to the ending block
       const start_block = $('#block_'+start_block_id);
       const end_block = $('#block_'+end_block_id);
       // Check which block is to the left
-      if (parseFloat(start_block.css('left')) < parseFloat(end_block.css('left'))){
+      if (parseFloat(start_block.css('left')) > parseFloat(end_block.css('left'))){
             hidden_arrow = '';
             let line = '<div class="link ui-widget-content '+ ' ' +Add_class+
                 '" id="' + name + '"'+

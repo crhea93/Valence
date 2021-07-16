@@ -217,6 +217,7 @@ function arrow_changes(event, link__, slide_val){
 }
 
 $(document).on('mouseup', '#arrow_type', function (event) {
+    console.log('make arrow')
     event.stopPropagation();
     var target_el = $('.Selected-link').first();
     arrow_changes(event, target_el, $('#link_slider_choice').val());

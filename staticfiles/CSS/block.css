@@ -70,8 +70,8 @@
 .rectangle{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Neutral.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -79,8 +79,8 @@
 .rectangle.Selected{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Neutral_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;

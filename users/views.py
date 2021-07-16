@@ -198,6 +198,7 @@ def create_participant(request):
             # Set project
             print('checking project')
             project_name = request.POST.get('project_name')
+
             project_password = str(request.POST.get('project_password'))
             project = None
             # Check if they entered a project name
