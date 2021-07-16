@@ -1,9 +1,0 @@
-input[type=checkbox], input[type=radio] {
-    box-sizing: border-box;
-    padding: 0;
-    display: none;
-}
-
-.Ambivalence{
-    display: inline !important;
-}
