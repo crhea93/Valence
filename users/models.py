@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
     is_participant = models.BooleanField(default=False)
     active_cam_num = models.IntegerField(blank=True, null=True, default=1)
     active_project_num = models.IntegerField(blank=True, null=True, default=1)
-    avatar = models.ImageField(upload_to='../media/avatar/',blank=True, null=True, default='')
+    avatar = models.ImageField(upload_to='avatar/',blank=True, null=True, default='')
     random_user = models.BooleanField(default=False)
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Project(models.Model):
     description = models.CharField(max_length=1000, default='')
     num_part = models.IntegerField(default=1, blank=True, null=True)
     name_participants = models.CharField(max_length=10, blank=True, null=True, default='', unique=True)
-    Initial_CAM = models.FileField(upload_to='../media/InitialCAMs/', default='')  # models.CharField(max_length=50, default='', unique=False)
+    Initial_CAM = models.FileField(upload_to='InitialCAMs/', default='')  # models.CharField(max_length=50, default='', unique=False)
     password = models.CharField(max_length=20, default='', unique=False, blank=True, null=True)
 
     def __str__(self):
