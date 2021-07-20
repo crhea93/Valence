@@ -62,11 +62,13 @@ $(document).on("click", '.block',function(e){
     else if (line_sel_bool === true){
             target_el.addClass('Selected');
             if ($('.Selected').length === 1){
+                target_el.addClass('FirstSelected')
                 /*$('#No_Concept_Comment').attr('hidden', true);
                 $('#Comment_Info').attr('hidden', false);
                 $('#Comment_Box').text($('#block_'+ct_+' > i').attr('title'));*/
             }
             if ($('.Selected').length === 2) {
+                target_el.addClass('SecondSelected')
                 $('.Selected-link').each(function(){
                     $(this).removeClass('Selected-link')
                     $(this).children().each(function(){

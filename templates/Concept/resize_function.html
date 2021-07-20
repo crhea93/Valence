@@ -48,6 +48,8 @@
         }); //end ajax
         $('.Selected').each(function(){
             $(this).removeClass("Selected");
+            $(this).removeClass("FirstSelected");
+            $(this).removeClass("SecondSelected");
         });
         $('#Link_Info').attr('hidden',true);
         $('#No_Link_Info').attr('hidden',false)

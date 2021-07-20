@@ -2,8 +2,8 @@
 
     <script>
         function create_link()  {
-            var start_block_id = $('.Selected:first').attr("id").split("_")[1];
-            var end_block_id = $('.Selected:last').attr("id").split("_")[1];
+            var start_block_id = $('.FirstSelected').attr("id").split("_")[1]; //$('.Selected:first').attr("id").split("_")[1];
+            var end_block_id = $('.SecondSelected').attr("id").split("_")[1];
             if (start_block_id === end_block_id){
                 return false
             }
@@ -55,6 +55,12 @@
                     //unselect blocks
                     $('.Selected').each(function(){
                         $(this).removeClass("Selected");
+                    });
+                    $('.FirstSelected').each(function(){
+                        $(this).removeClass("FirstSelected");
+                    });
+                    $('.SecondSelected').each(function(){
+                        $(this).removeClass("SecondSelected");
                     });
                     // Select and Open Link
                     const link_ = $('#'+data.id);
