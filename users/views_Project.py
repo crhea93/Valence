@@ -106,7 +106,7 @@ def join_project_link(request):
     View to create a participant and assign them a project. This is used when a participant is given a signup link. The information
     for the user and project is all pulled directly from the url in a GET.
 
-    The mecahnism is identical to the create_participant iew above.
+    The mechanism is identical to the create_participant iew above.
 
     Functionality to create a user and assign them to a project.
     If the user wants to join a project and enters the correct password, then an account will be made with the following code:

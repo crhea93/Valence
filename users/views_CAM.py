@@ -232,7 +232,9 @@ def clone_CAM(request):
     user_ = User.objects.get(username=request.user.username)
     cam_ = CAM.objects.get(id=request.POST.get('cam_id'))  # Get current CAM
     blocks_ = cam_.block_set.all()
+    print(blocks_)
     links_ = cam_.link_set.all()
+    print(links_)
     link_dict = {}
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value

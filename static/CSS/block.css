@@ -90,8 +90,8 @@
 .rounded-circle-strong{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive_Strong.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -99,8 +99,8 @@
 .rounded-circle-strong.Selected{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive_Strong_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -109,8 +109,8 @@
 .rounded-circle-normal{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -118,8 +118,8 @@
 .rounded-circle-normal.Selected{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -128,8 +128,8 @@
 .rounded-circle-weak{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive_Weak.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -137,8 +137,8 @@
 .rounded-circle-weak.Selected{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Positive_Weak_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -149,8 +149,8 @@
 .hexagonAmb {
 z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Ambivalent.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -158,8 +158,8 @@ z-index: 2;
 .hexagonAmb.Selected {
 z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Ambivalent_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -168,8 +168,8 @@ z-index: 2;
 .hexagonNegStrong {
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon_Strong.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -177,8 +177,8 @@ z-index: 2;
 .hexagonNegStrong.Selected {
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon_Strong_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -187,8 +187,8 @@ z-index: 2;
 .hexagonNeg {
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -196,8 +196,8 @@ z-index: 2;
 .hexagonNeg.Selected {
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -206,8 +206,8 @@ z-index: 2;
 .hexagonNegWeak {
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon_Weak.svg');
   background-size: 100% 100%;
   vertical-align: center;
@@ -215,8 +215,8 @@ z-index: 2;
 .hexagonNegWeak.Selected{
   z-index: 2;
   position: relative;
-  width: 160px;
-  height: 120px;
+  width: 140px;
+  height: 75px;
   background: url('../concept_svgs/Hexagon_Weak_Selected.svg');
   background-size: 100% 100%;
   vertical-align: center;

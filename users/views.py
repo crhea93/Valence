@@ -38,7 +38,7 @@ def index(request):
     if request.method == 'POST':
         print('nope!')
     else:  # request.method = "GET"
-        user = request.user
+        user = User.objects.get(username=request.user.username)
         if user.is_authenticated:
             current_cam = CAM.objects.get(id=user.active_cam_num)
             blocks = current_cam.block_set.all()
@@ -202,7 +202,7 @@ def create_participant(request):
             project_password = str(request.POST.get('project_password'))
             project = None
             # Check if they entered a project name
-            if len(project_name) > 0:
+            if project_name is not None:
                 # If yes then we need to make sure the project exists
                 project_names = [project.name for project in Project.objects.all()]
                 if project_name not in project_names:
@@ -346,8 +346,8 @@ def Image_CAM(request):
     image_data = base64.b64decode(image_data)
     user = CustomUser.objects.get(username=request.user.username)
     file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.pdf'
-    pdf = makepdf(image_data)
-    Path('outfile.pdf').write_bytes(pdf)
+    #pdf = makepdf(image_data)
+    #Path('outfile.pdf').write_bytes(pdf)
     #print(image_data)
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
     image_data = dataUrlPattern.match(image_data).group(2)
