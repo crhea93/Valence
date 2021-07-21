@@ -16,16 +16,16 @@
         </div>
 
 
-      <div class="form-row">
-          <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">
-              <label for="inputEmail">{% trans "Email Address" %}:</label>
-              {{ form.email|add_class:'form-control' }}
-              <span class="text-danger">{{ form.email.errors.0}}</span>
-              <span class="text-muted text-small">This is not required, but it will facilitate password resets if necessary.</span>
-          </div>
-      </div>
+{#      <div class="form-row">#}
+{#          <div class="form-group col-md-12" data-toggle="tooltip" data-placement="right">#}
+{#              <label for="inputEmail">{% trans "Email Address" %}:</label>#}
+{#              {{ form.email|add_class:'form-control' }}#}
+{#              <span class="text-danger">{{ form.email.errors.0}}</span>#}
+{#              <span class="text-muted text-small">This is not required, but it will facilitate password resets if necessary.</span>#}
+{#          </div>#}
+{#      </div>#}
 
-        <div class="form-row mt-5">
+        <div class="form-row">
             <div class="form-group col-md-6" data-toggle="tooltip" data-placement="left" data-html="true">
                 <label for="inputPassword">{% trans 'User Password' %}*:</label>
                     {{ form.password1|add_class:'form-control' }}

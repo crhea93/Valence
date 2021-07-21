@@ -269,6 +269,8 @@
                 success_blk.append('<p>'+$('#title_'+data.num).val()+'</p>');
                 $(".Selected").each(function(){
                      $(this).removeClass("Selected");
+                     $(this).removeClass("FirstSelected");
+                     $(this).removeClass("SecondSelected");
                  });
             },
             error: function () {

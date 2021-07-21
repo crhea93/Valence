@@ -30,7 +30,7 @@
 
 
 
-                <li class="nav-item has-treeview">
+{% comment %}                <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-file-alt"></i>
                         <p>
@@ -52,14 +52,24 @@
                         </li>
                         <li class="nav-item ml-4">
                             <a href="{% url 'FAQ' %}" class="nav-link">
-                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                //<i class="far fa-circle nav-icon"></i>
                                 <p>FAQ</p>
                             </a>
                         </li>
 
                     </ul>
+                </li>{% endcomment %}
+
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{% url 'contributors' %}" class="nav-link">
+                        <i class="nav-icon fas fa-question"></i>
+                        <p>
+                            Contributors
+                        </p>
+                    </a>
                 </li>
-                <li class="nav-item has-treeview">
+
+              {% comment %}  <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-question"></i>
                         <p>
@@ -73,25 +83,25 @@
                         </li>
                     <li class="nav-item ml-4">
                             <a href="{% url 'contributors' %}" class="nav-link">
-                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Contributors</p>
                             </a>
                         </li>
                         <li class="nav-item ml-4">
                             <a href="https://www.termsfeed.com/live/e029a935-a622-463a-92b1-893869e15dd0" target="_blank" class="nav-link">
-                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Privacy</p>
                             </a>
                         </li>
                         <li class="nav-item ml-4">
                             <a href="" class="nav-link">
-                                {% comment %}<i class="far fa-circle nav-icon"></i>{% endcomment %}
+                                <i class="far fa-circle nav-icon"></i>
                                 <p>Term of Use</p>
                             </a>
                         </li>
                     </ul>
                 </li>
-
+{% endcomment %}
                 {% if user.project_set.all|length > 0 %}
                     <li class="nav-item has-treeview menu-open">
                         <a href="#" class="nav-link">
@@ -117,7 +127,7 @@
 
 
 
-            <li class="nav-item has-treeview menu-open">
+{% comment %}            <li class="nav-item has-treeview menu-open">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-draw-polygon"></i>
                         <p>
@@ -134,7 +144,7 @@
                             </li>
                         {% endfor %}
                     </ul>
-                </li>
+                </li>{% endcomment %}
 
             </ul>
         </nav>

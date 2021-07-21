@@ -38,6 +38,8 @@ $(document).on("mousedown", "#CAM_items",function(event) {
               concept_ct = place_ret[0];X = place_ret[1]; Y = place_ret[2];
               $('.Selected').each(function(){
                     $(this).removeClass("Selected");
+                    $(this).removeClass("FirstSelected");
+                    $(this).removeClass("SecondSelected");
                 });
               $("#block_"+concept_ct).addClass('Selected Open');
           }
