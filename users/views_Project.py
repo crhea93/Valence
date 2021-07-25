@@ -129,12 +129,14 @@ def join_project_link(request):
     }
     print(request.method)
     if request.method == 'GET':
-        form = CustomUserCreationForm(user_info)
+        form = ParticipantSignupForm(user_info)
+        print(form)
         if form.is_valid():
             # Save user
-            user = form.save(commit=False)
-            user.is_active = False
-            user.save()
+            #user = form.save()
+            #user.is_active = False
+            #user.save()
+            form.save()
             user = authenticate(username=username, password=pword1)
             login(request, user)
             user = CustomUser.objects.get(username=username)

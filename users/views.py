@@ -198,11 +198,11 @@ def create_participant(request):
             # Set project
             print('checking project')
             project_name = request.POST.get('project_name')
-
+            print(project_name)
             project_password = str(request.POST.get('project_password'))
             project = None
             # Check if they entered a project name
-            if project_name is not None:
+            if project_name != '':
                 # If yes then we need to make sure the project exists
                 project_names = [project.name for project in Project.objects.all()]
                 if project_name not in project_names:
@@ -349,12 +349,12 @@ def Image_CAM(request):
     #pdf = makepdf(image_data)
     #Path('outfile.pdf').write_bytes(pdf)
     #print(image_data)
-    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-    image_data = dataUrlPattern.match(image_data).group(2)
-    image_data = image_data.encode()
-    image_data = base64.b64decode(image_data)
-    with open(file_name, 'wb') as f:
-        f.write(image_data)
+    #dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    #image_data = dataUrlPattern.match(image_data).group(2)
+    #image_data = image_data.encode()
+    #image_data = base64.b64decode(image_data)
+    #with open(file_name, 'wb') as f:
+    #    f.write(image_data)
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
