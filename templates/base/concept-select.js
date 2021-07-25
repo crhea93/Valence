@@ -75,7 +75,22 @@ $(document).on("click", '.block',function(e){
                         $(this).removeClass('Selected-arrow')
                     })
                 });
-                create_link();
+
+                // Identify first and last block selected
+                var start_block_id = $('.FirstSelected').attr("id").split("_")[1];
+                var end_block_id = $('.SecondSelected').attr("id").split("_")[1];
+
+                // Create link only if there's no other link in that direction
+                if ($('div[data-start_id|='+start_block_id+']div[data-end_id|='+end_block_id+'],div[data-start_id|='+start_block_id+']div[data-end_id|='+end_block_id+']').length < 1) {
+                    create_link();
+                    console.log('Created the link: start:'+start_block_id+', end:'+end_block_id)
+                }
+                else {
+                    console.log('Did not create the link, this concept combination already has a link start:'+start_block_id+', end:'+end_block_id)
+                }
+            // Removing these 'order of selction' classes (used as tags)
+            $('div').removeClass("FirstSelected");
+            $('div').removeClass("SecondSelected");
             }
         /*}*/
     } // End Concept Selection for Lines
