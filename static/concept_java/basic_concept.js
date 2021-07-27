@@ -7,7 +7,7 @@ function def_concept(x,y,ct,note_hidden, note_value){
     else {
         text_mtop = 0.5
     }
-    def_concept_ret = '<div class="block card resizable shadow-none ui-widget-content draggable rectangle align-middle text-center mb-0"'+
+    def_concept_ret = '<div class="block card shadow-none ui-widget-content draggable rectangle align-middle text-center mb-0"'+
                      'id="block_'+ct+'"'+
                     //'title="'+ct+'"'+
                     'data-modifiable="True"'+
