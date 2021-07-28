@@ -126,13 +126,15 @@ class ProjectCAMCreationForm(forms.ModelForm):
         fields = {
             'name',
             'user',
-            'project'
+            'project',
+            'description'
         }
     def save(self, commit=True):
         cam = super(forms.ModelForm, self).save(commit=False)
         cam.name = self.cleaned_data["name"]
         cam.user = self.cleaned_data["user"]
         cam.project = self.cleaned_data["project"]
+        cam.description = self.cleaned_data["description"]
         if commit:
             cam.save()
         return cam

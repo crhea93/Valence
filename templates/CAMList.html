@@ -33,12 +33,12 @@
                                     </h4>
 
                                     <div class="float-right DeleteCAM mr-1" id="camDel_{{ cam.id }}">
-                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
+                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"  title="{% trans 'Delete CAM' %}"></i>
                                     </div>
-                                    <div type="button" class="float-right mr-1" data-toggle="modal" data-target="#camNewName_{{ cam.id }}">
+                                    <div type="button" class="float-right mr-1" data-toggle="modal" data-target="#camNewName_{{ cam.id }}"  title="{% trans 'Edit CAM' %}">
                                         <i class="far fa-edit"></i>
                                     </div>
-				                    <div class="float-right CloneCAM mr-1" id="Clone_{{ cam.id }}">
+				                    <div class="float-right CloneCAM mr-1" id="Clone_{{ cam.id }}"  title="{% trans 'Duplicate CAM' %}">
                                         <i class="fas fa-copy text-dark mr-auto" style="cursor:pointer"></i>
                                     </div>
                                     <div class="card-tools">
@@ -53,11 +53,19 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <div class="input-group input-group-sm mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text" id="inputGroup-sizing-sm">New Name</span>
+                                                        <div class="form mb-3">
+                                                            <div class="form mb-2">
+                                                                <div class="form-group">
+                                                                    <label for="NewTitle{{ cam.id }}">{% trans 'Name' %}</label>
+                                                                    <input type="text" class="form-control" id="NewTitle{{ cam.id }}" value="{{ cam.name }}">
+                                                                </div>
                                                             </div>
-                                                            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" id="NewTitle{{ cam.id }}">
+                                                        </div>
+                                                        <div class="form mb-3">
+                                                            <div class="form-group">
+                                                                <label for="Description_form_{{ cam.id }}">{% trans 'Description' %}</label>
+                                                                <textarea class="form-control rounded-0" id="Description_form_{{ cam.id }}" rows="10">{{ cam.description }}</textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -183,7 +191,8 @@
                     data: {
                         'csrfmiddlewaretoken': '{{ csrf_token }}',
                         'cam_id': cam_id,
-                        'new_name': $('#NewTitle'+cam_id).val()
+                        'new_name': $('#NewTitle'+cam_id).val(),
+                        'description': $('#Description_form_'+cam_id).val()
                     },
                     success: function(data){
                         window.location.reload()

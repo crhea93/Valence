@@ -70,6 +70,7 @@ class CAM(models.Model):
         default=''
     )
     creation_date = models.CharField(_("Date"), max_length=100, default=datetime.datetime.now())  # Create time log for creation of CAM
+    description = models.CharField(max_length=500, blank=True, default=' ', null=True)
 
     def __str__(self):
         return f"Name: {self.name}"
