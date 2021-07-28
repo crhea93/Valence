@@ -158,8 +158,10 @@ def update_cam_name(request):
     # TODO: TEST
     curr_cam = CAM.objects.get(id=request.POST.get('cam_id'))
     new_name = request.POST.get('new_name')
+    new_description = request.POST.get('description')
     print(new_name)
     curr_cam.name = new_name
+    curr_cam.description = new_description
     curr_cam.save()
     print(curr_cam)
     return HttpResponse('Name Updated')
