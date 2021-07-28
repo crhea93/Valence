@@ -127,7 +127,7 @@
                                 <td>{{ cam.link_set.all|length }}</td>
                                 <td>{{ cam.creation_date }}</td>
                                 <td><div>
-                                        <div onclick="delete_user({{ cam.user.id }})">
+                                        <div onclick="delete_user_cam({{ cam.id }})">
                                         <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
                                         </div>
                                         <a href="{% url 'download_cam' %}?pk={{ cam.id }}">
@@ -197,15 +197,15 @@
         });
     });
     // DELETE USER CALL
-    function delete_user(user_id) {
+    function delete_user_cam(cam_id) {
         $('html').addClass("wait");
         $.ajax({
             async:false,
-            url: "{% url 'delete_user' %}",
+            url: "{% url 'delete_user_cam' %}",
             type: "POST",
             data: {
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'user_id': user_id,
+                'cam_id': cam_id,
             },
             complete: function () {
                 $('html').removeClass("wait");

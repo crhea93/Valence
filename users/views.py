@@ -587,17 +587,17 @@ def settings(request):
     return render(request, 'settings_account.html', content)
 
 
-def delete_user(request):
+def delete_user_cam(request):
     """
     Simple view to delete user
     """
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
+        cam_id = request.POST.get('cam_id')
     else:
-        user_id = request.GET.get('user_id')
-    user = User.objects.get(id=user_id)
-    user.delete()
-    return HttpResponse('User Deleted')
+        cam_id = request.GET.get('cam_id')
+    cam = CAM.objects.get(id=cam_id)
+    cam.delete()
+    return HttpResponse('CAM Deleted')
 
 
 def create_random(request):
