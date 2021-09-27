@@ -175,7 +175,7 @@
                         $(this).removeClass('Open')
                     });
                     $('#block_form_'+data.num).attr('hidden',true);
-                    $('#success_block_'+data.num).append('<p class="card-text">'+$('#title_'+data.num).val()+'</p>');
+                    $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
                     $("#link_blocks").load(location.href + " #link_blocks");
                     $("#link_blocks_del").load(location.href + " #link_blocks_del");
                     var block_ = $('#block_' + data.num);
