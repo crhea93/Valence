@@ -28,7 +28,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
 
     }
     //Create concept already in user's bank
-    var def_created_concept = '<div class="block shadow-none card draggable ui-widget-content ' + class_shape + ' text-center align-middle mb-0"' +
+    var def_created_concept = '<div class="block shadow-none card resizable draggable ui-widget-content ' + class_shape + ' text-center align-middle mb-0"' +
         'id="block_' + num + '"' +
         'style="' +
         'left:' + x + 'px;' +
