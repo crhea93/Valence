@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from .forms import ProjectCreationForm
 from .create_users import create_users
 from django.http import HttpResponse, JsonResponse
-from .models import Project
+from .models import Project, CAM
 from .resources import BlockResource, LinkResource
 from zipfile import ZipFile
 from io import BytesIO
-from .views_CAM import upload_cam_participant, create_individual_cam
+from .views_CAM import upload_cam_participant, create_individual_cam, clone_CAM_call
 from django.contrib.auth import login, authenticate
 from .forms import ParticipantSignupForm
 from users.forms import CustomUserCreationForm
@@ -106,7 +106,7 @@ def join_project_link(request):
     View to create a participant and assign them a project. This is used when a participant is given a signup link. The information
     for the user and project is all pulled directly from the url in a GET.
 
-    The mechanism is identical to the create_participant iew above.
+    The mechanism is identical to the create_participant view above.
 
     Functionality to create a user and assign them to a project.
     If the user wants to join a project and enters the correct password, then an account will be made with the following code:
@@ -114,6 +114,8 @@ def join_project_link(request):
     2. Call views_CAM/create_project_cam to create a CAM and associate it with a project
     3. views_CAM/upload_cam_participant continues with uploading the initial project CAM to the user's CAM if one exists
 
+    We have added the functionality to simply send a user directly to their CAM (reuse), duplicate their CAM and then
+    direct them to the duplicate (duplicate), and create a new CAM (new)
 
     Example link: http://127.0.0.1:8000/users/join_project_link?username=cmeow&pword=meow&proj_name=Carter2&proj_pword=Carter
     """
@@ -127,34 +129,91 @@ def join_project_link(request):
     user_info = {
         "username": username, 'password1': pword1, 'password2': pword2, 'language_preference': lang
     }
-    print(request.method)
+    # Determine what kind of action to do
+    cam_op = ''  # Initialize
+    try:
+        cam_op = request.GET.get('cam_op')  # Either new, reuse, or duplicate
+    except:
+        cam_op = 'new'
     if request.method == 'GET':
-        form = ParticipantSignupForm(user_info)
-        print(form)
-        if form.is_valid():
-            # Save user
-            #user = form.save()
-            #user.is_active = False
-            #user.save()
-            form.save()
+        if cam_op == 'new':  # Now we have two cases: 1 - user doesn't exist or 2 - user already exists
+            if CustomUser.objects.filter(username=username):  # Case 2: User already exists
+                # Step 1: Login as user
+                user = authenticate(username=username, password=pword1)
+                login(request, user)
+                user = CustomUser.objects.get(username=username)
+                # Step 2: Assign User to Project
+                project_name = request.GET.get('proj_name')
+                project = Project.objects.get(name=project_name)
+                if request.GET.get('proj_pword') == project.password:
+                    user.active_project_num = project.id
+                    user.save()
+                    upload_cam_participant(user, project)
+                    return redirect('index')
+                else:  # Password incorrect  (SHOULD NOT HAPPEN)
+                    return JsonResponse(
+                        data={'error_message': "Please enter the correct password!", 'message': 'Failure'})
+            else:  # Case 1: User does not exist
+                form = ParticipantSignupForm(user_info)
+                if form.is_valid():
+                    form.save()
+                    user = authenticate(username=username, password=pword1)
+                    login(request, user)
+                    user = CustomUser.objects.get(username=username)
+                    # Step 2: Assign User to Project
+                    project_name = request.GET.get('proj_name')
+                    project = Project.objects.get(name=project_name)
+                    if request.GET.get('proj_pword') == project.password:
+                        user.active_project_num = project.id
+                        user.save()
+                        upload_cam_participant(user, project)
+                        return redirect('index')
+                    else:  # Password incorrect  (SHOULD NOT HAPPEN)
+                        return JsonResponse(data={'error_message': "Please enter the correct password!", 'message':'Failure'})
+                else:
+                    return redirect('login')
+        elif cam_op == 'reuse':  # Simply log user in and redirect to CAM
+            # TODO: Test if CAM doesn't exist
+            cam_id = request.GET.get('cam_id')  # Get CAM id
+            # Check that CAM exists
+            try:
+                cam = CAM.objects.get(pk=cam_id)
+            except:
+                return JsonResponse(data={'error_message': "This CAM doesn't exist! Please contact the leader of the study.", 'message': 'Failure'})
+            # Step 1: Login as user
             user = authenticate(username=username, password=pword1)
             login(request, user)
             user = CustomUser.objects.get(username=username)
-            # Step 2: Assign User to Project
-            project_name = request.GET.get('proj_name')
-            project = Project.objects.get(name=project_name)
-            print(user)
-            if request.GET.get('proj_pword') == project.password:
-                #user.project = project
-                user.active_project_num = project.id
-                user.save()
-                upload_cam_participant(user, project)
-                return redirect('index')
-            else:  # Password incorrect  (SHOULD NOT HAPPEN)
-                return JsonResponse(data={'error_message': "Please enter the correct password!", 'message':'Failure'})
-        else:
-            print('YOOOO')
-            return redirect('login')
+            # Step 2: Set CAM id to the correct CAM
+            user.active_cam_num = cam_id
+            user.save()
+            # Step 3: Redirect user to CAM
+            return redirect('index')
+        elif cam_op == 'duplicate':  # Create duplicate CAM and redirect user to it
+            cam_id = request.GET.get('cam_id')  # Get CAM id
+            # Check that CAM exists
+            try:
+                cam = CAM.objects.get(pk=cam_id)
+            except:
+                return JsonResponse(
+                    data={'error_message': "This CAM doesn't exist! Please contact the leader of the study.",
+                          'message': 'Failure'})
+            # Step 1: Sign in as user
+            user = authenticate(username=username, password=pword1)
+            login(request, user)
+            user = CustomUser.objects.get(username=username)
+            # Step 2: Clone CAM
+            clone_CAM_call(user, cam_id)
+            clone = CAM.objects.get(name=cam.name+'_clone')  # Get clone
+            # Step 3: Set user's current cam to the clone
+            user.active_cam_num = clone.id
+            user.save()
+            # Step 4: Redirect user to cloned CAM
+            return redirect('index')
+
+
+
+
     #except:  # Project does not exist
         #project_names = [project.name for project in Project.objects.all()]
         #return JsonResponse(data={

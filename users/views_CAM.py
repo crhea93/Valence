@@ -62,7 +62,6 @@ def upload_cam_participant(participant, project):
     Assign CAM to participant when they make a linked account
     """
     cam = create_project_cam(participant, project.id)
-    #print('created project cam')
     try:
         # If we are given an initial import file add the concepts/links
         if project.Initial_CAM:
@@ -130,6 +129,7 @@ def upload_cam_participant(participant, project):
     except:
         pass
     participant.save()
+
 
 def load_cam(request):
     """
@@ -234,15 +234,12 @@ def clone_CAM(request):
     user_ = User.objects.get(username=request.user.username)
     cam_ = CAM.objects.get(id=request.POST.get('cam_id'))  # Get current CAM
     blocks_ = cam_.block_set.all()
-    print(blocks_)
     links_ = cam_.link_set.all()
-    print(links_)
     link_dict = {}
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
     num = len(user_.cam_set.all()) + 1
     cam_.name = cam_.name + '_clone'
-    print(cam_.name)
     cam_.save()  # Save new CAM
     print('Making new CAM')
     # Create dictionary for links  {link: [start_concept_new, end_concept_new]}
@@ -252,20 +249,16 @@ def clone_CAM(request):
     for block_ in blocks_:
         # Check if block is the starting block for some link
         old_id = block_.pk
-        print('old '+ str(old_id))
         block_.pk = None
         block_.creator = user_
         block_.CAM = cam_
         block_.save()
-        print('new '+str(block_.pk))
         for link_id, link_blocks in link_dict.items():
             if old_id in link_blocks:  # need to update
-                print(link_blocks)
                 for ct, blk in enumerate(link_blocks):
                     if old_id == blk:
                         link_blocks[ct] = block_.pk
                 #link_blocks[link_blocks == old_id] = block_.pk
-                print(link_blocks)
                 # Now update dictionary
                 link_dict[link_id] = link_blocks
     for link_ in links_:
@@ -277,7 +270,52 @@ def clone_CAM(request):
         link_.ending_block = Block.objects.get(id=link_dict[old_id][1])
         link_.save()
         # Now update link starting and ending IDs with the new block ids
-        print(link_.starting_block.id, link_.ending_block.id)
 
-    print(cam_.name)
+    return JsonResponse({'message':'Success'})
+
+def clone_CAM_call(user, cam_id):
+    """
+    Clone a CAM for a user. This is called by join_project_link in views_Project.py
+    TODO: TEST
+    """
+    user_ = user
+    cam_ = CAM.objects.get(id=cam_id)  # Get current CAM
+    blocks_ = cam_.block_set.all()
+    links_ = cam_.link_set.all()
+    link_dict = {}
+    cam_.pk = None  # Give new primary key
+    # Get current number of cams for user and add one to value
+    num = len(user_.cam_set.all()) + 1
+    cam_.name = cam_.name + '_clone'
+    cam_.save()  # Save new CAM
+    print('Making new CAM')
+    # Create dictionary for links  {link: [start_concept_new, end_concept_new]}
+    for link_ in links_:
+        link_dict[link_.pk] = [link_.starting_block.id, link_.ending_block.id]
+    # Add blocks and links
+    for block_ in blocks_:
+        # Check if block is the starting block for some link
+        old_id = block_.pk
+        block_.pk = None
+        block_.creator = user_
+        block_.CAM = cam_
+        block_.save()
+        for link_id, link_blocks in link_dict.items():
+            if old_id in link_blocks:  # need to update
+                for ct, blk in enumerate(link_blocks):
+                    if old_id == blk:
+                        link_blocks[ct] = block_.pk
+                #link_blocks[link_blocks == old_id] = block_.pk
+                # Now update dictionary
+                link_dict[link_id] = link_blocks
+    for link_ in links_:
+        old_id = link_.pk
+        link_.pk = None
+        link_.creator = user_
+        link_.CAM = cam_
+        link_.starting_block = Block.objects.get(id=link_dict[old_id][0])
+        link_.ending_block = Block.objects.get(id=link_dict[old_id][1])
+        link_.save()
+        # Now update link starting and ending IDs with the new block ids
+
     return JsonResponse({'message':'Success'})

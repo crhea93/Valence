@@ -2,6 +2,7 @@ from django.test import TestCase, override_settings
 from users.models import CustomUser, Researcher
 from django.urls import reverse
 from .models import Project
+import requests
 # Create your tests here.
 
 
@@ -10,7 +11,7 @@ class UserTestCase(TestCase):
     def setUp(self):
         # Set up a user
         self.user = CustomUser.objects.create_user(username='testuser', email='test@test.test', password='12345')
-        self.user2 = CustomUser.objects.create_user(username='testuse2r', email='test2@test.test', password='12345')
+        self.user2 = CustomUser.objects.create_user(username='testuser2', email='test2@test.test', password='12345')
         self.researcher = Researcher.objects.create(user=self.user, affiliation='UdeM')
         login = self.client.login(username='testuser', password='12345')
         # Create project belonging to user 2
@@ -70,5 +71,82 @@ class UserTestCase(TestCase):
         self.assertTrue(len(projects), 1)
         self.assertTrue(CustomUser.objects.get(username='T1'), 'T1')
 
+    def test_project_link_test_1(self):
+        """
+        Test that a user is created with a new cam when using the project login link with cam_op=new
+        """
+        cam_op = 'new'  # Creating new CAM for a new user
+        # Create user called cmeow_test with the password meow_test for the project TestProject with the password TestProjectPassword
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op='+cam_op
+        response = self.client.get(url)
+        # Check that user is created
+        new_part = CustomUser.objects.get(username='cmeow_test')
+        self.assertTrue(new_part)
+        new_part.refresh_from_db()
+        # Check that user has a CAM
+        self.assertEqual(len(new_part.cam_set.all()), 1)
 
-    #def test_user_creation_aff_init(self):
+    def test_project_link_test_2(self):
+        """
+        Test that a user which is already created gets a new cam when using the project login link with cam_op=new
+
+        We first create a new user and then we create a second CAM for him
+        """
+        cam_op = 'new'  # Creating new CAM for a new user
+        # Create user called cmeow_test with the password meow_test for the project TestProject with the password TestProjectPassword
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op='+cam_op
+        response = self.client.get(url)
+        # Now create new CAM for user
+        response = self.client.get(url)
+        participant = CustomUser.objects.get(username='cmeow_test')
+        participant.refresh_from_db()
+        # Check that user has a CAM
+        self.assertEqual(len(participant.cam_set.all()), 2)
+
+    def test_project_link_test_3(self):
+        """
+        Test that a user which is already created gets a new cam when using the project login link with cam_op=reuse
+
+        We first create a new user and then we create a second CAM for him
+        """
+        cam_op = 'new'  # Creating new CAM for a new user
+        # Create user called cmeow_test with the password meow_test for the project TestProject with the password TestProjectPassword
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op=' + cam_op
+        response = self.client.get(url)
+        participant = CustomUser.objects.get(username='cmeow_test')
+        # Now reuse CAM for user
+        cam_op = 'reuse'
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op=%s&cam_id=%s'\
+              % (cam_op, participant.active_cam_num)
+        response = self.client.get(url)
+        self.assertEqual(response.url, '/users/index/')
+        participant.refresh_from_db()
+        # Check that user has only one CAM
+        self.assertEqual(len(participant.cam_set.all()), 1)
+
+    def test_project_link_test_4(self):
+        """
+        Test that a user which is already created gets a duplicate cam when using the project login link with cam_op=duplicate
+
+        We first create a new user and then we clone the CAM
+        """
+        cam_op = 'new'  # Creating new CAM for a new user
+        # Create user called cmeow_test with the password meow_test for the project TestProject with the password TestProjectPassword
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op=' + cam_op
+        response = self.client.get(url)
+        participant = CustomUser.objects.get(username='cmeow_test')
+        # Now duplicate CAM for user
+        cam_op = 'duplicate'
+        url = '/users/join_project_link?username=cmeow_test&pword=meow_test&' \
+              'proj_name=TestProject&proj_pword=TestProjectPassword&cam_op=%s&cam_id=%s'\
+              % (cam_op, participant.active_cam_num)
+        response = self.client.get(url)
+        self.assertEqual(response.url, '/users/index/')
+        participant.refresh_from_db()
+        # Check that user has only one CAM
+        self.assertEqual(len(participant.cam_set.all()), 2)
