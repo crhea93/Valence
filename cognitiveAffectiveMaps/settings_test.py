@@ -74,7 +74,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 LANGUAGES = (
     ('en', _('English')),
-    ('fr', _('French')),
+    ('de', _('German')),
 )
 
 LANGUAGE_CODE = 'en-us'
