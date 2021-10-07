@@ -10,7 +10,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import dj_database_url
 import django_heroku
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
 load_dotenv('.env-local')
 
@@ -105,15 +105,18 @@ SESSION_COOKIE_HTTPONLY = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
-LANGUAGES = (
+LANGUAGES = [
     ('en', _('English')),
     ('de', _('German')),
-)
+]
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'de'
 TIME_ZONE = 'UTC'
 USE_I18N = True
-LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
+SITE_ROOT = os.path.dirname(os.path.realpath(__name__))
+LOCALE_PATHS = ( os.path.join(SITE_ROOT, 'locale'), )
+#LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
+print(LOCALE_PATHS)
 USE_L10N = False
 USE_TZ = True
 

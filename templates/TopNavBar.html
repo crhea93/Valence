@@ -70,26 +70,9 @@
 </nav>
 <script>
     $(document).ready(function () {
+
         $('.german_lang').click(function () {
-            $.ajax({
-                async: false,
-                method: "POST",
-                url: '{% url "language_change" %}',
-                data: {
-                    'language': 'de',
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                dataType: 'json',
-                success: function (data) {
-                    print("Language Changed to German");
-                },
-                error: function (data) {
-                    console.log('fail muffins')
-                }
-            });
-            location.reload(true);
-        });
-        $('.english_lang').click(function () {
+            console.log('Changing to German')
             $.ajax({
                 async: false,
                 method: "POST",
@@ -100,11 +83,34 @@
                 },
                 dataType: 'json',
                 success: function (data) {
+                    consolge.log("Language Changed to German");
+                },
+                error: function (data) {
+                    console.log('fail muffins')
+                }
+            });
+            //location.reload(true);
+        });
+        $('.english_lang').click(function () {
+            console.log('Changing to English')
+            $.ajax({
+                async: false,
+                method: "POST",
+                url: '{% url "language_change" %}',
+                data: {
+                    'language': 'de',
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (data) {
                     console.log("Language Changed to English");
                 },
+                error: function (data) {
+                    console.log('fail muffins')
+                }
 
             });
-            location.reload(true);
+           // location.reload(true);
         })
     })
 </script>

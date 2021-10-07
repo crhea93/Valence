@@ -34,11 +34,16 @@ import pdfkit
 
 @login_required(login_url='loginpage')
 def index(request):
+
     print(datetime.datetime.now())
     if request.method == 'POST':
         print('nope!')
     else:  # request.method = "GET"
         user = User.objects.get(username=request.user.username)
+        translation.activate(user.language_preference)
+        request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
+        response = HttpResponse(...)
+        response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user.language_preference)
         if user.is_authenticated:
             current_cam = CAM.objects.get(id=user.active_cam_num)
             blocks = current_cam.block_set.all()
@@ -527,19 +532,26 @@ def send_cam(request):
 def language_change(request):
     if request.method == 'POST':
         # Change current language
-        user_language = request.POST.get('language')
+        old_language = request.POST.get('language')
+        print(old_language)
+        if old_language == 'de':
+            user_language = 'en'
+        else:
+            user_language = 'de'
         translation.activate(user_language)
         request.session[translation.LANGUAGE_SESSION_KEY] = user_language
         # Update users language preference
-        print(user_language)
         if str(request.user) != 'AnonymousUser':
-            user_ = request.user
-            user_.language_preference = user_language
-            user_.save()
+            print(request.user)
+            request.user = request.user
+            request.user.language_preference = user_language
+            request.user.save()
         response = HttpResponse(...)
         response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user_language)
-        print('Successful')
-        return HttpResponse('Language successfully changed')
+        message = _('Your language preferences have been updated!')
+        print(message)
+        print(request.user.language_preference)
+        return JsonResponse({'message': message})
     else:
         return HttpResponse('Language successfully changed')
 
