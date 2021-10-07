@@ -126,9 +126,9 @@
                                       {% csrf_token %}
                                       <div class="row">
                                           <div class="form-check">
-                                              <span class="text-muted text-small">If you are joining a project, please check the button below. If nothing happens, please click again.</span><br>
+                                              <span class="text-muted text-small">{% trans 'If you are joining a project, please check the button below. If nothing happens, please click again.' %}</span><br>
                                               <input type="checkbox" class="form-check-input" id="project_check">
-                                              <label class="form-check-label" for="project_check">Project Participant</label>
+                                              <label class="form-check-label" for="project_check">{% trans 'Project Participant' %}</label>
                                           </div>
                                       </div>
                                         {% if projects %}
@@ -136,7 +136,7 @@
                                            <div class="form-group col-5">
                                                 <label for="project_name">{% trans 'Project Name' %}:</label>
                                                 <input class="form-control" id="project_name" name="project_name" placeholder="{% trans 'Project Name' %}"/>
-                                            <span class="text-muted text-small">Please enter the project name. If the wrong name is entered, you will receive an error message and a list of available projects</span>
+                                            <span class="text-muted text-small">{% trans 'Please enter the project name. If the wrong name is entered, you will receive an error message and a list of available projects' %}</span>
                                             </div>
                                             <div class="form-group col-5">
                                                 <label for="project_password">{% trans 'Project Password' %}:</label>

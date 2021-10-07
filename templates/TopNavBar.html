@@ -25,7 +25,7 @@
                     <i class="far fa-user-circle"></i>
                 </a>
                 {% if user.random_user %}
-                    <a href="{% url 'signup' %}">Make an Account</a>
+                    <a href="{% url 'signup' %}">{% trans 'Make an Account' %}</a>
                 {% endif %}
                 <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                     {% if not user.random_user %}

@@ -60,17 +60,17 @@
                         <div class="col-md-4">
 
                             <div class="float-right"> <!-- SAVING FEATURES -->
-                                <a id="btn-Save-Image" class="btn btn-sm text-primary"  style="cursor:pointer" title="{% trans 'Save CAM' %}"><i class="fas fa-mouse-pointer fa-save GeneralFont"></i><span style="display: block">Save</span></a>
+                                <a id="btn-Save-Image" class="btn btn-sm text-primary"  style="cursor:pointer" title="{% trans 'Save CAM' %}"><i class="fas fa-mouse-pointer fa-save GeneralFont"></i><span style="display: block">{% trans 'Save' %}</span></a>
 
                                 {#  {% if user.language_preference == 'en' %}  #}
-                                     <a class="btn btn-sm text-primary" id="btn-Preview-Image" style="cursor:pointer" title="{% trans 'Generate Image' %}"><i class="far fa-file-image GeneralFont"></i><span style="display: block">Download</span></a>
-                                <a class="btn btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export CAM' %}"><i class="fas fa-download GeneralFont"></i><span style="display: block">Export</span></a>
+                                     <a class="btn btn-sm text-primary" id="btn-Preview-Image" style="cursor:pointer" title="{% trans 'Generate Image' %}"><i class="far fa-file-image GeneralFont"></i><span style="display: block">{% trans 'Download' %}</span></a>
+                                <a class="btn btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export CAM' %}"><i class="fas fa-download GeneralFont"></i><span style="display: block">{% trans 'Export' %}</span></a>
                                  <a  class="btn btn-sm text-primary" data-toggle="modal" style="cursor:pointer" data-target="#exampleModal" title="{% trans 'Import CAM' %}">
-                                   <i class="fas fa-upload GeneralFont"></i><span style="display: block">Import</span>
+                                   <i class="fas fa-upload GeneralFont"></i><span style="display: block">{% trans 'Import' %}</span>
                                 </a>
                                     <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send CAM' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
                                 {# {% endif %} #}
-                                <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset CAM' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">Delete</span></a>
+                                <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset CAM' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">{% trans 'Delete' %}</span></a>
                             </div>
                         </div>
                       </div>

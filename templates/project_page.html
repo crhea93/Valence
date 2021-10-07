@@ -40,28 +40,28 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-1">
-                    <h1 class="m-0 text-dark">Maps</h1>
+                    <h1 class="m-0 text-dark">{% trans 'Maps' %}</h1>
                 </div><!-- /.col -->
                 <div class="col-1">
-                    <p>Download All: </p>
+                    <p>{% trans 'Download All' %}: </p>
                         <a class="btn btn-primary" href="{% url 'download_project' %}?pk={{ active_project.id }}">
                             <i class="fas fa-file-archive text-white"></i>
                         </a>
                 </div>
                 {% if active_project.Initial_CAM %}
                 <div class="col-1">
-                    <p>Initial CAM: </p>
+                    <p>{% trans 'Initial CAM' %}: </p>
                         <a class="btn btn-primary" href="../media/{{ active_project.Initial_CAM }}" download>
                             <i class="fas fa-th text-white"></i>
                         </a>
                 </div>
                 {% endif %}
                 {% if active_project.password %}
-                    <p>See Password: <i class="fas fa-eye" id="show_pword"></i></p>
+                    <p>{% trans 'See Password' %}: <i class="fas fa-eye" id="show_pword"></i></p>
                     <h5 class="text-info ml-3" id="pword" hidden>{{ active_project.password }}</h5>
                 {% endif %}
                 <div class="col-1  ml-3">
-                    <p>Edit Project</p>
+                    <p>{% trans 'Edit Project' %}</p>
                     <a class="btn btn-primary" href="{% url 'project_settings' %}">
                         <i class="fas fa-edit"></i>
                     </a>
@@ -79,7 +79,7 @@
                 <div class="col-sm-12">
                     <!-- textarea -->
                     <div class="form-group">
-                        <label>Description: </label> <label style="font-weight: normal">
+                        <label>{% trans 'Description' %}: </label> <label style="font-weight: normal">
                         {{ active_project.description }}
                     </label>
                     </div>
@@ -92,7 +92,7 @@
 
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title GeneralFont">Project Participants</h3>
+                            <h3 class="card-title GeneralFont">{% trans 'Project Participants' %}</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body" id="UserTable">
