@@ -1,0 +1,59 @@
+<script>
+    $('#resize-button').click(function(){
+        var flag = true;
+        $('.block').each(function(){
+            console.log($(this).hasClass('resizable'))
+             if($(this).hasClass('resizable')){
+                 flag = false;
+
+             }
+           });
+        if ($('.block.resizable').length > 0){
+            flag = false;
+            console.log(flag)
+        }
+            if(flag === true){
+                $(this).removeClass('resizeable')
+                console.log('Setting resize to True')
+                 $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "{% url 'resize_block' %}",
+                    data: {
+                        'resize': 'True',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'update_valid': true,
+
+                    },
+                    success: function (data) {
+                       location.reload()
+                    },
+                    error: function () {
+                        console.log("Error")
+                    }
+                })//end ajax
+            }else{
+                console.log('Setting resize to False')
+                $(this).addClass('resizeable')
+                  $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "{% url 'resize_block' %}",
+                    data: {
+                        'resize': 'False',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'update_valid': true,
+
+                    },
+                    success: function (data) {
+                       location.reload()
+                    },
+                    error: function () {
+                        console.log("Error")
+                    }
+                })//end ajax
+
+            }
+            //location.reload()
+            })
+</script>

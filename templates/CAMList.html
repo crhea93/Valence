@@ -8,7 +8,7 @@
                         {% if user.is_researcher %}
                             <h4 class="m-0 section-title">{% trans 'Individual CAMs' %}</h4>
                         {% else %}
-                            <h4 class="m-0 section-title" id="userCAMS">{% trans 'CAMs' %}</h4>
+                            <h4 class="m-0 section-title" id="userMapS">{% trans 'Maps' %}</h4>
                         {% endif %}
                     </div><!-- /.col -->
 
@@ -33,12 +33,12 @@
                                     </h4>
 
                                     <div class="float-right DeleteCAM mr-1" id="camDel_{{ cam.id }}">
-                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"  title="{% trans 'Delete CAM' %}"></i>
+                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"  title="{% trans 'Delete Map' %}"></i>
                                     </div>
-                                    <div type="button" class="float-right mr-1" data-toggle="modal" data-target="#camNewName_{{ cam.id }}"  title="{% trans 'Edit CAM' %}">
+                                    <div type="button" class="float-right mr-1" data-toggle="modal" data-target="#camNewName_{{ cam.id }}"  title="{% trans 'Edit Map' %}">
                                         <i class="far fa-edit"></i>
                                     </div>
-				                    <div class="float-right CloneCAM mr-1" id="Clone_{{ cam.id }}"  title="{% trans 'Duplicate CAM' %}">
+				                    <div class="float-right CloneCAM mr-1" id="Clone_{{ cam.id }}"  title="{% trans 'Duplicate Map' %}">
                                         <i class="fas fa-copy text-dark mr-auto" style="cursor:pointer"></i>
                                     </div>
                                     <div class="card-tools">
@@ -47,7 +47,7 @@
                                             <div class="modal-dialog" role="document">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">Update Name of CAM</h5>
+                                                        <h5 class="modal-title">{% trans 'Update Name of Map' %}'</h5>
                                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
@@ -69,7 +69,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-primary" onclick="update_cam_name({{ cam.id }})">Save changes</button>
+                                                        <button type="button" class="btn btn-primary" onclick="update_cam_name({{ cam.id }})">{% trans 'Save changes' %}</button>
                                                         <button type="button" class="btn btn-secondary" data-dismiss="modal" >Close</button>
                                                     </div>
                                                 </div>
@@ -103,7 +103,7 @@
                                 <h4 class="card-title" style="cursor: pointer">
                                     <a id="createNewCam" class="text-primary">
                                         <i class="fas fa-plus-circle"></i>
-                                        {% trans 'Create new CAM' %}
+                                        {% trans 'Create new Map' %}
                                     </a>
                                 </h4>
                             </div><!-- /.card-header -->
@@ -117,7 +117,7 @@
                                 <h4 class="card-title">
                                     <a id="add_to_project" class="text-primary">
                                         <i class="fas fa-plus-circle"></i>
-                                        {% trans 'Create new CAM' %}
+                                        {% trans 'Create new Map' %}
                                     </a>
                                 </h4>
                             </div><!-- /.card-header -->
@@ -149,7 +149,7 @@
                                           <!-- /.col -->
                                         </div>
                                       <div class="form-group col-5 float-right">
-                                          <button id="participantFormSubmit" type="submit" class="btn btn-primary btn-block mt-4">{% trans 'Create CAM' %}</button>
+                                          <button id="participantFormSubmit" type="submit" class="btn btn-primary btn-block mt-4">{% trans 'Create Map' %}</button>
                                       </div>
                                       </form>
                             </div>

@@ -13,11 +13,12 @@
             success: function (data) {
                 //Place existing blocks for the user
                 {% for block in existing_blocks %}
+
                     place_concept("{{ block.title }}","{{ block.x_pos }}","{{ block.y_pos }}",
                         "{{ block.width }}", "{{ block.height }}", "{{ block.text_scale }}",
                         "{{ block.shape }}", "{{ block.num }}","{{ block.id }}",
                         "{{ block.starting_block_set|get_links }}", "{{ block.ending_block_set|get_links }}",
-                        "{{ block.comment }}", "{{ block.modifiable }}");
+                        "{{ block.comment }}", "{{ block.modifiable }}", "{{ block.resizable }}");
                     if ({{ block.num }} > concept_ct )
                     {
                         concept_ct = {{ block.num }}

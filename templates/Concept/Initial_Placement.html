@@ -2,14 +2,14 @@
 <script>
 
     //---------FUNCTION FOR PLACEMENT OF FUNCTIONS ------------//
-    function place_concept(title,x,y,width,height,text_scale,shape,num,id,links_starting,links_ending,notes,modifiable){
+    function place_concept(title,x,y,width,height,text_scale,shape,num,id,links_starting,links_ending,notes,modifiable,resizable){
         num = parseInt(num);
         //add shape
         let notes_hidden = 'hidden';
         if (notes !== 'None' && notes.trim() !== ''){
             notes_hidden = '';
         }
-        let def_created_concept = existing_concept_init(title,x,y,width,height,text_scale,shape,num,notes_hidden,notes,modifiable);
+        let def_created_concept = existing_concept_init(title,x,y,width,height,text_scale,shape,num,notes_hidden,notes,modifiable,resizable);
         //Add concept
         $("#CAM_items").append(def_created_concept);
         // add links to data-links attribute

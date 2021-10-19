@@ -1,6 +1,6 @@
-function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_hidden,note_value,modifiable) {
+function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_hidden,note_value,modifiable, resizable) {
     num = parseInt(num);
-    var class_shape = '';
+    var class_shape = ''; var resizable_bool = ''
     var slide_val = 0;
      if (shape === 'negative strong') {
          class_shape = 'hexagonNegStrong';
@@ -27,8 +27,15 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
          class_shape = 'hexagonAmb hexagonAmbCircle';
 
     }
+     console.log(resizable)
+    if (resizable === 'True'){
+        resizable_bool = 'resizable'
+    }
+    else {
+        resizable_bool = ''
+    }
     //Create concept already in user's bank
-    var def_created_concept = '<div class="block shadow-none card draggable ui-widget-content ' + class_shape + ' text-center align-middle mb-0"' +
+    var def_created_concept = '<div class="block shadow-none card draggable ui-widget-content ' + class_shape + ' ' + resizable_bool + ' text-center align-middle mb-0"' +
         'id="block_' + num + '"' +
         'style="' +
         'left:' + x + 'px;' +

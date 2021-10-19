@@ -95,6 +95,30 @@ def update_block(request):
             return JsonResponse(block_data)
 
 
+def resize_block(request):
+    """
+    Function to turn on or off the resizable boolean for blocks
+    """
+    if request.method == 'POST':
+        update_valid = request.POST.get('update_valid')
+        cam = CAM.objects.get(id=request.user.active_cam_num)
+        #blocks_existing = cam.block_set.all().values_list('num', flat=True)
+        resize_bool = request.POST.get('resize')
+        print(resize_bool)
+        if update_valid:
+            for block in cam.block_set.all():
+                if resize_bool == 'True':
+                    block.resizable = True
+                else:
+                    block.resizable = False
+                block.save()
+            for block in cam.block_set.all():
+                print(block.resizable)
+            message = 'Blocks resized'
+        else:
+            message = 'Failed to change block resizeable'
+        print(message)
+    return JsonResponse({'resize_message': message})
 def delete_block(request):
     """
     Function to delete a block from the current CAM. The id of the block to be deleted is passed through the Jquery/Ajax call

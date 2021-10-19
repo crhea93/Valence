@@ -41,11 +41,15 @@
                       <div class="row">
                         <div class="col-md-4">
 
+
                             <div> <!-- ZOOM -->
                                   <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomIn"><i class="fas fa-plus-circle text-black"></i></a>
                                   <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomOut"><i class="fas fa-minus-circle text-black"></i></a>
                                   <!--<button class="btn btn-outline-info" id="btn_ZoomReset">Zoom Reset</button>-->
                                   <a class="btn-floating btn-sm text-primary" id="zoom_lev">{% trans 'Zoom' %}: 1</a>
+
+                                <button type="button" id="resize-button" class="btn btn-info">{% trans 'Resizeable' %}</button>
+
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
@@ -60,17 +64,17 @@
                         <div class="col-md-4">
 
                             <div class="float-right"> <!-- SAVING FEATURES -->
-                                <a id="btn-Save-Image" class="btn btn-sm text-primary"  style="cursor:pointer" title="{% trans 'Save CAM' %}"><i class="fas fa-mouse-pointer fa-save GeneralFont"></i><span style="display: block">{% trans 'Save' %}</span></a>
+                                <a id="btn-Save-Image" class="btn btn-sm text-primary"  style="cursor:pointer" title="{% trans 'Save Map' %}"><i class="fas fa-mouse-pointer fa-save GeneralFont"></i><span style="display: block">{% trans 'Save' %}</span></a>
 
                                 {#  {% if user.language_preference == 'en' %}  #}
                                      <a class="btn btn-sm text-primary" id="btn-Preview-Image" style="cursor:pointer" title="{% trans 'Generate Image' %}"><i class="far fa-file-image GeneralFont"></i><span style="display: block">{% trans 'Download' %}</span></a>
-                                <a class="btn btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export CAM' %}"><i class="fas fa-download GeneralFont"></i><span style="display: block">{% trans 'Export' %}</span></a>
-                                 <a  class="btn btn-sm text-primary" data-toggle="modal" style="cursor:pointer" data-target="#exampleModal" title="{% trans 'Import CAM' %}">
+                                <a class="btn btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export Map' %}"><i class="fas fa-download GeneralFont"></i><span style="display: block">{% trans 'Export' %}</span></a>
+                                 <a  class="btn btn-sm text-primary" data-toggle="modal" style="cursor:pointer" data-target="#exampleModal" title="{% trans 'Import Map' %}">
                                    <i class="fas fa-upload GeneralFont"></i><span style="display: block">{% trans 'Import' %}</span>
                                 </a>
-                                    <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send CAM' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
+                                    <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send Map' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
                                 {# {% endif %} #}
-                                <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset CAM' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">{% trans 'Delete' %}</span></a>
+                                <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset Map' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">{% trans 'Delete' %}</span></a>
                             </div>
                         </div>
                       </div>
@@ -98,17 +102,17 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="DeleteModalLabel">{% trans 'Delete CAM' %}</h5>
+                        <h5 class="modal-title" id="DeleteModalLabel">{% trans 'Delete Map' %}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        {% trans 'Are you sure that you want to delete the CAM?' %}
+                        {% trans 'Are you sure that you want to delete the Map?' %}
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">{% trans 'Close' %}</button>
-                        <button type="button" id="reset_cam" class="btn btn-danger">{% trans 'Delete CAM' %}</button>
+                        <button type="button" id="reset_cam" class="btn btn-danger">{% trans 'Delete Map' %}</button>
                     </div>
                 </div>
             </div>
@@ -145,6 +149,7 @@
     </div> <!-- END CONTAINER -->
     {% include 'Concept/resize_function.html' %}
     {% include 'Admin/SendEmail.html' %}
+        {% include 'base/resizeable-button.html' %}
     <script>
         $(document).on('change', '#myfile', function() {
             var input = $(this)
@@ -242,8 +247,8 @@
     {% include 'Lines/change_direction.html' %}
     <button type="button" class="btn btn-primary" id="modal_mod_button" data-toggle="modal" data-target="#mod_modal" hidden></button>
     <button type="button" class="btn btn-primary" id="modal_mod_button" data-toggle="modal" data-target="#del_modal" hidden></button>
-    <button id="form_cam_block_button" class="btn  btn-primary concept_btn" hidden>Add Concept</button>
-    <button id="form_cam_block_button_mod" class="btn  btn-primary modify_concept_btn" hidden>Mod Concept</button>
+    <button id="form_cam_block_button" class="btn  btn-primary concept_btn" hidden>{% trans 'Add Concept' %}</button>
+    <button id="form_cam_block_button_mod" class="btn  btn-primary modify_concept_btn" hidden>{% trans 'Mod Concept' %}</button>
     <!-- ADDITIONAL JAVASCRIPT FILES -->
 
     </div>
