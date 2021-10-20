@@ -465,7 +465,8 @@ def import_CAM(request):
                         #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                         test['creator'] = test['creator'].apply(lambda x: request.user.id)
                         test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
-                        test['text_scale'] = test['text_scale'].apply(lambda x: x if ~np.isnan(x) else 14)
+                        if ct == 0:
+                            test['text_scale'] = test['text_scale'].apply(lambda x: x if ~np.isnan(x) else 14)
                         # Read in information from csvs
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
