@@ -21,7 +21,7 @@ class Block(models.Model):
     modifiable = models.BooleanField(null=True, blank=True, default=True)
     text_scale = models.FloatField(default=14, blank=True)
     CAM = models.ForeignKey(CAM, on_delete=models.CASCADE, default='')
-    resizable = models.BooleanField(null=False, blank=False, default=False)
+    resizable = models.BooleanField(null=True, blank=True, default=False)
 
     def __str__(self):
         return self.title

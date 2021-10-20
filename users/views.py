@@ -343,7 +343,7 @@ def makepdf(html):
     """Generate a PDF file from a string of HTML."""
     htmldoc = HTML(string=html, base_url="")
     return None#htmldoc.write_pdf()
-def Image_CAM(request):
+'''def Image_CAM(request):
     image_data = request.POST.get('html_to_convert')
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
     image_data = dataUrlPattern.match(image_data).group(2)
@@ -367,7 +367,33 @@ def Image_CAM(request):
     return JsonResponse({'file_name': '../../'+file_name})
 
     #return JsonResponse({'file_name': file_name})
+'''
+def makepdf(html):
+    """Generate a PDF file from a string of HTML."""
+    htmldoc = HTML(string=html, base_url="")
+    return htmldoc.write_pdf()
+def Image_CAM(request):
+    image_data = request.POST.get('html_to_convert')
+    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    image_data = dataUrlPattern.match(image_data).group(2)
+    image_data = image_data.encode()
+    image_data = base64.b64decode(image_data)
+    user = CustomUser.objects.get(username=request.user.username)
+    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.pdf'
+    pdf = makepdf(image_data)
+    Path('outfile.pdf').write_bytes(pdf)
+    #print(image_data)
+    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
+    image_data = dataUrlPattern.match(image_data).group(2)
+    image_data = image_data.encode()
+    image_data = base64.b64decode(image_data)
+    with open(file_name, 'wb') as f:
+        f.write(image_data)
+    current_cam = CAM.objects.get(id=user.active_cam_num)
+    current_cam.cam_image = file_name
+    current_cam.save()
 
+    return JsonResponse({'file_name': '../../'+file_name})
 
 def view_pdf(request):
     print('meow meow')
@@ -413,7 +439,6 @@ def import_CAM(request):
         block_resource = BlockResource()
         link_resource = LinkResource()
         dataset = Dataset()
-        print(request.POST)
         uploaded_CAM = request.FILES['myfile']
         deletable = request.POST.get('Deletable')
         # Clear all current blocks and links
@@ -443,7 +468,7 @@ def import_CAM(request):
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
                         blocks_imported = current_cam.block_set.all()
-                        print([block.id for block in blocks_imported])
+                        #print([block.id for block in blocks_imported])
                         if ct == 0:  # first csv is blocks.csv
                             result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
@@ -465,7 +490,7 @@ def import_CAM(request):
             print('Import didnt work')
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
-        print([block.id for block in blocks_imported])
+        #print([block.id for block in blocks_imported])
         for block in blocks_imported:
             # Clean up Comments ('none' -> '')
             if block.comment == 'None' or block.comment == 'none':
