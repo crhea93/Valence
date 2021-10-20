@@ -15,6 +15,7 @@ from zipfile import ZipFile
 from io import BytesIO
 from tablib import Dataset
 import pandas as pd
+import numpy as np
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
@@ -464,11 +465,11 @@ def import_CAM(request):
                         #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                         test['creator'] = test['creator'].apply(lambda x: request.user.id)
                         test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
+                        test['text_scale'] = test['text_scale'].apply(lambda x: x if ~np.isnan(x) else 14)
                         # Read in information from csvs
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
                         blocks_imported = current_cam.block_set.all()
-                        #print([block.id for block in blocks_imported])
                         if ct == 0:  # first csv is blocks.csv
                             result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
                             if not result.has_errors():
@@ -490,7 +491,6 @@ def import_CAM(request):
             print('Import didnt work')
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
-        #print([block.id for block in blocks_imported])
         for block in blocks_imported:
             # Clean up Comments ('none' -> '')
             if block.comment == 'None' or block.comment == 'none':
