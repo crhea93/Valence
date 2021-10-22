@@ -7,6 +7,7 @@ $(document).on("click", '.block',function(e){
     click_element = 'concept';
     if (concept_sel_bool === true){
         console.log('concept select')
+        console.log(parseInt($('#block_'+ct_).css('font-size')))
         clicks += 1;
         if (clicks === 1) { //Single Click
             // Is the modification section open
@@ -16,6 +17,7 @@ $(document).on("click", '.block',function(e){
                 $('#Comment_Info').attr('hidden', false);
                 $('#Comment_Box').val('')
                 $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                $('#NewTextScale').val(parseInt($('#block_'+ct_+' .success_blk').css('font-size')))
             }
             // Concept is closed
             else{
@@ -37,7 +39,8 @@ $(document).on("click", '.block',function(e){
                    $('#No_Concept_Comment').attr('hidden', true);
                    $('#Comment_Info').attr('hidden', false);
                    $('#Comment_Box').val('')
-            $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                   $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+                   $('#NewTextScale').val(parseInt($('#block_'+ct_+' .success_blk').css('font-size')))
                 }
             }timer = setTimeout(function () {
                     clicks = 0;             //after action performed, reset counter
@@ -56,6 +59,7 @@ $(document).on("click", '.block',function(e){
             $('#Comment_Info').attr('hidden', false);
             $('#Comment_Box').val('')
             $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
+            $('#NewTextScale').val(parseInt($('#block_'+ct_+' .success_blk').css('font-size')))
             clicks = 0;             //after action performed, reset counter
         }//End Double Click
     } // End Concept Selection for Concept Purposes
@@ -106,11 +110,12 @@ $(document).on("click", '.block',function(e){
             })
             target_el.addClass('Selected');
             // Update Comment Box
+            console.log($('#block_'+ct_).css('font-size'))
             $('#No_Concept_Comment').attr('hidden', true);
             $('#Comment_Info').attr('hidden', false);
             $('#Comment_Box').val('')
             $('#Comment_Box').val($('#block_'+ct_+' > span').attr('title'));
-            console.log($('#block_'+ct_+'>span'))
+            $('#NewTextScale').val(parseInt($('#block_'+ct_+' .success_blk').css('font-size')))
         }
     } // End Concept Selection for Lines
 })

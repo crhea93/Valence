@@ -10,9 +10,19 @@
             <textarea id="Comment_Box" class="md-textarea form-control" rows="3" maxlength="300"></textarea>
             <button class="btn btn-outline-primary mt-2" id="Comment_Button">{% trans 'Add Comment' %}</button>
             <button class="btn btn-outline-danger mt-2" id="delete_block_btn">{% trans 'Delete Concept' %}</button>
+            <div class="input-group input-group-sm mt-2 mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Text Size</span>
+              </div>
+              <input type="text"  id="NewTextScale" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-warning" id="update_text_size">Update Text Size</button>
+                </div>
+            </div>
         </div>
 
-
     </div>
+
+
 </div>
 </div>

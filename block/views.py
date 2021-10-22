@@ -181,6 +181,18 @@ def drag_function(request):
                                  'ending_block':ending_block_})
 
 
+def update_text_size(request):
+    """
+    Update the text size of an individual concept
+    """
+    new_text_scale = request.POST.get("text_scale")
+    block_id = request.POST.get("block_id")
+    cam = CAM.objects.get(id=request.user.active_cam_num)
+    block = cam.block_set.get(num=block_id)
+    block.update({"text_scale": new_text_scale})
+    message = 'Successfully updated the text size of node %s'%block_id
+    return JsonResponse({"message": message})
+
 
 def trans_slide_to_shape(slide_val):
     """

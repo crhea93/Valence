@@ -34,3 +34,4 @@ class BlockForm(forms.ModelForm):
         if commit:
             block.save()
         return block
+

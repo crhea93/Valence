@@ -205,7 +205,7 @@
          $(document).on('keydown',function(event){
             // DELETE BLOCKS AND LINKS ON BACKSPACE OR DELETE
             if (event.keyCode === 46 || event.charCode === 46 || event.keyCode === 8 || event.charCode === 8){
-                if (event.target.id !== 'Comment_Box'){
+                if (event.target.id !== 'Comment_Box' && event.target.id !== 'NewTextScale'){
                     // SELECT BLOCK
                     $('.Selected').each(function(){
                         if ($(this).hasClass('Open')){
@@ -240,6 +240,7 @@
 
     </script>
     {% include 'base/comment.html' %}
+    {% include 'Concept/update_text_size.html' %}
     <!-- LINK ELEMENT -->
     {% include 'Lines/creation.html' %}
     {% include 'Lines/update_link.html' %}

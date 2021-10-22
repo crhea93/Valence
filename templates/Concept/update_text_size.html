@@ -1,0 +1,29 @@
+<script>
+    $(document).on("mousedown", "#update_text_size", function() {
+        let curr_block = $('.Selected');
+        let new_text_scale = $('#NewTextScale').val()
+        const curr_block_num = curr_block.attr("data-title");
+        console.log('Updating Text Size')
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "{% url 'update_text_size' %}",
+            data: {
+                'block_id': curr_block_num,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'text_scale': new_text_scale
+            },
+            success: function (data) {
+                console.log(data.message)
+                console.log($('#success_block_'+curr_block_num).css('font-size'))
+                $('#success_block_'+curr_block_num).css('font-size',new_text_scale+'px')
+            },
+            error: function () {
+                console.log("Error")
+
+            }
+
+        })//end ajax
+        $('#success_block_'+curr_block_num).css('font-size',new_text_scale+'px')
+    })
+</script>
