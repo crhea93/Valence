@@ -16,7 +16,7 @@ class BlockForm(forms.ModelForm):
             'width',
             'height',
             'comment',
-            'timestamp',
+            #'timestamp',
             'CAM'
         }
 
@@ -29,7 +29,7 @@ class BlockForm(forms.ModelForm):
         block.width = self.cleaned_data["width"]
         block.height = self.cleaned_data["height"]
         block.comment = self.cleaned_data["comment"]
-        block.timestamp = self.cleaned_data['timestamp']
+        #block.timestamp = self.cleaned_data['timestamp']
         block.CAM = self.cleaned_data['CAM']
         if commit:
             block.save()

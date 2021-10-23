@@ -11,7 +11,7 @@ class LinkForm(forms.ModelForm):
             'line_style',
             'arrow_type',
             'creator',
-            'timestamp',
+            #'timestamp',
             'CAM'
         }
 
@@ -22,7 +22,7 @@ class LinkForm(forms.ModelForm):
         link.lin_color = self.cleaned_data["line_style"]
         link.creator = self.cleaned_data["creator"]
         link.arrow_type = self.cleaned_data['arrow_type']
-        link.timestamp = self.cleaned_data['timestamp']
+        #link.timestamp = self.cleaned_data['timestamp']
         link.CAM = self.cleaned_data['CAM']
         if commit:
             link.save()

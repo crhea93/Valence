@@ -3,15 +3,18 @@ This view handles the undo button actions. At the moment (October 23, 2021), the
 "delete" action
 """
 from users.models import CAM
+from link.models import Link
 from block.forms import BlockForm
 from link.forms import LinkForm
 from django.http import JsonResponse
 import ast
-import logging
-import cognitiveAffectiveMaps.log_config
+import yaml
+#import logging
+#import cognitiveAffectiveMaps.log_config
+import json
 from django.contrib.auth import get_user_model
 User = get_user_model()
-logger = logging.getLogger(__name__)
+#logger = logging.getLogger(__name__)
 
 
 def undo_action(request):
@@ -28,24 +31,34 @@ def undo_action(request):
         user_ = User.objects.get(username=request.user.username)
         current_cam = CAM.objects.get(id=user_.active_cam_num)
         # Get the latest action ID associated with the user's log. We need this since several rows could correspond to the same actionID
-        latest_action_id = current_cam.logcamaction_set.latest('actionId').actionId
-        action_set = user_.log_set.filter(actionID=latest_action_id)  # Set of all actions associated with the most recent actionID
+        latest_action_id = current_cam.logcamactions_set.latest('actionId').actionId
+        action_set = current_cam.logcamactions_set.filter(actionId=latest_action_id)  # Set of all actions associated with the most recent actionID
         for action_ in action_set:  # Step through each action
             if action_.actionType == 0:  # Delete action
                 if action_.objType == 1:  # Concept Object
-                    concept_info = ast.literal_eval(action_.objDetails)
+                    concept_info = yaml.load(action_.objDetails)
                     form_block = BlockForm(concept_info)  # Getting our block form
-                    if form_block.valid():
-                        form_block.save()  # Saving the form and getting the block
-                    else:
+                    try:
+                        block = form_block.save()  # Saving the form and getting the block
+                    except:
                         message = 'Block form failed.\n %s'%form_block.errors
                         message_type = 'Error'
                 elif action_.objType == 0:  # Link object
-                    link_info = ast.literal_eval(action_.objDetails)
+                    link_info = yaml.load(action_.objDetails)
+                    # Check if newly added block is starting or ending
+                    start_block_bool = True  # Assume it is
+                    try:
+                        Link.objects.filter(ending_block=link_info['ending_block'])
+                        link_info['starting_block'] = block.id
+                    except:
+                        # ending block doesn't exist which means it was deleted. Therefore the newly added block is the ending block
+                        start_block_bool = False
+                        link_info['ending_block'] = block.id
                     form_link = LinkForm(link_info)  # Getting our block form
-                    if form_link.valid():
+                    # Update link info block
+                    try:
                         form_link.save()  # Saving the form and getting the block
-                    else:
+                    except:
                         message = 'Link form failed.\n %s' % form_link.errors
                         message_type = 'Error'
                 else:
@@ -55,13 +68,13 @@ def undo_action(request):
                 message = 'We only allow the undo of deleted nodes and its associated links'
                 message_type = 'Warning'
             # Delete action from logger
-            action_.delete()
+            #action_.delete()
     else:
         message = 'Failed to undo previous action'
         message_type = 'Warning'
     # Add message to log
-    if message_type == 'Error':
+    '''if message_type == 'Error':
         logger.error(message)
     else:
-        logger.warning(message)
+        logger.warning(message)'''
     return JsonResponse({"message": message})

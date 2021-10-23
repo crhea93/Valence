@@ -1,4 +1,4 @@
-$(document).on('mouseclick', "#UndoAction",function(event) {
+$(document).on("mousedown", "#UndoAction",function(event) {
     // Ajax call to undo
     $.ajax({
         async: false,
