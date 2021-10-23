@@ -1,6 +1,6 @@
 from django.urls import path
 
-from . import views, views_CAM, views_Project
+from . import views, views_CAM, views_Project, views_undo
 
 urlpatterns = [
     path('index/', views.index, name='index'),
@@ -42,4 +42,5 @@ urlpatterns = [
     path('privacy', views.privacy, name='privacy'),
     path('FAQ', views.FAQ, name='FAQ'),
     path('clone_cam', views_CAM.clone_CAM, name='clone_cam'),
+    path('undo_action', views_undo.undo_action, name='undo_action'),
 ]

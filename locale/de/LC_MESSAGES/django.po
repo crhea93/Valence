@@ -44,7 +44,7 @@ msgstr ""
 
 #: templates/Admin/Contact_Form.html:24
 msgid "Your Name *"
-msgstr "Ihr Name"
+msgstr "Ihr Name *"
 
 #: templates/Admin/Contact_Form.html:33
 msgid "Your Email *"
@@ -100,14 +100,14 @@ msgid "Submit"
 msgstr "Abschicken"
 
 #: templates/Admin/SendEmail.html:7
-msgid "Send CAM"
+msgid "Send Map"
 msgstr "Map senden"
 
 #: templates/Admin/SendEmail.html:13
 msgid ""
-"Would you like to send your CAM to our team at the University of Waterloo"
+"Would you like to send your Map to our team at the University of Waterloo"
 msgstr ""
-"Möchten Sie Ihre MAP an unser Team an der Universität Waterloo übermitteln?"
+"Möchten Sie Ihre Map an unser Team an der Universität Waterloo übermitteln?"
 
 #: templates/Admin/SendEmail.html:21
 msgid "Yes"
@@ -123,12 +123,12 @@ msgid "Background"
 msgstr "Information"
 
 #: templates/Background-Nav/Background_German.html:14
-msgid "Infos Zur Studie"
+msgid "Infos zur Studie"
 msgstr ""
 
 #: templates/Background-Nav/Navigation.html:11
-msgid "CAM"
-msgstr ""
+msgid "Map"
+msgstr "Map"
 
 #: templates/Background-Nav/Navigation.html:15
 #: templates/Background-Nav/Navigation.html:17
@@ -136,7 +136,7 @@ msgid "Theoretical Background"
 msgstr "Information"
 
 #: templates/Background-Nav/Navigation.html:83
-msgid "logout"
+msgid "Logout"
 msgstr "Abmelden"
 
 #: templates/Background-Nav/Navigation.html:89 templates/TopNavBar.html:55
@@ -148,12 +148,12 @@ msgid "Login"
 msgstr "Anmelden"
 
 #: templates/CAMList.html:9
-msgid "Individual CAMs"
+msgid "Individual Maps"
 msgstr "Einzelne Maps"
 
 #: templates/CAMList.html:11 templates/project_page.html:43
 msgid "Maps"
-msgstr "MAPs"
+msgstr "Maps"
 
 #: templates/CAMList.html:36 templates/Legend-Content.html:41
 #: templates/base/index.html:101 templates/base/index.html:111
@@ -163,15 +163,15 @@ msgstr "Map löschen"
 
 #: templates/CAMList.html:38
 msgid "Edit Map"
-msgstr ""
+msgstr "Map bearbeiten"
 
 #: templates/CAMList.html:41
 msgid "Duplicate Map"
-msgstr ""
+msgstr "Map kopieren"
 
 #: templates/CAMList.html:50
 msgid "Update Name of Map"
-msgstr ""
+msgstr "Titel der Map bearbeiten"
 
 #: templates/CAMList.html:59
 msgid "Name"
@@ -179,22 +179,22 @@ msgstr "Ihr Name"
 
 #: templates/CAMList.html:66 templates/project_page.html:82
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: templates/CAMList.html:72
 msgid "Save changes"
-msgstr ""
+msgstr "Änderungen speichern"
 
 #: templates/CAMList.html:106 templates/CAMList.html:120
 #| msgid "Create new CAM"
-msgid "Create new Map"
+msgid "Create New Map"
 msgstr "Neue Map erstellen"
 
 #: templates/CAMList.html:129
 msgid ""
 "If you are joining a project, please check the button below. If nothing "
 "happens, please click again."
-msgstr ""
+msgstr "Wenn Sie einem Projekt beitreten, kreuzen Sie bitte unten an. Falls nichts geschieht, klicken Sie bitte nochmals."
 
 #: templates/CAMList.html:131
 msgid "Project Participant"
@@ -210,7 +210,7 @@ msgstr "Projektname"
 msgid ""
 "Please enter the project name. If the wrong name is entered, you will "
 "receive an error message and a list of available projects"
-msgstr ""
+msgstr "Bitte geben Sie den Projektnamen ein. Falls Sie einen fehlerhaften Namen eingeben, bekommen Sie eine Liste verfügbarer Projekte."
 
 #: templates/CAMList.html:142
 #: templates/registration/register_participant.html:66
@@ -224,8 +224,8 @@ msgid "Create Map"
 msgstr "Neue Map erstellen"
 
 #: templates/Legend-Content.html:6
-msgid "Every concept is given a basic emotional value"
-msgstr ""
+msgid "Every concept is given a basic emotional value."
+msgstr "Jedes Konzept bekommt eine emotionale Ausprägung."
 
 #: templates/Legend-Content.html:8
 msgid "Neutral Concept"
@@ -245,7 +245,7 @@ msgstr "Ambivalentes Konzept"
 
 #: templates/Legend-Content.html:12
 msgid "Draw links between concepts that are related to each other"
-msgstr ""
+msgstr "Zeichne Verbindungen zwischen Konzepten, die miteinander in Verbindung stehen."
 
 #: templates/Legend-Content.html:13
 msgid "Concepts in Agreement"
@@ -337,7 +337,7 @@ msgstr "Neues Projekt erstellen"
 
 #: templates/SideBar.html:26
 msgid "Dashboard"
-msgstr ""
+msgstr "Menü"
 
 #: templates/SideBar.html:68 templates/contributors.html:20
 msgid "Contributors"
@@ -376,7 +376,7 @@ msgid "You response has been saved"
 msgstr "Ihre Map wurde gespeichert."
 
 #: templates/base/index.html:7 templates/registration/login.html:37
-msgid "Cognitive Affective Maps"
+msgid "Maps"
 msgstr "Maps"
 
 #: templates/base/index.html:48
@@ -401,7 +401,7 @@ msgstr "Speichern"
 
 #: templates/base/index.html:66
 msgid "Download"
-msgstr ""
+msgstr "Herunterladen"
 
 #: templates/base/index.html:67
 msgid "Export"
@@ -432,7 +432,7 @@ msgstr "Schließen"
 
 #: templates/base/index.html:121
 msgid "IMPORT FILE"
-msgstr ""
+msgstr "Datei importieren"
 
 #: templates/base/index.html:132 templates/create_project.html:148
 #: templates/project_settings.html:143
@@ -523,24 +523,24 @@ msgid "Delete Link"
 msgstr "Verbindung löschen"
 
 #: templates/create_project.html:6 templates/project_settings.html:6
-msgid "Create Project - Cognitive Affective Maps"
+msgid "Create Project – Maps"
 msgstr "Projekt erstellen – Maps"
 
 #: templates/create_project.html:20
 msgid "NEW PROJECT"
-msgstr ""
+msgstr "NEUES PROJEKT"
 
 #: templates/create_project.html:63 templates/project_settings.html:57
 msgid "*Project Title"
-msgstr "Projektname"
+msgstr "*Projektname"
 
 #: templates/create_project.html:73 templates/project_settings.html:67
 msgid "*Project Description"
-msgstr ""
+msgstr "*Projektbeschreibung"
 
 #: templates/create_project.html:83 templates/project_settings.html:77
 msgid "*Project Password"
-msgstr "Projektpasswort"
+msgstr "*Projektpasswort"
 
 #: templates/create_project.html:94 templates/project_settings.html:88
 msgid "Participant List"
@@ -548,32 +548,32 @@ msgstr "Teilnehmer:innen"
 
 #: templates/create_project.html:99 templates/project_settings.html:93
 msgid "*Automatically Create Participant List"
-msgstr ""
+msgstr "*Teilnehmerliste automatisch erstellen"
 
 #: templates/create_project.html:114 templates/project_settings.html:108
 msgid "Manually Create Participant List"
-msgstr ""
+msgstr "Teilnehmerliste manuell erstellen"
 
 #: templates/create_project.html:116 templates/project_settings.html:110
 msgid "Participants will add themselves"
-msgstr ""
+msgstr "Teilnehmer:innen fügen sich selbst hinzu"
 
 #: templates/create_project.html:125 templates/project_settings.html:119
 #: templates/registration/register_participant.html:75
 #: templates/registration/register_researcher.html:56
 msgid "Language Preference"
-msgstr ""
+msgstr "Bevorzugte Sprache"
 
 #: templates/create_project.html:137 templates/project_settings.html:131
 msgid ""
 "Upload starting concept list. This should be a zip file containing two csv "
-"files of the concepts and links. This sis automatically created by the "
-"export functionality"
-msgstr ""
+"files of the concepts and links. This is automatically created by the "
+"export functionality."
+msgstr "Vordefinierte Konzeptliste hochladen. Bitte verwenden Sie eine *.zip-Datei bestehend aus zwei *.csv-Dateien, welche jeweils die Konzepte und Verbindungen enthalten. Diese werden automatisch von der Export-Funktion erstellt."
 
 #: templates/create_project.html:141 templates/project_settings.html:135
 msgid "Participants cannot delete imported concepts"
-msgstr ""
+msgstr "Teilnehmer:innen können importierte Konzepte nicht löschen."
 
 #: templates/create_project.html:153 templates/create_project.html:162
 #: templates/project_settings.html:148
@@ -603,15 +603,15 @@ msgstr "Datenschutzerklärung"
 
 #: templates/project_page.html:46
 msgid "Download All"
-msgstr ""
+msgstr "Alles herunterladen"
 
 #: templates/project_page.html:53
 msgid "Initial Map"
-msgstr ""
+msgstr "Ursprüngliche Map"
 
 #: templates/project_page.html:60
 msgid "See Password"
-msgstr "Passwort zurücksetzen"
+msgstr "Passwort anzeigen"
 
 #: templates/project_page.html:64
 msgid "Edit Project"
@@ -660,14 +660,14 @@ msgstr "Neues Projekt"
 
 #: templates/registration/login.html:5 templates/registration/register.html:5
 #: templates/settings_account.html:5
-msgid "Dashboard - Cognitive Affective Maps"
+msgid "Dashboard – Maps"
 msgstr "Menü – Maps"
 
 #: templates/registration/login.html:19
 msgid ""
 "Valence is currently undergoing an upgrade, so some capabilities may be "
 "offline. Please submit any issues to carterrhea93@gmail.com"
-msgstr ""
+msgstr "Valence wird zurzeit überarbeitet, weshalb einige Funktionen vorübergehend nicht verfügbar sein können. Bitte melden Sie jegliche Probleme an carterrhea93@gmail.com."
 
 #: templates/registration/login.html:30
 msgid "Continue without registering"
@@ -755,7 +755,7 @@ msgstr ""
 
 #: templates/registration/password_reset_email.html:3
 msgid ""
-"To initiate the password reset process for your CAM Account, click the link "
+"To initiate the password reset process for your Map Account, click the link "
 "below:"
 msgstr ""
 "Um Ihr Passwort zurückzusetzen, klicken Sie bitte auf den untenstehenden "
@@ -778,7 +778,7 @@ msgid "Sorry for the inconvenience,"
 msgstr "Bitte entschuldigen Sie die Unannehmlichkeiten,"
 
 #: templates/registration/password_reset_email.html:12
-msgid "CAM Team"
+msgid "Map Team"
 msgstr "Team"
 
 #: templates/registration/password_reset_form.html:24
@@ -847,7 +847,7 @@ msgstr "Passwort wiederholen"
 
 #: templates/settings_account.html:19
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 #: templates/settings_account.html:37
 msgid "Email"
@@ -859,35 +859,35 @@ msgstr "Organisation"
 
 #: templates/settings_account.html:68
 msgid "Security"
-msgstr ""
+msgstr "Datenschutz"
 
 #: templates/settings_account.html:81
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
 #: users/models.py:12
-msgid "email address"
+msgid "Email Address"
 msgstr "E-Mail-Adresse"
 
 #: users/models.py:13
-msgid "first name"
+msgid "First Name"
 msgstr "Vorname"
 
 #: users/models.py:14
-msgid "last name"
+msgid "Last Name"
 msgstr "Nachname"
 
 #: users/models.py:16
-msgid "lang_pref"
-msgstr ""
+msgid "preferred language"
+msgstr "Bevorzugte Sprache"
 
 #: users/models.py:35
-msgid "affiliation"
+msgid "Affiliation"
 msgstr "Organisation"
 
 #: users/models.py:72
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: users/views.py:143
 msgid "Username does not exist"
@@ -905,7 +905,7 @@ msgstr ""
 
 #: users/views.py:551
 msgid "Your language preferences have been updated!"
-msgstr ""
+msgstr "Ihre Spracheinstellungen wurden übernommen."
 
 #~ msgid "French"
 #~ msgstr "Französisch"
@@ -913,7 +913,7 @@ msgstr ""
 #~ msgid "Information on the Study"
 #~ msgstr "Informationen über die Studie"
 
-#~ msgid "Back to MAP"
+#~ msgid "Back to Map"
 #~ msgstr "Zurück zur Map"
 
 #~ msgid "Contact"
