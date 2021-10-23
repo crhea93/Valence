@@ -1,7 +1,8 @@
 from django.test import TestCase
-from users.models import CustomUser, CAM, Researcher, Project
+from users.models import CustomUser, CAM, Researcher, Project, logCamActions
 from .models import Block
 from django.forms.models import model_to_dict
+import yaml
 
 # Create your tests here.
 class BlockTestCase(TestCase):
@@ -60,7 +61,9 @@ class BlockTestCase(TestCase):
                                       shape='ambivalent', CAM_id=self.cam.id)
         response = self.client.post('/block/delete_block', {'delete_valid': True, 'block_id': block_.num})
         self.assertTrue(response.status_code, 200)
-        self.cam = CAM.objects.create(name='testCAM', user=self.user, project=self.project)
+        logEntry = self.cam.logcamactions_set.latest('actionId').objDetails
+        logEntry = yaml.load(logEntry)
+        self.assertTrue(logEntry['title'], 'Meow3')
 
     def test_drag_block(self):
         """
