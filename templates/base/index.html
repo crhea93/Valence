@@ -74,6 +74,9 @@
                                 </a>
                                     <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send Map' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
                                 {# {% endif %} #}
+                                <a class="btn btn-sm text-primary" id="UndoAction" style="cursor:pointer" title="{% trans 'Undo' %}">
+                                    <i class="fas fa-undo"></i><span style="display: block">{% trans 'Undo' %}</span>
+                                </a>
                                 <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset Map' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">{% trans 'Delete' %}</span></a>
                             </div>
                         </div>
@@ -159,6 +162,7 @@
             $(".custom-file-label").text(label)
         });
      var currentZoom = 1.0; // var self = {};
+        {% include 'base/undo_action.js' %}
     </script>
     {% include 'Concept/Initial_Placement.html' %}
     {% include 'Concept/place_existing.html' %}

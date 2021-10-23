@@ -21,7 +21,8 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = True
 DEBUG_PROPAGATE_EXCEPTIONS = True# Application definition
 
-ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1:8000", "psychologie.uni-freiburg.de", "cam1.psychologie.uni-freiburg.de", "cam.psychologie.uni-freiburg.de"]
+ALLOWED_HOSTS = ["*", "localhost", "127.0.0.1:8000", "psychologie.uni-freiburg.de",
+                 "cam1.psychologie.uni-freiburg.de", "cam.psychologie.uni-freiburg.de"]
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

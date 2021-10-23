@@ -31,8 +31,6 @@ from weasyprint import HTML
 User = get_user_model()
 
 
-import pdfkit
-
 @login_required(login_url='loginpage')
 def index(request):
 
