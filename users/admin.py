@@ -3,8 +3,8 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm, ProjectCAMCreationForm, ProjectCreationForm
-from .models import CustomUser, CAM, Project
+from .forms import CustomUserCreationForm, CustomUserChangeForm, ProjectCAMCreationForm, ProjectCreationForm,LogCamActionForm
+from .models import CustomUser, CAM, Project, logCamActions
 
 @admin.register(CustomUser)
 class CustomUserAdmin(admin.ModelAdmin):
@@ -27,3 +27,10 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = [field.name for field in Project._meta.fields]
     #list_filter = ("last_login", "date_joined")
     fields = [field for field in ProjectCreationForm.Meta.fields]
+
+@admin.register(logCamActions)
+class logCamActionAdmin(admin.ModelAdmin):
+    #add_form = ProjectCreationForm
+    list_display = [field.name for field in logCamActions._meta.fields]
+    #list_filter = ("last_login", "date_joined")
+    fields = [field for field in LogCamActionForm.Meta.fields]

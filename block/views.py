@@ -3,7 +3,10 @@ from django.http import JsonResponse
 from django.template.defaulttags import register
 from datetime import datetime
 from django.forms.models import model_to_dict
-from users.models import CAM
+from users.models import CAM,logCamActions
+from django.contrib.auth import get_user_model
+import numpy as np
+User = get_user_model()
 
 
 @register.filter
@@ -119,6 +122,7 @@ def resize_block(request):
             message = 'Failed to change block resizeable'
         print(message)
     return JsonResponse({'resize_message': message})
+
 def delete_block(request):
     """
     Function to delete a block from the current CAM. The id of the block to be deleted is passed through the Jquery/Ajax call
@@ -126,6 +130,7 @@ def delete_block(request):
     from the database. The function returns a list of those links so that the Jquery/Ajax call can delete from them the
     drawing canvas.
     """
+    user_ = User.objects.get(username=request.user.username)
     links_ = []
     if request.method == 'POST':
         delete_valid = request.POST.get('delete_valid')  # block delete
@@ -136,7 +141,35 @@ def delete_block(request):
             # Delete related links
             links = cam.link_set.filter(starting_block=block.id)|cam.link_set.filter(ending_block=block.id)
             links_ = [model_to_dict(link) for link in links]
+
+            try:
+                actionId = cam.logcamactions_set.latest('actionId').actionId + 1
+            except:
+                actionId = 0
+
+            # Log block deletion in the logAction database
+            logCamActions(camId=cam,
+                                actionId=actionId,
+                                actionType =0, # 0 = deleting
+                                objType = 1, # 1 = block
+                                objDetails = model_to_dict(block)
+                          ).save()
+            # Log link deletion in the logAction database
+            for link in links:
+                logCamActions(camId=cam,
+                                    actionId=actionId,
+                                    actionType =0, # 0 = deleting
+                                    objType = 0, # 0 = link
+                                    objDetails = model_to_dict(link)
+                              ).save()
+
+            listActionIdDistinct = cam.logcamactions_set.order_by().values_list('actionId', flat=True).distinct()
+            if listActionIdDistinct.count() >9:
+                minActionId = np.amin(listActionIdDistinct)
+                logCamActions.objects.filter(actionId=minActionId).delete()
+
             block.delete()
+
     return JsonResponse({'links': links_})
 
 

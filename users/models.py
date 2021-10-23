@@ -123,3 +123,12 @@ class Contact(models.Model):
     def __str__(self):
         return f"Contacter: {self.contacter}"
 
+
+
+
+class logCamActions(models.Model):
+    camId = models.ForeignKey(CAM, on_delete=models.CASCADE, default='',blank=False) # Which CAM the action took place
+    actionId = models.IntegerField(blank=False) # Counter to organize the order of actions
+    actionType = models.IntegerField(blank=False) # is the action a deletion? ( = 0 )
+    objType = models.IntegerField(blank=False) # Is the object a link ( = 0 ) and a block ( = 1 )
+    objDetails = models.CharField(max_length=50,blank=False) # Details of the object in a python dictionary
