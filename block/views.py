@@ -148,26 +148,28 @@ def delete_block(request):
                 actionId = 0
 
             # Log block deletion in the logAction database
-            logCamActions(camId=cam,
+            try:
+                logCamActions(camId=cam,
                                 actionId=actionId,
                                 actionType =0, # 0 = deleting
                                 objType = 1, # 1 = block
                                 objDetails = model_to_dict(block)
                           ).save()
-            # Log link deletion in the logAction database
-            for link in links:
-                logCamActions(camId=cam,
+                # Log link deletion in the logAction database
+                for link in links:
+                    logCamActions(camId=cam,
                                     actionId=actionId,
                                     actionType =0, # 0 = deleting
                                     objType = 0, # 0 = link
                                     objDetails = model_to_dict(link)
                               ).save()
 
-            listActionIdDistinct = cam.logcamactions_set.order_by().values_list('actionId', flat=True).distinct()
-            if listActionIdDistinct.count() >9:
-                minActionId = np.amin(listActionIdDistinct)
-                logCamActions.objects.filter(actionId=minActionId).delete()
-
+                listActionIdDistinct = cam.logcamactions_set.order_by().values_list('actionId', flat=True).distinct()
+                if listActionIdDistinct.count() >9:
+                    minActionId = np.amin(listActionIdDistinct)
+                    logCamActions.objects.filter(actionId=minActionId).delete()
+            except:
+                pass
             block.delete()
 
     return JsonResponse({'links': links_})

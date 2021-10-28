@@ -131,4 +131,4 @@ class logCamActions(models.Model):
     actionId = models.IntegerField(blank=False) # Counter to organize the order of actions
     actionType = models.IntegerField(blank=False) # is the action a deletion? ( = 0 )
     objType = models.IntegerField(blank=False) # Is the object a link ( = 0 ) and a block ( = 1 )
-    objDetails = models.CharField(max_length=50,blank=False) # Details of the object in a python dictionary
+    objDetails = models.CharField(max_length=500,blank=False) # Details of the object in a python dictionary

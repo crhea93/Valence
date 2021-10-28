@@ -47,9 +47,9 @@
                                   <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomOut"><i class="fas fa-minus-circle text-black"></i></a>
                                   <!--<button class="btn btn-outline-info" id="btn_ZoomReset">Zoom Reset</button>-->
                                   <a class="btn-floating btn-sm text-primary" id="zoom_lev">{% trans 'Zoom' %}: 1</a>
-
+				  {% if user.is_researcher %}
                                 <button type="button" id="resize-button" class="btn btn-info">{% trans 'Resizeable' %}</button>
-
+				{% endif %}
                             </div>
                         </div>
                         <div class="col-md-4 text-center">
@@ -74,9 +74,9 @@
                                 </a>
                                     <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send Map' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
                                 {# {% endif %} #}
-                                <a class="btn btn-sm text-primary" id="UndoAction" style="cursor:pointer" title="{% trans 'Undo' %}">
+                                <!--<a class="btn btn-sm text-primary" id="UndoAction" style="cursor:pointer" title="{% trans 'Undo' %}">
                                     <i class="fas fa-undo"></i><span style="display: block">{% trans 'Undo' %}</span>
-                                </a>
+                                </a>-->
                                 <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset Map' %}" data-toggle="modal"  data-target="#DeleteModal"><i class="fas fa-trash text-danger"></i><span style="display: block">{% trans 'Delete' %}</span></a>
                             </div>
                         </div>
