@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-28 02:00+0000\n"
+"POT-Creation-Date: 2021-10-28 23:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -374,6 +374,14 @@ msgstr "Um einen Kommentar hinzuzufügen, wählen Sie bitte ein Konzept aus."
 #: templates/base/comment-div.html:12
 msgid "Delete Concept"
 msgstr "Konzept löschen"
+
+#: templates/base/comment-div.html:15
+msgid "Text Size"
+msgstr "Textgröße"
+
+#: templates/base/comment-div.html:19
+msgid "Update Text Size"
+msgstr "Textgröße aktualisieren"
 
 #: templates/base/comment.html:38
 msgid "Your response has been saved"

@@ -16,7 +16,7 @@
         let block_ = $('#block_'+concept_ct);
         block_.css('position', 'absolute');
         //block_.addClass('Open');
-        block_.resizable({
+        /*block_.resizable({
             aspectRatio: 140/75,
             ghost: true,
             start: function(event, ui){
@@ -31,14 +31,12 @@
 
                 let scale = (ui.size.width)/(init_width)
                 let current_fontsize = parseFloat($(this).find('.success_blk').children().css('font-size'))
-                console.log($(this).find('.success_blk').children().css('font-size', scale*current_fontsize))
-                console.log(scale)
-                console.log(current_fontsize)
                 $(this).find('.success_blk').children().css('font-size', scale*current_fontsize)
                 let text_scale = scale*current_fontsize;
                 resize_func(num_block_global,num_block_local,left,top,height,width, text_scale)
             }
-        });
+        });*/
+
         $('#title_'+concept_ct).select();
         $('#shape_'+concept_ct).slider({
              value: 3,
@@ -79,7 +77,7 @@
                  $(this).attr('value', 6);
 
              } else {
-                 block__.addClass('block shadow-none card  draggable ui-widget-content hexagonAmb hexagonAmbCircle Open') //default to neutral
+                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonAmb hexagonAmbCircle Open') //default to neutral
              }
              }
      })
@@ -142,7 +140,6 @@
         var Y = blk_.css('top').replace('px','');
         var height = blk_.css('height').replace('px','');
         var width = blk_.css('width').replace('px','');
-        console.log(X,Y)
         let shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
             shape_ = 7
@@ -173,6 +170,8 @@
                     $('.Selected').each(function(){
                         $(this).removeClass('Selected');
                         $(this).removeClass('Open')
+                        $(this).removeClass('resizable')
+                        $(this).removeClass('ui-resizable')
                     });
                     $('#block_form_'+data.num).attr('hidden',true);
                     $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
