@@ -61,7 +61,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                         <label>{% trans '*Project Title' %}</label>
-                                        <input type="text" class="form-control" placeholder="Enter ..." name="label">
+                                        <input type="text" class="form-control" placeholder="{% trans 'Enter ...' %}" name="label" value="{{ project_info.name }}">
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                     <!-- textarea -->
                                     <div class="form-group">
                                         <label>{% trans '*Project Description' %}</label>
-                                        <textarea class="form-control" rows="3" placeholder="Enter ..." name="description"></textarea>
+                                        <textarea class="form-control" rows="3" placeholder="{% trans 'Enter ...' %}" name="description">{{ project_info.description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                                     <!-- textarea -->
                                     <div class="form-group">
                                         <label>{% trans '*Project Password' %}</label>
-                                        <input type="text" class="form-control" placeholder="Enter ..." name="password">
+                                        <input type="text" class="form-control" placeholder="{% trans 'Enter ...' %}" name="password">
                                     </div>
                                 </div>
                             </div>
@@ -98,14 +98,14 @@
                                   <label class="form-check-label" for="auto_participants">
                                     {% trans '*Automatically Create Participant List' %}
                                   </label>
-                                    <a data-toggle="tooltip" data-placement="right" data-html="true"  title="Prefix = A <br> Name: A1 <br> Password: A1A">
+                                    <a data-toggle="tooltip" data-placement="right" data-html="true"  title="{% trans 'Prefix = A <br> Name: A1 <br> Password: A1A' %}">
                                       <i class="fas fa-info-circle text-primary"></i>
                                     </a>
                                     <div class="form-group col-4" id="autoCreateParticipants">
-                                        <input type="text" class="form-control" id="num_participants" aria-describedby="number of participants" placeholder="*Enter number of participants" name="num_participants">
+                                        <input type="text" class="form-control" id="num_participants" aria-describedby="number of participants" placeholder="{% trans '*Enter number of participants' %}" name="num_participants">
                                     </div>
                                     <div class="form-group col-4" id="autoCreateParticipants">
-                                        <input type="text" class="form-control" id="text_participants" aria-describedby="text of participants" placeholder="*Enter Participant Prefix" name="name_participants">
+                                        <input type="text" class="form-control" id="text_participants" aria-describedby="text of participants" placeholder="{% trans '*Enter Participant Prefix' %}" name="name_participants">
                                     </div>
                                 </div>
                                 <div class="form-check">
@@ -124,8 +124,8 @@
                                 <div class="form-group col-4">
                                   <label for="inputState">{% trans 'Language Preference' %}</label>
                                   <select id="inputState" class="form-control" name="languagePreference">
-                                    <option value="en" selected>{% trans 'English' %}</option>
-                                    <option value="de">{% trans 'German' %}</option>
+                                    <option value="en">{% trans 'English' %}</option>
+                                    <option value="de" selected>{% trans 'German' %}</option>
                                   </select>
                                 </div>
                             </div>

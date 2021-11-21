@@ -163,8 +163,8 @@ msgid "Delete Map"
 msgstr "Map löschen"
 
 #: templates/CAMList.html:38
-msgid "Edit Map"
-msgstr "Map bearbeiten"
+msgid "Edit Map Title"
+msgstr "Titel der Map bearbeiten"
 
 #: templates/CAMList.html:41
 msgid "Duplicate Map"
@@ -187,7 +187,6 @@ msgid "Save changes"
 msgstr "Änderungen speichern"
 
 #: templates/CAMList.html:106 templates/CAMList.html:120
-#, fuzzy
 #| msgid "Create New Map"
 msgid "Create new Map"
 msgstr "Neue Map erstellen"
@@ -273,7 +272,7 @@ msgstr "Einmal ins Leere klicken."
 #: templates/Legend-Content.html:21 templates/Legend-Content.html:30
 #: templates/settings_account.html:96
 msgid "Update"
-msgstr "Verändern"
+msgstr "Speichern"
 
 #: templates/Legend-Content.html:21
 msgid "Double click on existing concept"
@@ -409,7 +408,7 @@ msgstr "Mauszeiger-Modus"
 
 #: templates/base/index.html:58
 msgid "Concept Mode"
-msgstr "Kommentar zum Konzept"
+msgstr "Konzept-Modus"
 
 #: templates/base/index.html:59
 msgid "Link Mode"
@@ -519,7 +518,7 @@ msgstr "Art der Verbindung"
 
 #: templates/base/link-info.html:16
 msgid "Agreement"
-msgstr "Stimmt überein"
+msgstr "Unterstützt sich"
 
 #: templates/base/link-info.html:19
 msgid "Disagreement"
@@ -531,7 +530,7 @@ msgstr "Stärke"
 
 #: templates/base/link-info.html:29
 msgid "Arrow Options"
-msgstr "Pfeiloptionen"
+msgstr "Wirkrichtung"
 
 #: templates/base/link-info.html:38
 msgid "Reverse Arrow"
@@ -663,11 +662,11 @@ msgstr "Anzahl der Verbindungen"
 
 #: templates/project_page.html:107
 msgid "Create Date"
-msgstr "Datum kreieren"
+msgstr "Erstellt am"
 
 #: templates/project_page.html:108 templates/project_page.html:151
 msgid "Actions"
-msgstr "Wirkung"
+msgstr "Aktionen"
 
 #: templates/project_page.html:150
 msgid "Last Login"

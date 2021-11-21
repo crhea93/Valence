@@ -56,14 +56,16 @@ def create_project(request):
                              request.POST.get('conceptDelete'))
             context = {
                 'user': user_,
-                'active_project': project
+                'active_project': project,
+                'form': form,
                 }
 
             return render(request, "project_page.html", context=context)
         else:
             context = {
                 'message': form.errors,
-                "form": form
+                "form": form,
+                'project_info': project_info
             }
             return render(request, "create_project.html", context=context)
     else:
