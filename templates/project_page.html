@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 {% load static %}
 {% load i18n %}
-{% block title %}Project Page - Cognitive Affective Maps{% endblock %}
+{% block title %}{% trans 'Project Page - Cognitive Affective Maps' %}{% endblock %}
 
 {% block content %}
 
@@ -115,10 +115,10 @@
                                 <!--<td>{{ forloop.counter }}</td>-->
                                 <td class="h-25 w-25">
                                     {% if user.language_preference == 'de' %}
-                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='/media/CAM_example_german.png'"
+                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/CAM_example_german.png'"
                                              style="width:100%;object-fit: contain;">
                                     {% else %}
-                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='/media/Cam_example.png'"
+                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/Cam_example.png'"
                                              style="width:100%;object-fit: contain;">
                                     {% endif %}
                                 </td>

@@ -112,7 +112,7 @@ LANGUAGES = [
 ]
 
 LANGUAGE_CODE = 'de'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Etc/GMT-1'  # UTC+1
 USE_I18N = True
 SITE_ROOT = os.path.dirname(os.path.realpath(__name__))
 LOCALE_PATHS = ( os.path.join(SITE_ROOT, 'locale'), )
