@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-28 23:22+0000\n"
+"POT-Creation-Date: 2021-11-21 22:50+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -136,8 +136,6 @@ msgid "Theoretical Background"
 msgstr "Information"
 
 #: templates/Background-Nav/Navigation.html:83
-#, fuzzy
-#| msgid "Logout"
 msgid "logout"
 msgstr "Abmelden"
 
@@ -149,49 +147,48 @@ msgstr "Registrieren"
 msgid "Login"
 msgstr "Anmelden"
 
-#: templates/CAMList.html:9
+#: templates/CAMList.html:10
 msgid "Individual CAMs"
 msgstr "Einzelne Maps"
 
-#: templates/CAMList.html:11 templates/project_page.html:43
+#: templates/CAMList.html:12 templates/project_page.html:43
 msgid "Maps"
 msgstr "Maps"
 
-#: templates/CAMList.html:36 templates/Legend-Content.html:41
+#: templates/CAMList.html:38 templates/Legend-Content.html:41
 #: templates/base/index.html:108 templates/base/index.html:118
 msgid "Delete Map"
 msgstr "Map löschen"
 
-#: templates/CAMList.html:38
+#: templates/CAMList.html:40
 msgid "Edit Map Title"
 msgstr "Titel der Map bearbeiten"
 
-#: templates/CAMList.html:41
+#: templates/CAMList.html:43
 msgid "Duplicate Map"
 msgstr "Map kopieren"
 
-#: templates/CAMList.html:50
+#: templates/CAMList.html:52
 msgid "Update Name of Map"
 msgstr "Titel der Map bearbeiten"
 
-#: templates/CAMList.html:59
+#: templates/CAMList.html:61
 msgid "Name"
 msgstr "Ihr Name"
 
-#: templates/CAMList.html:66 templates/project_page.html:82
+#: templates/CAMList.html:68 templates/project_page.html:82
 msgid "Description"
 msgstr "Beschreibung"
 
-#: templates/CAMList.html:72
+#: templates/CAMList.html:74
 msgid "Save changes"
 msgstr "Änderungen speichern"
 
-#: templates/CAMList.html:106 templates/CAMList.html:120
-#| msgid "Create New Map"
+#: templates/CAMList.html:108 templates/CAMList.html:122
 msgid "Create new Map"
 msgstr "Neue Map erstellen"
 
-#: templates/CAMList.html:129
+#: templates/CAMList.html:131
 msgid ""
 "If you are joining a project, please check the button below. If nothing "
 "happens, please click again."
@@ -199,17 +196,19 @@ msgstr ""
 "Wenn Sie einem Projekt beitreten, kreuzen Sie bitte unten an. Falls nichts "
 "geschieht, klicken Sie bitte nochmals."
 
-#: templates/CAMList.html:131
+#: templates/CAMList.html:133
+#: templates/registration/register_participant.html:48
 msgid "Project Participant"
 msgstr "Projektpasswort"
 
-#: templates/CAMList.html:137 templates/CAMList.html:138
+#: templates/CAMList.html:139 templates/CAMList.html:140
 #: templates/registration/register_participant.html:56
 #: templates/registration/register_participant.html:62
 msgid "Project Name"
 msgstr "Projektname"
 
-#: templates/CAMList.html:139
+#: templates/CAMList.html:141
+#: templates/registration/register_participant.html:63
 msgid ""
 "Please enter the project name. If the wrong name is entered, you will "
 "receive an error message and a list of available projects"
@@ -217,13 +216,13 @@ msgstr ""
 "Bitte geben Sie den Projektnamen ein. Falls Sie einen fehlerhaften Namen "
 "eingeben, bekommen Sie eine Liste verfügbarer Projekte."
 
-#: templates/CAMList.html:142
+#: templates/CAMList.html:144
 #: templates/registration/register_participant.html:66
 #: templates/registration/register_participant.html:67
 msgid "Project Password"
 msgstr "Projektpasswort"
 
-#: templates/CAMList.html:152
+#: templates/CAMList.html:154
 msgid "Create Map"
 msgstr "Neue Map erstellen"
 
@@ -334,7 +333,7 @@ msgstr "Map importieren"
 msgid "Projects"
 msgstr "Neues Projekt"
 
-#: templates/ProjectList.html:61
+#: templates/ProjectList.html:60
 msgid "Create New Project"
 msgstr "Neues Projekt erstellen"
 
@@ -400,7 +399,7 @@ msgstr "Zoom"
 
 #: templates/base/index.html:51
 msgid "Resizeable"
-msgstr ""
+msgstr "Konzeptgröße verändern"
 
 #: templates/base/index.html:57
 msgid "Cursor Mode"
@@ -552,6 +551,11 @@ msgstr "NEUES PROJEKT"
 msgid "*Project Title"
 msgstr "*Projektname"
 
+#: templates/create_project.html:64 templates/create_project.html:74
+#: templates/create_project.html:84
+msgid "Enter ..."
+msgstr "Eingeben..."
+
 #: templates/create_project.html:73 templates/project_settings.html:67
 msgid "*Project Description"
 msgstr "*Projektbeschreibung"
@@ -567,6 +571,20 @@ msgstr "Teilnehmer:innen"
 #: templates/create_project.html:99 templates/project_settings.html:93
 msgid "*Automatically Create Participant List"
 msgstr "*Teilnehmerliste automatisch erstellen"
+
+#: templates/create_project.html:101
+msgid "Prefix = A <br> Name: A1 <br> Password: A1A"
+msgstr ""
+
+#: templates/create_project.html:105
+msgid "*Enter number of participants"
+msgstr ""
+
+#: templates/create_project.html:108
+#, fuzzy
+#| msgid "Participant List"
+msgid "*Enter Participant Prefix"
+msgstr "Teilnehmer:innen"
 
 #: templates/create_project.html:114 templates/project_settings.html:108
 msgid "Manually Create Participant List"
@@ -622,6 +640,12 @@ msgstr "Erste Schritte"
 #: templates/privacy.html:20
 msgid "Privacy Statement"
 msgstr "Datenschutzerklärung"
+
+#: templates/project_page.html:6
+#, fuzzy
+#| msgid "Create Project - Cognitive Affective Maps"
+msgid "Project Page - Cognitive Affective Maps"
+msgstr "Projekt erstellen – Maps"
 
 #: templates/project_page.html:46
 msgid "Download All"
@@ -839,6 +863,10 @@ msgstr "Forscher:innen"
 msgid "I already have a membership"
 msgstr "Ich habe bereits einen Nutzer-Account."
 
+#: templates/registration/register.html:46
+msgid "* denotes a required field"
+msgstr ""
+
 #: templates/registration/register_participant.html:12
 #: templates/registration/register_researcher.html:25
 #: templates/settings_account.html:27
@@ -852,6 +880,17 @@ msgstr "Benutzerpasswort"
 #: templates/registration/register_participant.html:36
 msgid "User Password Verification"
 msgstr "Benutzerpasswort wiederholen"
+
+#: templates/registration/register_participant.html:48
+msgid ""
+"If you are a participant of a project, please click this checkbox to select "
+"the project."
+msgstr ""
+
+#: templates/registration/register_participant.html:52
+msgid ""
+"This is only required if you are signing up as a participant in a project."
+msgstr ""
 
 #: templates/registration/register_participant.html:86
 #: templates/registration/register_researcher.html:69
