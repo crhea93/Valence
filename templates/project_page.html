@@ -199,6 +199,13 @@
     // DELETE USER CALL
     function delete_user_cam(cam_id) {
         $('html').addClass("wait");
+
+        let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                if (delete_ !== 'DELETE') {
+                    txt = "User cancelled the prompt.";
+                }
+                else{
+
         $.ajax({
             async:false,
             url: "{% url 'delete_user_cam' %}",
@@ -218,6 +225,7 @@
                 console.log("Error")
             },
         })//end ajax
+                    }
     }
     $('#show_pword').on('click', function(){
         if (!$('#pword').attr('hidden')){
