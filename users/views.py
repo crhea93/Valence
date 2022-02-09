@@ -30,6 +30,12 @@ import base64
 from weasyprint import HTML
 User = get_user_model()
 
+def translate(request, user):
+    translation.activate(user.language_preference)
+    request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
+    response = HttpResponse(...)
+    response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user.language_preference)
+
 
 @login_required(login_url='loginpage')
 def index(request):
@@ -56,9 +62,9 @@ def index(request):
             for line in lines:
                 lines_.append(line)
             content = {
-            'user':user,
-            'existing_blocks':blocks_,
-            'existing_lines':lines_
+                'user':user,
+                'existing_blocks':blocks_,
+                'existing_lines':lines_
             }
             return render(request, 'base/index.html', content)
         else:
@@ -67,7 +73,9 @@ def index(request):
 
 @login_required(login_url='loginpage')
 def dashboard(request):
-    context = {'projects': Project.objects.all()}
+    user = User.objects.get(username=request.user.username)
+    translate(request, user)
+    context = {'projects': Project.objects.all(), 'user': user}
     return render(request, "dashboard.html", context=context)
 
 
@@ -378,14 +386,7 @@ def Image_CAM(request):
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
     user = CustomUser.objects.get(username=request.user.username)
-    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.pdf'
-    pdf = makepdf(image_data)
-    Path('outfile.pdf').write_bytes(pdf)
-    #print(image_data)
-    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-    image_data = dataUrlPattern.match(image_data).group(2)
-    image_data = image_data.encode()
-    image_data = base64.b64decode(image_data)
+    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
     with open(file_name, 'wb') as f:
         f.write(image_data)
     current_cam = CAM.objects.get(id=user.active_cam_num)

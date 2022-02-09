@@ -665,7 +665,7 @@ msgstr "Projekt beitreten"
 
 #: templates/project_page.html:95
 msgid "Project Participants"
-msgstr "Projektpasswort"
+msgstr "Projektteilnehmer"
 
 #: templates/project_page.html:103 templates/project_page.html:146
 msgid "Thumbnail"

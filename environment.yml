@@ -45,7 +45,7 @@ dependencies:
     - django-import-export==2.5.0
     - django-mysql==3.11.1
     - django-recaptcha==2.0.6
-    - django-widget-tweaks==1.4.8
+    - django-widget-tweaks==1.4.82
     - docutils==0.16
     - et-xmlfile==1.1.0
     - html5lib==1.1
