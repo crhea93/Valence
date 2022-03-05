@@ -29,7 +29,6 @@
         if (typeof link.download === 'string') {
             link.href = uri;
             link.download = filename;
-            console.log('here')
             //Firefox requires the link to be in the body
             document.body.appendChild(link);
             //simulate click

@@ -452,43 +452,43 @@ def import_CAM(request):
         for link in links:
             link.delete()
         ct = 0
-        try:
-            # Read zip file
-            with ZipFile(uploaded_CAM) as z:
-                for filename in z.namelist():
-                    # Step through csv file
-                    if filename.endswith('.csv'):
-                        data = z.extract(filename)
-                        test = pd.read_csv(data)
-                        # Set creator and CAM to the current user and their CAM
-                        #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
-                        test['creator'] = test['creator'].apply(lambda x: request.user.id)
-                        test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
-                        if ct == 0:
-                            test['text_scale'] = test['text_scale'].apply(lambda x: x if ~np.isnan(x) else 14)
-                        # Read in information from csvs
-                        test.to_csv(data)
-                        imported_data = dataset.load(open(data).read())
-                        blocks_imported = current_cam.block_set.all()
-                        if ct == 0:  # first csv is blocks.csv
-                            result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
-                            if not result.has_errors():
-                                block_resource.import_data(imported_data, dry_run=False)  # Actually import now
-                            else:
-                                print('Error in reading in concepts')
-                                print(result.row_errors())
-                        else:  # Second csv is links.csv
-                            result = link_resource.import_data(imported_data, dry_run=True)  # Test the data import
-                            if not result.has_errors():
-                                link_resource.import_data(imported_data, dry_run=False)  # Actually import now
-                            else:
-                                print('Error in reading in links')
-                                print(result.row_errors())
-                        ct += 1
-                    else:
-                        pass
-        except:
-            print('Import didnt work')
+        #try:
+        # Read zip file
+        with ZipFile(uploaded_CAM) as z:
+            for filename in z.namelist():
+                # Step through csv file
+                if filename.endswith('.csv'):
+                    data = z.extract(filename)
+                    test = pd.read_csv(data)
+                    # Set creator and CAM to the current user and their CAM
+                    #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
+                    test['creator'] = test['creator'].apply(lambda x: request.user.id)
+                    test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
+                    if 'blocks' in filename:
+                        test['text_scale'] = test['text_scale'].apply(lambda x: x if ~np.isnan(x) else 14)
+                    # Read in information from csvs
+                    test.to_csv(data)
+                    imported_data = dataset.load(open(data).read())
+                    if 'blocks' in filename:  # first csv is blocks.csv
+                        result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
+                        print(result)
+                        if not result.has_errors():
+                            block_resource.import_data(imported_data, dry_run=False)  # Actually import now
+                        else:
+                            print('Error in reading in concepts')
+                            print(result.row_errors())
+                    else:  # Second csv is links.csv
+                        result = link_resource.import_data(imported_data, dry_run=True)  # Test the data import
+                        if not result.has_errors():
+                            link_resource.import_data(imported_data, dry_run=False)  # Actually import now
+                        else:
+                            print('Error in reading in links')
+                            print(result.row_errors())
+                    ct += 1
+                else:
+                    pass
+        #except:
+       # print('Import didnt work')
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
         for block in blocks_imported:
