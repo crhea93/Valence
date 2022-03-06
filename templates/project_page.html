@@ -105,6 +105,7 @@
                                 <th>{% trans 'Number of Concepts' %}</th>
                                 <th>{% trans 'Number of Links' %}</th>
                                 <th>{% trans 'Create Date' %}</th>
+				<th>{% trans 'CAM ID' %}</th>
                                 <th>{% trans 'Actions' %}</th>
                                 </tr>
                                 </thead>
@@ -126,6 +127,7 @@
                                 <td>{{ cam.block_set.all|length }}</td>
                                 <td>{{ cam.link_set.all|length }}</td>
                                 <td>{{ cam.creation_date }}</td>
+				<td>{{ cam.id }} </td>
                                 <td><div>
                                         <div onclick="delete_user_cam({{ cam.id }})">
                                         <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
@@ -147,7 +149,8 @@
                                 <th>{% trans 'Username' %}</th>
                                 <th>{% trans 'Number of Concepts' %}</th>
                                 <th>{% trans 'Number of Links' %}</th>
-                                <th>{% trans 'Last Login' %}</th>
+                                <th>{% trans 'Create Date' %}</th>
+				<th>{% trans 'CAM ID' %}</th>
                                 <th>{% trans 'Actions' %}</th>
                                 </tr>
                                 </tfoot>
