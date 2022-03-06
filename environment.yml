@@ -30,64 +30,46 @@ dependencies:
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7b6447c_3
   - pip:
-    - alabaster==0.7.12
-    - babel==2.9.1
-    - cairocffi==1.2.0
-    - cairosvg==2.5.2
-    - cffi==1.14.5
-    - chardet==4.0.0
-    - cssselect2==0.4.1
+    - brotli==1.0.9
+    - cffi==1.15.0
+    - charset-normalizer==2.0.12
+    - cssselect2==0.5.0
     - defusedxml==0.7.1
     - diff-match-patch==20200713
     - dj-database-url==0.5.0
     - django-fileprovider==0.1.4
     - django-heroku==0.3.1
-    - django-import-export==2.5.0
-    - django-mysql==3.11.1
-    - django-recaptcha==2.0.6
-    - django-widget-tweaks==1.4.8
-    - docutils==0.16
+    - django-import-export==2.7.1
+    - django-mysql==4.5.0
+    - django-widget-tweaks==1.4.12
     - et-xmlfile==1.1.0
+    - fonttools==4.29.1
+    - furl==2.1.3
     - html5lib==1.1
-    - idna==2.10
-    - imagesize==1.2.0
-    - jinja2==3.0.1
+    - idna==3.3
     - markuppy==1.14
-    - markupsafe==2.0.1
-    - numpy==1.20.3
+    - numpy==1.22.2
     - odfpy==1.4.1
-    - opencv-python==4.5.2.52
-    - openpyxl==3.0.7
-    - packaging==21.0
-    - pandas==1.2.4
-    - pdfkit==0.6.1
-    - pillow==8.2.0
-    - pycparser==2.20
-    - pygments==2.9.0
-    - pyparsing==2.4.7
-    - pyphen==0.10.0
-    - python-dateutil==2.8.1
-    - python-dotenv==0.17.1
-    - pyyaml==5.4.1
+    - openpyxl==3.0.9
+    - orderedmultidict==1.0.1
+    - pandas==1.4.1
+    - pillow==9.0.1
+    - pycparser==2.21
+    - pydyf==0.1.2
+    - pyphen==0.12.0
+    - python-dateutil==2.8.2
+    - python-dotenv==0.19.2
+    - pyyaml==6.0
     - random-username==1.0.2
-    - requests==2.25.1
+    - requests==2.27.1
     - six==1.16.0
-    - snowballstemmer==2.1.0
-    - sphinx==4.0.3
-    - sphinx-rtd-theme==0.5.2
-    - sphinxcontrib-applehelp==1.0.2
-    - sphinxcontrib-devhelp==1.0.2
-    - sphinxcontrib-django==0.5.1
-    - sphinxcontrib-htmlhelp==2.0.0
-    - sphinxcontrib-jsmath==1.0.1
-    - sphinxcontrib-qthelp==1.0.3
-    - sphinxcontrib-serializinghtml==1.1.5
-    - tablib==3.0.0
-    - tinycss2==1.1.0
-    - urllib3==1.26.6
-    - weasyprint==52.5
+    - tablib==3.2.0
+    - tinycss2==1.1.1
+    - urllib3==1.26.8
+    - weasyprint==54.2
     - webencodings==0.5.1
-    - whitenoise==5.2.0
+    - whitenoise==6.0.0
     - xlrd==2.0.1
     - xlwt==1.3.0
-prefix: /home/carterrhea/anaconda3/envs/django
+    - zopfli==0.2.1
+prefix: /home/carterrhea/miniconda3/envs/django

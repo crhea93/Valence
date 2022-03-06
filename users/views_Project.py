@@ -11,10 +11,21 @@ from django.contrib.auth import login, authenticate
 from .forms import ParticipantSignupForm
 from users.forms import CustomUserCreationForm
 from users.models import CustomUser
+from django.utils import translation
+from django.conf import settings as settings_dj
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
+def translate(request, user):
+    translation.activate(user.language_preference)
+    request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
+    response = HttpResponse(...)
+    response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user.language_preference)
 
 def project_page(request):
     user_ = request.user
+    translate(request, user_)
     project = Project.objects.get(id=user_.active_project_num)
     context = {
         'user': user_,

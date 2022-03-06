@@ -1,0 +1,223 @@
+.draggable {
+    width: 50px;
+    height: 90px;
+    padding: 1px;
+    float: left;
+}
+
+.Selected {
+    border-color: #50BFE6 !important;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.strong{
+    border-width: 6px;
+}
+
+.close{
+    z-index: 1;
+}
+
+
+.block-form{
+    z-index: 1;
+}
+
+.Selected-link {
+    #background: #DCDCDC !important;
+    border-color: #DCDCDC !important;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: #d3d3d3;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+    z-index: 1;
+}
+
+.slider:hover {
+  opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 10px;
+  height: 10px;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.block{
+  background: transparent;
+}
+
+.rectangle{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Neutral.20459014937b.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.rectangle.Selected{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Neutral_Selected.6953e4fce917.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+
+.rounded-circle-strong{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive_Strong.ae39f1aaffbc.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.rounded-circle-strong.Selected{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive_Strong_Selected.e4b966225924.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+.rounded-circle-normal{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive.a0da7f152c45.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.rounded-circle-normal.Selected{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive_Selected.34e000b90782.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+.rounded-circle-weak{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive_Weak.1139040f0286.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.rounded-circle-weak.Selected{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Positive_Weak_Selected.0c3480cfd859.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+
+
+.hexagonAmb {
+z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Ambivalent.a018a7bc82a6.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.hexagonAmb.Selected {
+z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Ambivalent_Selected.22c0cfbe240f.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+.hexagonNegStrong {
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon_Strong.37ad7b5082b9.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.hexagonNegStrong.Selected {
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon_Strong_Selected.51cfad3f5b6f.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+.hexagonNeg {
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon.abea21988b2b.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.hexagonNeg.Selected {
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon_Selected.b41b5baa9bd9.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+
+.hexagonNegWeak {
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon_Weak.fd8ac6737304.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}
+.hexagonNegWeak.Selected{
+  z-index: 2;
+  position: relative;
+  width: 140px;
+  height: 75px;
+  background: url("../concept_svgs/Hexagon_Weak_Selected.48af2ac983ba.svg");
+  background-size: 100% 100%;
+  vertical-align: center;
+}

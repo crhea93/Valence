@@ -112,6 +112,7 @@
                                 <tbody>
 
                                 {% for cam in active_project.cam_set.all %}
+
                             <tr>
                                 <!--<td>{{ forloop.counter }}</td>-->
                                 <td class="h-25 w-25">
@@ -126,13 +127,13 @@
                                 <td>{{ cam.user.username }}</td>
                                 <td>{{ cam.block_set.all|length }}</td>
                                 <td>{{ cam.link_set.all|length }}</td>
-                                <td>{{ cam.creation_date }}</td>
+                                <td>{{ cam.creation_date|slice:"19" }}</td>
 				<td>{{ cam.id }} </td>
                                 <td><div>
-                                        <div onclick="delete_user_cam({{ cam.id }})">
+                                        <div onclick="delete_user_cam({{ cam.id }})" title="Map löschen">
                                         <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
                                         </div>
-                                        <a href="{% url 'download_cam' %}?pk={{ cam.id }}">
+                                        <a href="{% url 'download_cam' %}?pk={{ cam.id }}" title="Map herunterladen">
                                             <i class="fas fa-file-download text-primary save_cam"
                                                id="save_{{ cam.id }}"></i>
                                         </a>
@@ -202,6 +203,13 @@
     // DELETE USER CALL
     function delete_user_cam(cam_id) {
         $('html').addClass("wait");
+
+        let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                if (delete_ !== 'DELETE') {
+                    txt = "User cancelled the prompt.";
+                }
+                else{
+
         $.ajax({
             async:false,
             url: "{% url 'delete_user_cam' %}",
@@ -221,6 +229,7 @@
                 console.log("Error")
             },
         })//end ajax
+                    }
     }
     $('#show_pword').on('click', function(){
         if (!$('#pword').attr('hidden')){

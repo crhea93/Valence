@@ -2,6 +2,7 @@
     $("#btn-Preview-Image").on('click', function (e) {
         html2canvas(document.querySelector('#CAM_items')).then(function(canvas) {
             var dataImage = canvas.toDataURL("image/png");
+            console.log(dataImage)
         $.ajax({
             async:false,
             url: "{% url 'image_CAM' %}",
@@ -28,7 +29,6 @@
         if (typeof link.download === 'string') {
             link.href = uri;
             link.download = filename;
-            console.log('here')
             //Firefox requires the link to be in the body
             document.body.appendChild(link);
             //simulate click

@@ -25,14 +25,14 @@
     }
     $("#btn-Save-Image").on('click', function (e) {
         html2canvas(document.querySelector('#CAM_items'), width=1000).then(function(canvas) {
-            //var dataImage = canvas.toDataURL("image/png");
+            var dataImage = canvas.toDataURL("image/png");
             $.ajax({
                 async:false,
                 url: "{% url 'image_CAM' %}",
                 type: "POST",
                 data: {
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
-                //'html_to_convert': dataImage,
+                'html_to_convert': dataImage,
                 },
                 success: function(data){
                 //saveAs(canvas.toDataURL(), 'CAM.png');

@@ -2,7 +2,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import CustomUser, Contact, Participant, Researcher, CAM, Project, logCamActions
-from captcha.fields import ReCaptchaField
 
 class ContactForm(forms.ModelForm):
     class Meta:

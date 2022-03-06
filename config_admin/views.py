@@ -11,6 +11,3 @@ def background(request):
     return render(request, "Background.html")
 
 
-@login_required(login_url='loginpage')
-def project_page(request):
-    return render(request, "project_page.html")
