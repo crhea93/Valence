@@ -12,11 +12,11 @@
             },
             success: function(data){
                 console.log(data)
-                saveAs(data.file_name, 'CAM.pdf');
+                saveAs(data.file_name);
             },
             error: function(){
                 console.log("Error")
-                saveAs(dataImage, 'CAM.png');
+
             },
             complete: function(){
             }
