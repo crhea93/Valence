@@ -85,7 +85,7 @@ def upload_cam_participant(participant, project):
                         data = z.extract(filename)
                         test = pd.read_csv(data)
                         # Set creator and CAM to the current user and their CAM
-                        # test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
+                        test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                         test['creator'] = test['creator'].apply(lambda x: participant.id)
                         test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
                         # Read in information from csvs
@@ -294,6 +294,7 @@ def clone_CAM_call(user, cam_id):
         link_dict[link_.pk] = [link_.starting_block.id, link_.ending_block.id]
     # Add blocks and links
     for block_ in blocks_:
+        print(block_)
         # Check if block is the starting block for some link
         old_id = block_.pk
         block_.pk = None
@@ -317,5 +318,6 @@ def clone_CAM_call(user, cam_id):
         link_.ending_block = Block.objects.get(id=link_dict[old_id][1])
         link_.save()
         # Now update link starting and ending IDs with the new block ids
+
 
     return JsonResponse({'message':'Success'})

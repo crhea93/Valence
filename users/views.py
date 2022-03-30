@@ -14,6 +14,7 @@ from .resources import BlockResource, LinkResource
 from zipfile import ZipFile
 from io import BytesIO
 from tablib import Dataset
+from PIL import Image
 import pandas as pd
 import numpy as np
 from django.contrib.auth import authenticate, login
@@ -379,16 +380,51 @@ def makepdf(html):
     """Generate a PDF file from a string of HTML."""
     htmldoc = HTML(string=html, base_url="")
     return htmldoc.write_pdf()
+
+def remove_transparency(im, bg_color=(255, 255, 255)):
+    """
+    Taken from https://stackoverflow.com/a/35859141/7444782
+    """
+    # Only process if image has transparency (http://stackoverflow.com/a/1963146)
+    if im.mode in ('RGBA', 'LA') or (im.mode == 'P' and 'transparency' in im.info):
+
+        # Need to convert to RGBA if LA format due to a bug in PIL (http://stackoverflow.com/a/1963146)
+        alpha = im.convert('RGBA').split()[-1]
+
+        # Create a new background image of our matt color.
+        # Must be RGBA because paste requires both images have the same format
+        # (http://stackoverflow.com/a/8720632  and  http://stackoverflow.com/a/9459208)
+        bg = Image.new("RGBA", im.size, bg_color + (255,))
+        bg.paste(im, mask=alpha)
+        return bg
+    else:
+        return im
+
+
 def Image_CAM(request):
     image_data = request.POST.get('html_to_convert')
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
     image_data = dataUrlPattern.match(image_data).group(2)
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
+
     user = CustomUser.objects.get(username=request.user.username)
     file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
     with open(file_name, 'wb') as f:
         f.write(image_data)
+    with open(file_name, "rb") as image_file:
+        data = base64.b64encode(image_file.read())
+    im = Image.open(BytesIO(base64.b64decode(data)))
+
+    if im.mode in ('RGBA', 'LA'):
+        # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html?highlight=eps#eps
+        print(
+            'Current figure mode "{}" cannot be directly saved to .eps and should be converted (e.g. to "RGB")'.format(
+                im.mode))
+        im = remove_transparency(im)
+        im = im.convert('RGB')
+    im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
+    im.save(file_name, 'PNG', quality=1000)
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
@@ -484,6 +520,8 @@ def import_CAM(request):
                         else:
                             print('Error in reading in links')
                             print(result.row_errors())
+                            for row in result.rows:
+                                print(row)
                     ct += 1
                 else:
                     pass

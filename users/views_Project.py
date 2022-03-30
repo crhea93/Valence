@@ -151,6 +151,7 @@ def join_project_link(request):
     if request.method == 'GET':
         if cam_op == 'new':  # Now we have two cases: 1 - user doesn't exist or 2 - user already exists
             if CustomUser.objects.filter(username=username):  # Case 2: User already exists
+                print('user exists')
                 # Step 1: Login as user
                 user = authenticate(username=username, password=pword1)
                 login(request, user)
@@ -167,6 +168,7 @@ def join_project_link(request):
                     return JsonResponse(
                         data={'error_message': "Please enter the correct password!", 'message': 'Failure'})
             else:  # Case 1: User does not exist
+                print('no user')
                 form = ParticipantSignupForm(user_info)
                 if form.is_valid():
                     form.save()
@@ -227,16 +229,16 @@ def join_project_link(request):
 
 
 
-    #except:  # Project does not exist
-        #project_names = [project.name for project in Project.objects.all()]
-        #return JsonResponse(data={
-            #'error_message': "Project does not exist. Please select from the following options: \n" + ', '.join(
-               # project_names)})
-        #create_individual_cam(request)
-        #return redirect('index')
-    #else:
-        #create_individual_cam(request)
-        #return redirect('index')
+    '''except:  # Project does not exist
+        project_names = [project.name for project in Project.objects.all()]
+        return JsonResponse(data={
+            'error_message': "Project does not exist. Please select from the following options: \n" + ', '.join(
+                project_names)})
+        create_individual_cam(request)
+        return redirect('index')
+    else:
+        create_individual_cam(request)
+        return redirect('index')'''
 
 
 def load_project(request):

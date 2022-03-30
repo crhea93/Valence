@@ -4,23 +4,11 @@
 {% load static %}
 {% load i18n %}
 {% block title %}{% trans 'Project Page - Cognitive Affective Maps' %}{% endblock %}
-
 {% block content %}
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper bg-topology">
-
-
-
-
-
-
-
-
     {{ active_project.user_set }}
-
-
-
     <!-- Content Header (Page header) -->
         <div class="content-header cascadHeadercontainer">
             <div class="container-fluid">
@@ -28,12 +16,10 @@
                     <div class="col-sm-12 text-center">
                         <h1 class="m-0 display-1 cascadHeaderh">{{ active_project.name }}</h1>
                     </div><!-- /.col -->
-
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
-
 
     <!-- Content Header (Page header) -->
     <div class="content-header GeneralFont">
@@ -86,10 +72,8 @@
                 </div>
             </div>
 
-
             <div class="row">
                 <div class="col-12">
-
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title GeneralFont">{% trans 'Project Participants' %}</h3>
@@ -109,37 +93,34 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
                                 {% for cam in active_project.cam_set.all %}
-
-                            <tr>
-                                <!--<td>{{ forloop.counter }}</td>-->
-                                <td class="h-25 w-25">
-                                    {% if user.language_preference == 'de' %}
-                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/CAM_example_german.png'"
-                                             style="width:100%;object-fit: contain;">
-                                    {% else %}
-                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/Cam_example.png'"
-                                             style="width:100%;object-fit: contain;">
-                                    {% endif %}
-                                </td>
-                                <td>{{ cam.user.username }}</td>
-                                <td>{{ cam.block_set.all|length }}</td>
-                                <td>{{ cam.link_set.all|length }}</td>
-                                <td>{{ cam.creation_date|slice:":19" }}</td>
-                                <td><div>
-                                        <div onclick="delete_user_cam({{ cam.id }})" title="Map löschen">
-                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
-                                        </div>
-                                        <a href="{% url 'download_cam' %}?pk={{ cam.id }}" title="Map herunterladen">
-                                            <i class="fas fa-file-download text-primary save_cam"
-                                               id="save_{{ cam.id }}"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-
+                                    <tr>
+                                        <!--<td>{{ forloop.counter }}</td>-->
+                                        <td class="h-25 w-25">
+                                            {% if user.language_preference == 'de' %}
+                                                <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'CAM.png' %}'"
+                                                     style="width:100%;object-fit: contain;">
+                                            {% else %}
+                                                <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'CAM.png' %}'"
+                                                     style="width:100%;object-fit: contain;">
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ cam.user.username }}</td>
+                                        <td>{{ cam.block_set.all|length }}</td>
+                                        <td>{{ cam.link_set.all|length }}</td>
+                                        <td>{{ cam.creation_date|slice:":19" }}</td>
+                                        <td><div>
+                                                <div onclick="delete_user_cam({{ cam.id }})" title="Map löschen">
+                                                <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
+                                                </div>
+                                                <a href="{% url 'download_cam' %}?pk={{ cam.id }}" title="Map herunterladen">
+                                                    <i class="fas fa-file-download text-primary save_cam"
+                                                       id="save_{{ cam.id }}"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
                                 </tbody>
                                 <tfoot style="cursor: pointer;">
                                 <tr>
@@ -161,26 +142,13 @@
 
                 </div>
             </div>
-
-
-
-
-
-
-
-
-
-        <!-- /.content -->
-
-
+            <!-- /.content -->
 </div>
-
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
 </aside>
 <!-- /.control-sidebar -->
-
 <!-- DataTables -->
 <script src="{% static 'plugins/datatables/jquery.dataTables.js' %}"></script>
 <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.js' %}"></script>
@@ -191,7 +159,7 @@
         $('#example2').DataTable({
             "paging": true,
             "lengthChange": false,
-            "searching": false,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
@@ -200,13 +168,11 @@
     // DELETE USER CALL
     function delete_user_cam(cam_id) {
         $('html').addClass("wait");
-
         let delete_ = window.prompt("If you are sure, please type DELETE:", "");
                 if (delete_ !== 'DELETE') {
                     txt = "User cancelled the prompt.";
                 }
                 else{
-
         $.ajax({
             async:false,
             url: "{% url 'delete_user_cam' %}",
@@ -220,7 +186,7 @@
             },
             success: function(data){
                 //window.location.reload()
-                $("#UserTable").load(location.href + " #UserTable");
+                $("#UserTable").load(location.href + " #table2");
             },
             error: function(){
                 console.log("Error")
