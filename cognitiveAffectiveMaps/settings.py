@@ -12,7 +12,7 @@ import dj_database_url
 import django_heroku
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
-load_dotenv('.env-local')
+load_dotenv('.env')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -148,5 +148,3 @@ if os.getenv('DJANGO_DEVELOPMENT') is True:
 if os.getenv('DJANGO_LOCAL') is not None:
     from cognitiveAffectiveMaps.settings_local import *
 
-if os.getenv('WATERLOO') is True:
-    from cognitiveAffectiveMaps.settings_waterloo import *
