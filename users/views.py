@@ -335,55 +335,6 @@ def clear_CAM(request):
             link.delete()
         return HttpResponse()
 
-
-"""def Image_CAM(request):
-    '''
-    For more pdf options look at wkhtmltopdf documentation
-    :param request:
-    :return:
-    '''
-    user = User.objects.get(name=request.user.username)
-    file_name = 'media/CAMS/'+user.username+'_'+str(user.active_cam_num)+'.png'
-    data_to_plot(user.username,file_name)
-    user = CustomUser.objects.get(id=user.id)
-    current_cam = CAM.objects.get(id=user.active_cam_num)
-    current_cam.cam_image = file_name
-    current_cam.save()
-    return JsonResponse({'file_name': '../../'+file_name})"""
-def makepdf(html):
-    """Generate a PDF file from a string of HTML."""
-    htmldoc = HTML(string=html, base_url="")
-    return None#htmldoc.write_pdf()
-'''def Image_CAM(request):
-    image_data = request.POST.get('html_to_convert')
-    dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-    image_data = dataUrlPattern.match(image_data).group(2)
-    image_data = image_data.encode()
-    image_data = base64.b64decode(image_data)
-    user = CustomUser.objects.get(username=request.user.username)
-    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.pdf'
-    #pdf = makepdf(image_data)
-    #Path('outfile.pdf').write_bytes(pdf)
-    #print(image_data)
-    #dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
-    #image_data = dataUrlPattern.match(image_data).group(2)
-    #image_data = image_data.encode()
-    #image_data = base64.b64decode(image_data)
-    #with open(file_name, 'wb') as f:
-    #    f.write(image_data)
-    current_cam = CAM.objects.get(id=user.active_cam_num)
-    current_cam.cam_image = file_name
-    current_cam.save()
-
-    return JsonResponse({'file_name': '../../'+file_name})
-
-    #return JsonResponse({'file_name': file_name})
-'''
-def makepdf(html):
-    """Generate a PDF file from a string of HTML."""
-    htmldoc = HTML(string=html, base_url="")
-    return htmldoc.write_pdf()
-
 def remove_transparency(im, bg_color=(255, 255, 255)):
     """
     Taken from https://stackoverflow.com/a/35859141/7444782
@@ -410,7 +361,6 @@ def Image_CAM(request):
     image_data = dataUrlPattern.match(image_data).group(2)
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
-
     user = CustomUser.objects.get(username=request.user.username)
     file_name = media_url[1:]+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
     print(file_name)
