@@ -26,15 +26,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3182814"
-     inkscape:cx="-168.58827"
-     inkscape:cy="62.010071"
+     inkscape:cx="-304.37112"
+     inkscape:cy="60.492944"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1848"
-     inkscape:window-height="1016"
-     inkscape:window-x="72"
-     inkscape:window-y="27"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata5">
@@ -54,7 +54,7 @@
      id="layer1"
      transform="translate(42.550831,-165.92238)">
     <path
-       style="fill:#000000;fill-opacity:1;stroke:#7face2;stroke-width:2.29999991;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:4.59999982, 2.29999990999999993;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#7face2;stroke-width:1.85208333;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:5.55625,5.55625;stroke-dashoffset:0;stroke-opacity:1"
        d="m -42.550831,168.56821 c 198.896901,0 199.097611,0 199.097611,0"
        id="path816"
        inkscape:connector-curvature="0" />

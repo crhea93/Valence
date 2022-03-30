@@ -2,20 +2,20 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="155.38937mm"
    height="1.0067643mm"
    viewBox="0 0 155.38938 1.0067643"
    version="1.1"
    id="svg8"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="line_med.svg"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/">
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
+   sodipodi:docname="line_med.svg">
   <defs
      id="defs2">
     <marker
@@ -55,15 +55,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.1476306"
-     inkscape:cx="188.64955"
-     inkscape:cy="301.92642"
+     inkscape:cx="32.676016"
+     inkscape:cy="300.1837"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:window-height="1043"
+     inkscape:window-x="1920"
+     inkscape:window-y="0"
      inkscape:window-maximized="1"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -84,7 +84,7 @@
      id="layer1"
      transform="translate(47.287997,-233.72112)">
     <path
-       style="fill:#777777;fill-opacity:1;stroke:#434343;stroke-width:33.14400019;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#777777;fill-opacity:1;stroke:#434343;stroke-width:26.45833333;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 108.10119,234.25595 -155.388996,-0.0629"
        id="path815"
        inkscape:connector-curvature="0"
