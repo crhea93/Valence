@@ -83,9 +83,6 @@ DATABASES = {
     }
 }
 
-#if os.getenv('WATERLOO') is True:
-#    DATABASE_URL = os.getenv('DBWATERLOO')
-#    DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
 
 
 # DjangoSecure Requirements -- SET ALL TO FALSE FOR DEV
@@ -142,7 +139,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 LOGIN_URL = 'dashboard'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'loginpage'
-
 django_heroku.settings(locals())
 
 # Override production variables if DJANGO_DEVELOPMENT env variable is set
@@ -151,3 +147,6 @@ if os.getenv('DJANGO_DEVELOPMENT') is True:
 
 if os.getenv('DJANGO_LOCAL') is not None:
     from cognitiveAffectiveMaps.settings_local import *
+
+if os.getenv('WATERLOO') is True:
+    from cognitiveAffectiveMaps.settings_waterloo import *
