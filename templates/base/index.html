@@ -70,13 +70,15 @@
 
                                 {#  {% if user.language_preference == 'en' %}  #}
                                 <a class="btn btn-sm text-primary" id="btn-Preview-Image" style="cursor:pointer" title="{% trans 'Generate Image' %}">
-				  <i class="far fa-file-image GeneralFont"></i>
+				  <i class="far fa-file-image GeneralFont"></i><span class="text-sm" style="display: block">{% trans 'Download' %}</span>
 				</a>
                                      <a class="btn btn-sm text-primary" href="{% url 'export_CAM' %}" style="cursor:pointer" title="{% trans 'Export Map' %}">
 				       <i class="fas fa-download GeneralFont" data-toggle="tooltip" data-placement="bottom" title="{% trans 'Export Map' %}"></i>
+                                         <span class="text-sm" style="display: block">{% trans 'Export' %}</span>
 				     </a>
                                  <a  class="btn btn-sm text-primary" data-toggle="modal" style="cursor:pointer" data-target="#exampleModal" title="{% trans 'Import Map' %}">
                                    <i class="fas fa-upload GeneralFont"></i>
+                                     <span class="text-sm" style="display: block">{% trans 'Import' %}</span>
                                 </a>
                                     <!--<a class="btn-floating btn-sm text-primary" style="cursor:pointer" title="{% trans 'Send Map' %}" data-toggle="modal" data-target="#SendModal"><i class="fas fa-paper-plane GeneralFont"></i></a>-->
                                 {# {% endif %} #}
@@ -84,7 +86,7 @@
                                     <i class="fas fa-undo"></i><span style="display: block">{% trans 'Undo' %}</span>
                                 </a>-->
                                  <a class="btn btn-sm text-danger" style="cursor:pointer" title="{% trans 'Reset Map' %}" data-toggle="modal"  data-target="#DeleteModal">
-				   <i class="fas fa-trash text-danger"></i>
+				   <i class="fas fa-trash text-danger"></i><span class="text-sm" style="display: block">{% trans 'Reset Map' %}</span>
 				 </a>
                             </div>
                         </div>
