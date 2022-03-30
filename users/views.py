@@ -30,6 +30,9 @@ import re
 import base64
 from weasyprint import HTML
 User = get_user_model()
+from django.conf import settings
+media_url = settings.MEDIA_URL
+
 
 def translate(request, user):
     translation.activate(user.language_preference)
@@ -409,7 +412,8 @@ def Image_CAM(request):
     image_data = base64.b64decode(image_data)
 
     user = CustomUser.objects.get(username=request.user.username)
-    file_name = 'media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
+    file_name = media_url[1:]+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
+    print(file_name)
     with open(file_name, 'wb') as f:
         f.write(image_data)
     with open(file_name, "rb") as image_file:
@@ -421,12 +425,12 @@ def Image_CAM(request):
     im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
     im.save(file_name, 'PNG', quality=1000)
     gray_image = ImageOps.grayscale(im)
-    gray_image.save('media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    gray_image.save(media_url[1:]+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
 
-    return JsonResponse({'file_name': '../../'+file_name})
+    return JsonResponse({'file_name': file_name})
 
 def view_pdf(request):
     print('meow meow')
