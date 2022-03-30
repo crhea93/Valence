@@ -14,7 +14,7 @@ from .resources import BlockResource, LinkResource
 from zipfile import ZipFile
 from io import BytesIO
 from tablib import Dataset
-from PIL import Image
+from PIL import Image, ImageOps
 import pandas as pd
 import numpy as np
 from django.contrib.auth import authenticate, login
@@ -415,16 +415,13 @@ def Image_CAM(request):
     with open(file_name, "rb") as image_file:
         data = base64.b64encode(image_file.read())
     im = Image.open(BytesIO(base64.b64decode(data)))
-
     if im.mode in ('RGBA', 'LA'):
-        # https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html?highlight=eps#eps
-        print(
-            'Current figure mode "{}" cannot be directly saved to .eps and should be converted (e.g. to "RGB")'.format(
-                im.mode))
         im = remove_transparency(im)
         im = im.convert('RGB')
     im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
     im.save(file_name, 'PNG', quality=1000)
+    gray_image = ImageOps.grayscale(im)
+    gray_image.save('media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()

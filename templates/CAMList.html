@@ -285,6 +285,7 @@
                         else if (data.message === 'Success'){
                             window.location.reload()
                             console.log('YAY')
+			    window.location.href = "{% url 'index' %}"
                         }
                     },
                     error: function(data){

@@ -89,38 +89,42 @@
                                 <th>{% trans 'Number of Concepts' %}</th>
                                 <th>{% trans 'Number of Links' %}</th>
                                 <th>{% trans 'Create Date' %}</th>
+				<th>{% trans 'CAM ID' %}</th>
                                 <th>{% trans 'Actions' %}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for cam in active_project.cam_set.all %}
-                                    <tr>
-                                        <!--<td>{{ forloop.counter }}</td>-->
-                                        <td class="h-25 w-25">
-                                            {% if user.language_preference == 'de' %}
-                                                <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'CAM.png' %}'"
-                                                     style="width:100%;object-fit: contain;">
-                                            {% else %}
-                                                <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'CAM.png' %}'"
-                                                     style="width:100%;object-fit: contain;">
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ cam.user.username }}</td>
-                                        <td>{{ cam.block_set.all|length }}</td>
-                                        <td>{{ cam.link_set.all|length }}</td>
-                                        <td>{{ cam.creation_date|slice:":19" }}</td>
-                                        <td><div>
-                                                <div onclick="delete_user_cam({{ cam.id }})" title="Map löschen">
-                                                <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
-                                                </div>
-                                                <a href="{% url 'download_cam' %}?pk={{ cam.id }}" title="Map herunterladen">
-                                                    <i class="fas fa-file-download text-primary save_cam"
-                                                       id="save_{{ cam.id }}"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
+
+                            <tr>
+                                <!--<td>{{ forloop.counter }}</td>-->
+                                <td class="h-25 w-25">
+                                    {% if user.language_preference == 'de' %}
+                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/CAM_example_german.png'"
+                                             style="width:100%;object-fit: contain;">
+                                    {% else %}
+                                        <img src="{{ MEDIA_URL }}/{{ cam.cam_image }}" alt="Image not found" onerror="this.onerror=null;this.src='{{ MEDIA_URL }}/Cam_example.png'"
+                                             style="width:100%;object-fit: contain;">
+                                    {% endif %}
+                                </td>
+                                <td>{{ cam.user.username }}</td>
+                                <td>{{ cam.block_set.all|length }}</td>
+                                <td>{{ cam.link_set.all|length }}</td>
+                                <td>{{ cam.creation_date|slice:"19" }}</td>
+				<td>{{ cam.id }} </td>
+                                <td><div>
+                                        <div onclick="delete_user_cam({{ cam.id }})" title="Map löschen">
+                                        <i class="fas fa-trash text-dark mr-auto" style="cursor:pointer"></i>
+                                        </div>
+                                        <a href="{% url 'download_cam' %}?pk={{ cam.id }}" title="Map herunterladen">
+                                            <i class="fas fa-file-download text-primary save_cam"
+                                               id="save_{{ cam.id }}"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
                                 </tbody>
                                 <tfoot style="cursor: pointer;">
                                 <tr>
@@ -129,7 +133,8 @@
                                 <th>{% trans 'Username' %}</th>
                                 <th>{% trans 'Number of Concepts' %}</th>
                                 <th>{% trans 'Number of Links' %}</th>
-                                <th>{% trans 'Last Login' %}</th>
+                                <th>{% trans 'Create Date' %}</th>
+				<th>{% trans 'CAM ID' %}</th>
                                 <th>{% trans 'Actions' %}</th>
                                 </tr>
                                 </tfoot>

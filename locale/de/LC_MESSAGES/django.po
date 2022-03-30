@@ -7,7 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
+<<<<<<< HEAD
+"POT-Creation-Date: 2021-10-29 18:20+0000\n"
+=======
 "POT-Creation-Date: 2021-11-21 22:50+0100\n"
+>>>>>>> 4c2ea482aebe621beaff840bc3f7ebaa04fa14c5
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -399,7 +403,11 @@ msgstr "Zoom"
 
 #: templates/base/index.html:51
 msgid "Resizeable"
+<<<<<<< HEAD
+msgstr "Knotengröße verändern"
+=======
 msgstr "Konzeptgröße verändern"
+>>>>>>> 4c2ea482aebe621beaff840bc3f7ebaa04fa14c5
 
 #: templates/base/index.html:57
 msgid "Cursor Mode"
@@ -423,11 +431,11 @@ msgstr "Herunterladen"
 
 #: templates/base/index.html:71
 msgid "Export"
-msgstr "Map exportieren"
+msgstr "Exportieren"
 
 #: templates/base/index.html:73
 msgid "Import"
-msgstr "Map importieren"
+msgstr "Importieren"
 
 #: templates/base/index.html:75
 msgid "Send Map"
@@ -439,7 +447,7 @@ msgstr ""
 
 #: templates/base/index.html:80
 msgid "Reset Map"
-msgstr "Map zurücksetzen"
+msgstr "Zurücksetzen"
 
 #: templates/base/index.html:114
 msgid "Are you sure that you want to delete the Map?"
