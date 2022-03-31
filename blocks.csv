@@ -1,34 +1,31 @@
-,id,title,x_pos,y_pos,width,height,shape,creator,num,comment,timestamp,modifiable,text_scale,CAM
-0,34,Worker protection,292.0,425.0,112.0,60.0,positive weak,17,20.0,,22:43:54,1,13.550094517958412,37
-1,25,GHG emissions,325.0,123.988,140.0,75.0,negative weak,17,11.0,,21:57:29,1,14.0,37
-2,23,100% renewable energy system,396.0,621.4,125.05,67.0,positive weak,17,8.0,,21:41:00,1,12.687922705314008,37
-3,21,"Survival (cultures, countries, ecosystems)",633.0,20.0,140.0,75.0,positive strong,17,6.0,,21:42:57,1,14.0,37
-4,17,Climate change,234.0,29.0,140.0,75.0,negative strong,17,2.0,,23:23:20,1,14.0,37
-5,30,Investment in infrastructure,891.0,320.0,140.0,75.0,positive weak,17,16.0,,20:48:17,1,14.0,37
-6,40,Fossil fuels,320.0,272.0,140.0,75.0,negative weak,17,26.0,,21:58:06,1,14.0,37
-7,41,Subsidies,473.0,420.0,110.125,59.0,negative weak,17,27.0,,,1,11.172946859903384,37
-8,26,energy transition/phase out,420.0,527.0,140.0,75.0,positive strong,17,12.0,,21:38:20,1,14.0,37
-9,38,Leadership,798.0,571.0,108.262,58.0,positive weak,17,24.0,,20:48:38,1,10.983574879227051,37
-10,33,Climate protection,441.0,28.0,126.925,68.0,positive strong,17,19.0,,20:47:41,1,12.87729468599034,37
-11,32,Community resilience,884.0,63.0,140.0,75.0,positive weak,17,18.0,,20:47:50,1,14.0,37
-12,29,Climate adaptation,887.0,146.0,140.0,75.0,positive weak,17,15.0,,20:47:57,1,14.0,37
-13,20,climate risks,637.0,124.4,140.0,75.0,negative strong,17,5.0,,20:37:35,1,14.0,37
-14,27,"Oil, coal, & gas industry",483.0,279.0,140.0,75.0,negative strong,17,13.0,,23:23:12,1,14.0,37
-15,24,energy access,226.0,604.8,113.863,61.0,positive weak,17,9.0,,21:37:52,1,11.551690821256038,37
-16,35,Canada,642.0,464.0,140.0,75.0,ambivalent,17,21.0,,20:48:47,1,14.0,37
-17,37,Funding international climate change adaptation,938.0,572.6,102.662,55.0,positive weak,17,23.0,,20:49:46,1,10.41545893719807,37
-18,369,Just Recovery,158.0,408.0,96.925,51.0,positive,17,45.0,,,1,11.53317913561848,37
-19,361,R&D on renewables and carbon storage,621.0,567.0,117.463,62.0,positive weak,17,35.0,,,1,13.653333333333334,37
-20,358,Carbon pricing,635.0,325.0,140.0,75.0,positive weak,17,32.0,,,1,14.0,37
-21,356,Emissions regulations,633.0,253.0,110.0,58.0,positive,17,30.0,,,1,12.8,37
-22,357,Net zero by 2050,869.0,457.0,140.0,75.0,positive strong,17,31.0,,,1,14.0,37
-23,355,Sustainable jobs,254.0,488.0,108.125,57.0,positive weak,17,29.0,,,1,12.785194532071506,37
-24,359,Protection of the most vulnerable,198.0,544.0,102.525,54.0,positive weak,17,33.0,,,1,12.143806380638065,37
-25,365,Social justice,22.0,210.4,104.4,55.0,positive weak,17,39.0,,,1,12.364692059501362,37
-26,31,Emergency preparedness,895.0,227.988,143.6,76.0,positive weak,17,17.0,,20:48:12,1,14.0,37
-27,360,Energy efficiency & conservation,557.0,629.2,113.725,60.0,positive weak,17,34.0,,,1,13.226666666666668,37
-28,368,Inequality,39.0,575.0,115.6,61.0,negative weak,17,43.0,,22:54:37,1,13.44,37
-29,363,Green New Deal,31.0,314.0,115.6,61.0,positive,17,37.0,,,1,13.44,37
-30,367,Climate justice,193.0,201.975,115.6,61.0,positive strong,17,42.0,,22:49:47,1,13.44,37
-31,362,Just Transition,194.0,313.0,117.463,62.0,positive strong,17,36.0,,23:01:31,1,13.886195993632038,37
-32,366,"Indigenous justice (UNDRIP, FPIC, TRC, NIMMIWG)",124.0,261.0,100.65,53.0,positive weak,17,40.0,,,1,11.733333333333334,37
+,id,title,x_pos,y_pos,width,height,shape,creator,num,comment,timestamp,modifiable,text_scale,CAM,resizable
+0,324,opportunities,404.0,572.0,140.0,75.0,positive weak,17,4.0,,19:24:34,1,14.0,38,0
+1,337,water,25.0,276.0,140.0,75.0,positive weak,17,18.0,,19:24:18,1,14.0,38,0
+2,322,ESG factors,399.0,20.0,126.8,67.0,positive strong,17,2.0,,20:22:51,1,14.0,38,0
+3,326,climate-related financial disclosures,20.0,413.0,123.2,66.0,positive weak,17,6.0,,21:47:44,1,12.0,38,0
+4,341,fiduciary responsibility to shareholders,332.0,327.0,130.663,70.0,positive strong,17,22.0,,20:22:58,1,12.755745373195037,38,0
+5,350,LEED buildings,903.0,589.0,140.0,75.0,positive weak,17,37.0,,,1,14.0,38,0
+6,336,"""engagement focus areas""",176.0,145.0,140.0,75.0,neutral,17,17.0,,,1,14.0,38,0
+7,342,diversification,899.0,158.0,140.0,75.0,positive strong,17,25.0,,,1,14.0,38,0
+8,321,renewable energy,890.0,400.988,140.0,75.0,positive weak,17,1.0,,19:42:18,1,14.0,38,0
+9,347,carbon reduction,625.0,438.0,140.0,75.0,positive weak,17,31.0,,,1,14.0,38,0
+10,325,sustainable investing,407.0,171.0,140.0,75.0,positive weak,17,5.0,,19:34:40,1,14.0,38,0
+11,327,green bonds,826.0,494.0,140.0,75.0,positive weak,17,7.0,,19:41:15,1,14.0,38,0
+12,345,accountability,263.0,247.988,117.463,62.0,positive weak,17,29.0,,,1,13.986341463414634,38,0
+13,343,organizational survival/endurance,656.0,22.0,140.0,75.0,positive strong,17,26.0,,20:22:39,1,14.0,38,0
+14,346,emerging technologies,537.0,369.0,140.0,75.0,positive weak,17,30.0,,,1,14.0,38,0
+15,338,human rights,206.0,20.0,140.0,75.0,positive weak,17,19.0,,19:24:24,1,14.0,38,0
+16,340,board effectiveness,24.0,115.0,140.0,75.0,positive weak,17,21.0,,19:25:13,1,14.0,38,0
+17,334,"""evolution to a lower-carbon world""",742.0,283.0,140.0,75.0,positive,17,15.0,,20:22:32,1,14.0,38,0
+18,332,resilience,901.0,27.0,140.0,75.0,positive weak,17,13.0,,19:16:35,1,14.0,38,0
+19,330,long-term value,406.0,254.0,140.0,75.0,positive strong,17,10.0,,20:23:10,1,14.0,38,0
+20,335,growth,404.0,421.0,140.0,75.0,positive strong,17,16.0,,,1,14.0,38,0
+21,344,diversity/inclusion,26.0,20.0,140.0,75.0,positive weak,17,28.0,,,1,14.0,38,0
+22,339,executive compensation,20.0,190.988,140.0,75.0,positive weak,17,20.0,,19:24:10,1,14.0,38,0
+23,349,sustainable water management,751.0,589.0,140.0,75.0,positive weak,17,36.0,,21:49:15,1,14.0,38,0
+24,348,undue risk of loss,177.0,409.0,140.0,75.0,negative strong,17,34.0,,,1,14.0,38,0
+25,329,risks,175.0,498.987,140.0,75.0,ambivalent,17,9.0,,19:27:34,1,14.0,38,0
+26,352,profitability,324.0,135.0,106.25,56.0,positive weak,17,39.0,,,1,12.373333333333331,38,0
+27,353,reputational harm,540.0,94.0,113.725,60.0,negative,17,40.0,,,1,13.226666666666668,38,0
+28,331,climate change,21.0,568.0,130.525,69.0,negative,17,11.0,,20:47:47,1,14.0,38,0
+29,351,"""resource efficiency"" innovations in oil & gas",651.0,155.988,140.0,75.0,positive weak,17,38.0,,20:47:13,1,13.0,38,0

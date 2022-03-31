@@ -4,7 +4,7 @@ $(document).ready(function(){
             function () {
                 if (currentZoom < 1.5) {
                     cam_div.animate({'zoom': currentZoom += .1,},
-                        //'height': cam_height_max*(1/currentZoom)},
+                        {'height': cam_div.height+100, 'width': cam_div.width+100},
                         {});
                     $('#zoom_lev').html('Zoom: '+currentZoom.toFixed(1));
                 }
@@ -13,7 +13,7 @@ $(document).ready(function(){
             function () {
                 if (currentZoom > 0.6) {
                     cam_div.animate({'zoom': currentZoom -= .1,},
-                        //'height': cam_height_max*(1/currentZoom)},
+                        {'height': cam_height_max*(1/currentZoom)},
                         {});
                     $('#zoom_lev').html('Zoom: '+currentZoom.toFixed(1));
                 }
