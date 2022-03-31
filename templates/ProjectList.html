@@ -96,7 +96,7 @@
 
             })
             $('.DeleteProject').on('click', function(){
-                let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                let delete_ = window.prompt({%  trans "If you are sure, please type DELETE:" %}, "");
                   if (delete_ !== 'DELETE') {
                       txt = "User cancelled the prompt.";
                   }

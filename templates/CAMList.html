@@ -11,7 +11,7 @@
                         {% else %}
                             <h4 class="m-0 section-title" id="userMapS">{% trans 'Maps' %}</h4>
                         {% endif %}
-                     <h3>To update a map, please click on the thumnnail.</h3>
+                     <h3>{% trans 'To update a map, please click on the thumbnail.' %}</h3>
                     </div><!-- /.col -->
 
                 </div><!-- /.row -->
@@ -230,7 +230,7 @@
                 })//end ajax
             })
             $('.DeleteCAM').on('click', function(){
-                let delete_ = window.prompt("If you are sure, please type DELETE:", "");
+                let delete_ = window.prompt({%  trans "If you are sure, please type DELETE:" %}, "");
                 if (delete_ !== 'DELETE') {
                     txt = "User cancelled the prompt.";
                 }
