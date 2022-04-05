@@ -1,5 +1,5 @@
 function createLine(line_num,name,point_array,start_block_id,end_block_id,Add_class){
-    //line_num,name,point_array,drag_height,drag_width,line_style,line_width,start_block_id,end_block_id,Add_class
+    //line_num,name,point_array[startx, starty, endx, endy],drag_height,drag_width,line_style,line_width,start_block_id,end_block_id,Add_class
   x1 = point_array[0]; x2 = point_array[2];
   x1 = parseFloat(x1); x2 = parseFloat(x2);
   y1 = point_array[1]; y2 = point_array[3];
@@ -8,9 +8,8 @@ function createLine(line_num,name,point_array,start_block_id,end_block_id,Add_cl
   var height1= parseFloat($('#block_'+start_block_id).css('height'))
   var width2 = parseFloat($('#block_'+end_block_id).css('width'))
   var height2= parseFloat($('#block_'+end_block_id).css('height'))
-  //console.log(width, height)
   // Need to make sure the line is pointing in the right direction
-  if (x2 < x1) {
+  if (x2 < x1 - (width2-width1)/2) {
     var temp = x1;
     x1 = x2;
     x2 = temp;
@@ -22,6 +21,10 @@ function createLine(line_num,name,point_array,start_block_id,end_block_id,Add_cl
     width1 = parseFloat($('#block_'+end_block_id).css('width'))
     height1 = parseFloat($('#block_'+end_block_id).css('height'))
   }
+  console.log("Start", x1, y1)
+  console.log("")
+  console.log("End", x2, y2)
+  // Handle fact that height or width of object may differ from one concept to another
   let x1_ = x1 + 0.5*width1; let y1_ = y1 + 0.5*height1;
   let x2_ = x2 + 0.5*width2; let y2_ = y2 + 0.5*height2;
   var length = Math.sqrt((x1_ - x2_) * (x1_ - x2_)  + (y1_ - y2_ ) * (y1_ - y2_ ));

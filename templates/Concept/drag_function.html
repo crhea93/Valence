@@ -3,7 +3,6 @@
 <script>
     function drag_func(num_block_global,num_block_local,left,top,width,height,currentZoom){
         //Pass information to django to update database
-        console.log(left, top)
         $.ajax({
             async:false,
             url: "{% url 'drag_function' %}",
