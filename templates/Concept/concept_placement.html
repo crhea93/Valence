@@ -1,42 +1,21 @@
 {% load static %}
 
 <script>
-    function block_placement(event,cam_element,drag_width,drag_height,concept_ct,zoom_scale){
+    function block_placement(event,cam_element,drag_width,drag_height,concept_ct,currentZoom){
         event.stopPropagation();
          if( event.target.id !== cam_element.attr('id') ) {
              return false; //Dont add element if child is clicked!
          }
         //get the current x and y of the mouse pointer
         concept_ct += 1;
-        var X = (event.pageX)-100;
-        var Y = (event.pageY)-150;
+        var X = ((event.clientX)-100)/currentZoom;
+        var Y = ((event.clientY)-150)/currentZoom;
+        console.log(X,Y)
         var cam_item = def_concept(X, Y, concept_ct, 'hidden', '');
         //add concept to CAM
         $("#CAM_items").append(cam_item);
         let block_ = $('#block_'+concept_ct);
         block_.css('position', 'absolute');
-        //block_.addClass('Open');
-        /*block_.resizable({
-            aspectRatio: 140/75,
-            ghost: true,
-            start: function(event, ui){
-                init_width = ui.size.width;
-                init_height = ui.size.height
-            },
-            stop: function(event, ui){
-                let num_block_global = $(this).attr('id').split('_')[1];
-                let num_block_local = $(this).attr('id').split('_')[1];
-                let left = $(this).css('left'); let top = $(this).css('top');
-                let height = $(this).css('height'); let width = $(this).css('width');
-
-                let scale = (ui.size.width)/(init_width)
-                let current_fontsize = parseFloat($(this).find('.success_blk').children().css('font-size'))
-                $(this).find('.success_blk').children().css('font-size', scale*current_fontsize)
-                let text_scale = scale*current_fontsize;
-                resize_func(num_block_global,num_block_local,left,top,height,width, text_scale)
-            }
-        });*/
-
         $('#title_'+concept_ct).select();
         $('#shape_'+concept_ct).slider({
              value: 3,
@@ -84,11 +63,6 @@
         return [concept_ct,X,Y]
     }
 
-    /*$(document).on('click',".close",function(){
-        var block_ = $(this).parent();
-        block_.remove();
-        blk_delete(block_[0])  // This will throw an error unless the concept is already in the database -- this isnt really an issue :)
-    });*/
     //---------CHECKBOX--------------//
     $(document).on('mousedown','.checkbox',function () {
         let ct = this.id.split("_")[1];
@@ -190,7 +164,7 @@
                              $(this).addClass('my_class');
                          },
                         drag: function(evt,ui){
-                             var factor = (1 / currentZoom) - 1;
+                             var factor = (1 / currentZoom);
                              ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
                              ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
                             let link_numbers = $('#title_'+data.num).attr('data-links');
@@ -212,7 +186,7 @@
                          stop: function( event, ui ) {
                              $(this).removeClass('my_class');
                              let this_block = $('#block_' + data.num);
-                             drag_func(data.num,data.num,this_block.css("left"),this_block.css("top"),this_block.css("width"),this_block.css("height"))
+                             drag_func(data.num,data.num,this_block.css("left"),this_block.css("top"),this_block.css("width"),this_block.css("height"), currentZoom)
                          }
                      })
                 },

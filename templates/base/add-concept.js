@@ -34,8 +34,8 @@ $(document).on("mousedown", "#CAM_items",function(event) {
               $('#Comment_Info').attr('hidden', true);
               clearTimeout(timer);
               prevent = true;
-              place_ret = block_placement(event, $("#CAM_items"), -100-shift_left_total, -50-shift_top_total, concept_ct, 1/currentZoom);
-              concept_ct = place_ret[0];X = place_ret[1]; Y = place_ret[2];
+              place_ret = block_placement(event, $("#CAM_items"), -100-shift_left_total, -50-shift_top_total, concept_ct, currentZoom);
+              concept_ct = place_ret[0];
               $('.Selected').each(function(){
                     $(this).removeClass("Selected");
                     $(this).removeClass("FirstSelected");
