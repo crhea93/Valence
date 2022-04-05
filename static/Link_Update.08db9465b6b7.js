@@ -31,7 +31,7 @@ function update_link_start(link_sel){
     let link_width = link_sel.css('border').split(' ')[0];
     link_width = Math.round(parseFloat(link_width)).toFixed(2);
     // New Link
-    var new_link = createLine(link_id,link_id,[startx,starty,endx,endy],-50,75,link_style,link_width,link_sel.attr('data-start_id'),link_sel.attr('data-end_id'),'');
+    var new_link = createLine(link_id,link_id,[startx,starty,endx,endy],link_style,link_width,link_sel.attr('data-start_id'),link_sel.attr('data-end_id'),'');
     $('#'+link_id).remove();
     $("#CAM_items").append(new_link);
 
@@ -67,7 +67,7 @@ function update_link_end(link_sel,ui_pos_top,ui_pos_left){
     let link_width = link_sel.css('border').split(' ')[0];
     link_width = Math.round(parseFloat(link_width)).toFixed(2);
     // New Link
-    var new_link = createLine(link_id,link_id,[startx,starty,endx,endy],-50,75,link_style,link_width,link_sel.attr('data-start_id'),link_sel.attr('data-end_id'),'');
+    var new_link = createLine(link_id,link_id,[startx,starty,endx,endy],link_style,link_width,link_sel.attr('data-start_id'),link_sel.attr('data-end_id'),'');
     $('#'+link_id).remove();
     $("#CAM_items").append(new_link);
 

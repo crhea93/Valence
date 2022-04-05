@@ -25,7 +25,7 @@
                 //Recreate link
                 link_sel.remove();
                 var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
-                var link = createLine(data.id,data.id,point_array,-100,50,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
+                var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
                 $("#CAM_items").append(link);
                 let link_ = $('#'+data.id)
                 link_.addClass('Selected-link');

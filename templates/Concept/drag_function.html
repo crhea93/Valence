@@ -37,7 +37,7 @@
                      else{
                          arrow_type = 'none'//link__.css('border').split(" ")[1]
                      }
-                     var new_link = createLine(data.id[link],data.id[link],[data.start_x[link],data.start_y[link],data.end_x[link],data.end_y[link]],-100,50,data.starting_block[link],data.ending_block[link],data.style[link]+' '+arrow_type);
+                     var new_link = createLine(data.id[link],data.id[link],[data.start_x[link],data.start_y[link],data.end_x[link],data.end_y[link]],data.starting_block[link],data.ending_block[link],data.style[link]+' '+arrow_type);
                     link__.remove();
                     $("#CAM_items").append(new_link);
                 }

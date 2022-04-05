@@ -1,4 +1,4 @@
-function createLine(line_num,name,point_array,drag_height,drag_width,start_block_id,end_block_id,Add_class){
+function createLine(line_num,name,point_array,start_block_id,end_block_id,Add_class){
     //line_num,name,point_array,drag_height,drag_width,line_style,line_width,start_block_id,end_block_id,Add_class
   x1 = point_array[0]; x2 = point_array[2];
   x1 = parseFloat(x1); x2 = parseFloat(x2);

@@ -28,7 +28,7 @@
                 {% for line in existing_lines %}
                     var link = createLine( "{{ line.id }}","{{ line.id }}",["{{ line.starting_block.x_pos }}",
                         "{{ line.starting_block.y_pos }}","{{ line.ending_block.x_pos }}","{{ line.ending_block.y_pos }}"]
-                        ,0,0, "{{ line.starting_block.num|integer }}", "{{ line.ending_block.num|integer }}",
+                        , "{{ line.starting_block.num|integer }}", "{{ line.ending_block.num|integer }}",
                         "{{ line.line_style }}"+" "+"{{ line.arrow_type }}");
                     $("#CAM_items").append(link);
                 {% endfor %}

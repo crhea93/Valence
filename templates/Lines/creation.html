@@ -34,7 +34,7 @@
                 //dataType: 'json',
                 success: function (data) {
                     //Get x and y coordinates of starting and ending block
-                    var link = createLine(data.id,data.id,point_array,-100,50,start_block_id,end_block_id,'Solid-Weak');
+                    var link = createLine(data.id,data.id,point_array,start_block_id,end_block_id,'Solid-Weak');
                     let end_block = $('#title_'+end_block_id);
                     let start_block = $('#title_'+start_block_id);
                     // Add link to blocks data-links
