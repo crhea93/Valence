@@ -27,7 +27,7 @@ def integer(val):
 
 def add_block(request):
     """
-    Functionality to add a block to the databaase. This functionality is called from templates/Concept/concept_placement.html
+    Functionality to add a block to the databaase. This functionality is called from templates/Concept/Initial_Concept_Placement.html
     or templates/Concept/Initial_Placement. The Jquery/Ajax call passes all block information to django. The information is
     augmented to include any other relavent features (i.e. creator id). The block is then created in the database
     via the BlockForm form defined in block/forms.py. The complete block data is then passed back to the drawing canvas.
@@ -67,7 +67,7 @@ def add_block(request):
 def update_block(request):
     """
     Function to update the information associated with a block. This is called whenever a block is modified (with
-    the exception of being moved/dragged -- See below for that function). This can be invoked either from templates/Concept/concept_placement.html
+    the exception of being moved/dragged -- See below for that function). This can be invoked either from templates/Concept/Initial_Concept_Placement.html
     or templates/Concept/Initial_Placement or templates/Concept/resize_function.html. The block data is taken from the Jquery/Ajax
     call. The block is updated using the block.update() command defined in block/model.py. The block data is returned to
     the Jquery call to update the drawing canvas.

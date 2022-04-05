@@ -12,8 +12,8 @@
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
                 'block_id': num_block_global,
                 'user_block_id':num_block_local,
-                'x_pos':left*currentZoom,
-                'y_pos':top*currentZoom,
+                'x_pos':left,
+                'y_pos':top,
                 'width': width,
                 'height': height,
                 'drag_width':0,
@@ -37,7 +37,7 @@
                      else{
                          arrow_type = 'none'//link__.css('border').split(" ")[1]
                      }
-                     var new_link = createLine(data.id[link],data.id[link],[data.start_x[link]*currentZoom,data.start_y[link]*currentZoom,data.end_x[link]*currentZoom,data.end_y[link]*currentZoom],-100,50,data.starting_block[link],data.ending_block[link],data.style[link]+' '+arrow_type);
+                     var new_link = createLine(data.id[link],data.id[link],[data.start_x[link],data.start_y[link],data.end_x[link],data.end_y[link]],-100,50,data.starting_block[link],data.ending_block[link],data.style[link]+' '+arrow_type);
                     link__.remove();
                     $("#CAM_items").append(new_link);
                 }

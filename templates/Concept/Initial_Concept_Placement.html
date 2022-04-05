@@ -8,8 +8,8 @@
          }
         //get the current x and y of the mouse pointer
         concept_ct += 1;
-        var X = ((event.clientX)-100)/currentZoom;
-        var Y = ((event.clientY)-150)/currentZoom;
+        var X = (event.pageX)-100;
+        var Y = (event.pageY)-150;
         console.log(X,Y)
         var cam_item = def_concept(X, Y, concept_ct, 'hidden', '');
         //add concept to CAM
