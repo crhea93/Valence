@@ -8,8 +8,8 @@
          }
         //get the current x and y of the mouse pointer
         concept_ct += 1;
-        var X = (event.pageX)-100;
-        var Y = (event.pageY)-150;
+        var X = ((event.pageX)-100)/currentZoom;
+        var Y = ((event.pageY)-150)/currentZoom;
         console.log(X,Y)
         var cam_item = def_concept(X, Y, concept_ct, 'hidden', '');
         //add concept to CAM
@@ -164,9 +164,9 @@
                              $(this).addClass('my_class');
                          },
                         drag: function(evt,ui){
-                             var factor = (1 / currentZoom);
-                             ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
-                             ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
+                            var factor = (1 / currentZoom) - 1;
+                            ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+                            ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
                             let link_numbers = $('#title_'+data.num).attr('data-links');
                             link_numbers = link_numbers.slice(1,-1);
                             link_numbers = link_numbers.split(',');

@@ -13,7 +13,7 @@
         //Add concept
         $("#CAM_items").append(def_created_concept);
         // add links to data-links attribute
-        $('#title_'+num).attr('data-links','['+eval(links_starting)+eval(links_ending)+']');
+        $('#title_'+num).attr('data-links','['+eval(links_starting)+','+eval(links_ending)+']');
         $('#title_'+num).value = title;
         $('#success_block_'+num).append('<p>'+title+'</p>');
         var block_ = $('#block_' + num);
