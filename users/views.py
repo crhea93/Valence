@@ -271,6 +271,15 @@ def create_participant(request):
                             user.save()
                             upload_cam_participant(user, project)
                             return redirect('index')
+                    else:
+                        context = {
+                            'message': form.errors,
+                            "form": form,
+                            'projects': Project.objects.all(),
+                            'password_message': "Incorrect Project Password",
+                        }
+                        return render(request, 'registration/register.html', context=context)
+
             else:
                 # Create a user without a project
                 print('User without project')
