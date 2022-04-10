@@ -15,7 +15,7 @@ function def_concept(x,y,ct,note_hidden, note_value){
                     'left:'+x+'px;' +
                     'top:'+y+'px; ' +
                     'z-index: 3;' +'">'+
-                    '<span class="fa-stack fa-sm">' +
+                    '<span class="position-absolute w-100">' +
                     '  <i class="far fa-comment-dots" '+note_hidden+' title="'+note_value+'"></i>'+
                     '</span>'+
                     '<div id="block_form_'+ct+'" class="card-body block-form concept_form" style="z-index: 4">'+
@@ -26,7 +26,7 @@ function def_concept(x,y,ct,note_hidden, note_value){
                         '<div class="slider custom-range" id="shape_' + ct + '" value="3"></div>' +
                         '<input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + ct + '" value="Ambivalent" title="Ambivalent">' +
                      '</div>' +
-                    '<div class="success_blk align-middle text-center" style="z-index:3" id="success_block_'+ct+'"></div>'+
+                    '<div class="flex success_blk align-items-center text-center h-100" style="z-index:3" id="success_block_'+ct+'"></div>'+
                     '</div>';
     return def_concept_ret
 }

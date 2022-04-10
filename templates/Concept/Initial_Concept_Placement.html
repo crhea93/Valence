@@ -148,7 +148,7 @@
                         $(this).removeClass('ui-resizable')
                     });
                     $('#block_form_'+data.num).attr('hidden',true);
-                    $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                    $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
                     $("#link_blocks").load(location.href + " #link_blocks");
                     $("#link_blocks_del").load(location.href + " #link_blocks_del");
                     var block_ = $('#block_' + data.num);

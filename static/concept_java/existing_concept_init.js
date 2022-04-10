@@ -35,7 +35,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         resizable_bool = ''
     }
     //Create concept already in user's bank
-    var def_created_concept = '<div class="block shadow-none card draggable ui-widget-content ' + class_shape + ' ' + resizable_bool + ' text-center align-middle mb-0"' +
+    var def_created_concept = '<div class="block shadow-none card draggable ui-widget-content ' + class_shape + ' ' + resizable_bool + ' text-center align-middle mb-0 clearfix"' +
         'id="block_' + num + '"' +
         'style="' +
         'left:' + x + 'px;' +
@@ -47,7 +47,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         'data-title="' + num + '" ' +
         'data-modifiable="' + modifiable + '"' +
         '>' +
-        '<span class="fa-stack fa-sm" title="'+note_value+'">' +
+        '<span class="position-absolute w-100" title="'+note_value+'">' +
         '  <i class="far fa-comment-dots" '+note_hidden+' title="'+note_value+'"></i>'+
         '</span>'+
         '<div id="block_form_' + num + '" class="card-body block-form concept_form" hidden>' +
@@ -59,7 +59,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         '<div class="slider custom-range" id="shape_' + num + '" value="' + slide_val + '"></div>' +
         '   <input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + num + '" value="Ambivalent" title="Ambivalent">' +
         '</div>' +
-        '<div class="success_blk align-middle text-center" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
+        '<div class="flex success_blk align-items-center text-center h-100" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
         '</div>';
     return def_created_concept
 }
