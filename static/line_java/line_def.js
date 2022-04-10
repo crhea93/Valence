@@ -21,9 +21,7 @@ function createLine(line_num,name,point_array,start_block_id,end_block_id,Add_cl
     width1 = parseFloat($('#block_'+end_block_id).css('width'))
     height1 = parseFloat($('#block_'+end_block_id).css('height'))
   }
-  console.log("Start", x1, y1)
-  console.log("")
-  console.log("End", x2, y2)
+
   // Handle fact that height or width of object may differ from one concept to another
   let x1_ = x1 + 0.5*width1; let y1_ = y1 + 0.5*height1;
   let x2_ = x2 + 0.5*width2; let y2_ = y2 + 0.5*height2;

@@ -16,6 +16,7 @@
         $('#title_'+num).attr('data-links','['+eval(links_starting)+','+eval(links_ending)+']');
         $('#title_'+num).value = title;
         $('#success_block_'+num).append('<span class="h-100 d-inline-flex align-items-center">'+title+'</span>');
+        $('#success_block_'+num).textFit({alignHoriz:true, alignVert:true})
         var block_ = $('#block_' + num);
         block_.draggable({
              containment: "#CAM_items",
@@ -131,7 +132,8 @@
                     success: function (data) {
                         $('#block_form_'+data.num).attr('hidden',true);
                         $('#success_block_'+data.num).empty();
-                        $('#success_block_'+data.num).append('<p>'+$('#title_'+data.num).val()+'</p>');
+                        $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                        $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
                         $('.Selected').each(function(){
                             $(this).removeClass("Selected");
                             $(this).removeClass("FirstSelected");

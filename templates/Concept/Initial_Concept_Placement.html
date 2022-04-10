@@ -149,6 +149,7 @@
                     });
                     $('#block_form_'+data.num).attr('hidden',true);
                     $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                    $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
                     $("#link_blocks").load(location.href + " #link_blocks");
                     $("#link_blocks_del").load(location.href + " #link_blocks_del");
                     var block_ = $('#block_' + data.num);
@@ -211,7 +212,6 @@
         var Y = blk_.css('top');//event.pageY;
          var width = blk_.css('width').trim('px');
          var height = blk_.css('height').trim('px');
-         console.log(X+' '+Y)
         shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
             shape_ = 7
@@ -239,7 +239,8 @@
                 $('#block_form_'+data.num).attr('hidden',true);
                 let success_blk = $('#success_block_'+data.num);
                 success_blk.empty();
-                success_blk.append('<p>'+$('#title_'+data.num).val()+'</p>');
+                success_blk.append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                success_blk.textFit({alignHoriz:true, alignVert:true})
                 $(".Selected").each(function(){
                      $(this).removeClass("Selected");
                      $(this).removeClass("FirstSelected");
