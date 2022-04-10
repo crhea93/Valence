@@ -384,7 +384,7 @@ def Image_CAM(request):
     im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
     im.save(file_name, 'PNG', quality=1000)
     gray_image = ImageOps.grayscale(im)
-    gray_image.save('media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    gray_image.save('/media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
