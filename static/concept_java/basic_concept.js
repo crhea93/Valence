@@ -15,7 +15,7 @@ function def_concept(x,y,ct,note_hidden, note_value){
                     'left:'+x+'px;' +
                     'top:'+y+'px; ' +
                     'z-index: 3;' +'">'+
-                    '<span class="position-absolute w-100">' +
+                    '<span class="position-absolute">' +
                     '  <i class="far fa-comment-dots" '+note_hidden+' title="'+note_value+'"></i>'+
                     '</span>'+
                     '<div id="block_form_'+ct+'" class="card-body block-form concept_form" style="z-index: 4">'+

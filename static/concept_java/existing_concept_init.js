@@ -47,7 +47,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         'data-title="' + num + '" ' +
         'data-modifiable="' + modifiable + '"' +
         '>' +
-        '<span class="position-absolute w-100" title="'+note_value+'">' +
+        '<span class="position-absolute" title="'+note_value+'">' +
         '  <i class="far fa-comment-dots" '+note_hidden+' title="'+note_value+'"></i>'+
         '</span>'+
         '<div id="block_form_' + num + '" class="card-body block-form concept_form" hidden>' +
