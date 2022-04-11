@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-31 01:08+0100\n"
+"POT-Creation-Date: 2022-04-11 01:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid "To update a map, please click on the thumbnail."
 msgstr "Um eine Map zu verändern, klicken Sie bitte auf die Vorschau."
 
 #: templates/CAMList.html:38 templates/Legend-Content.html:41
-#: templates/base/index.html:118 templates/base/index.html:128
+#: templates/base/index.html:122 templates/base/index.html:132
 msgid "Delete Map"
 msgstr "Map löschen"
 
@@ -206,13 +206,13 @@ msgid "Project Participant"
 msgstr "Projektpasswort"
 
 #: templates/CAMList.html:139 templates/CAMList.html:140
-#: templates/registration/register_participant.html:56
-#: templates/registration/register_participant.html:62
+#: templates/registration/register_participant.html:57
+#: templates/registration/register_participant.html:63
 msgid "Project Name"
 msgstr "Projektname"
 
 #: templates/CAMList.html:141
-#: templates/registration/register_participant.html:63
+#: templates/registration/register_participant.html:64
 msgid ""
 "Please enter the project name. If the wrong name is entered, you will "
 "receive an error message and a list of available projects"
@@ -221,8 +221,8 @@ msgstr ""
 "eingeben, bekommen Sie eine Liste verfügbarer Projekte."
 
 #: templates/CAMList.html:144
-#: templates/registration/register_participant.html:66
 #: templates/registration/register_participant.html:67
+#: templates/registration/register_participant.html:68
 msgid "Project Password"
 msgstr "Projektpasswort"
 
@@ -256,8 +256,7 @@ msgstr "Ambivalentes Konzept"
 
 #: templates/Legend-Content.html:12
 msgid "Draw links between concepts that are related to each other"
-msgstr ""
-"Konzepte können auf zwei Arten miteinander verbunden werden:"
+msgstr "Konzepte können auf zwei Arten miteinander verbunden werden:"
 
 #: templates/Legend-Content.html:13
 msgid "Concepts in Agreement"
@@ -319,20 +318,20 @@ msgstr ""
 "Verbindung durch einmaliges Klicken auswählen und auf der Tastatur "
 "'Entfernen' drücken."
 
-#: templates/Legend-Content.html:37 templates/base/index.html:67
+#: templates/Legend-Content.html:37 templates/base/index.html:69
 msgid "Save Map"
 msgstr "Speichern"
 
-#: templates/Legend-Content.html:38 templates/base/index.html:72
+#: templates/Legend-Content.html:38 templates/base/index.html:74
 msgid "Generate Image"
 msgstr "Map als Bild speichern"
 
-#: templates/Legend-Content.html:39 templates/base/index.html:75
-#: templates/base/index.html:76
+#: templates/Legend-Content.html:39 templates/base/index.html:77
+#: templates/base/index.html:78
 msgid "Export Map"
 msgstr "Map exportieren"
 
-#: templates/Legend-Content.html:40 templates/base/index.html:79
+#: templates/Legend-Content.html:40 templates/base/index.html:81
 msgid "Import Map"
 msgstr "Map importieren"
 
@@ -400,89 +399,89 @@ msgstr "Ihre Map wurde gespeichert."
 msgid "Cognitive Affective Maps"
 msgstr ""
 
-#: templates/base/index.html:49
+#: templates/base/index.html:51
 msgid "Zoom"
 msgstr "Zoom"
 
-#: templates/base/index.html:51
+#: templates/base/index.html:53
 msgid "Resizeable"
 msgstr "Konzeptgröße verändern"
 
-#: templates/base/index.html:57
+#: templates/base/index.html:59
 msgid "Cursor Mode"
 msgstr "Mauszeiger-Modus"
 
-#: templates/base/index.html:58
+#: templates/base/index.html:60
 msgid "Concept Mode"
 msgstr "Konzept-Modus"
 
-#: templates/base/index.html:59
+#: templates/base/index.html:61
 msgid "Link Mode"
 msgstr "Verbindung"
 
-#: templates/base/index.html:68
+#: templates/base/index.html:70
 msgid "Save"
 msgstr "Speichern"
 
-#: templates/base/index.html:73
+#: templates/base/index.html:75
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/base/index.html:77
+#: templates/base/index.html:79
 msgid "Export"
 msgstr "Exportieren"
 
-#: templates/base/index.html:81
+#: templates/base/index.html:83
 msgid "Import"
 msgstr "Importieren"
 
-#: templates/base/index.html:83
+#: templates/base/index.html:85
 msgid "Send Map"
 msgstr "Map senden"
 
-#: templates/base/index.html:85 templates/base/index.html:86
+#: templates/base/index.html:87 templates/base/index.html:88
 msgid "Undo"
 msgstr ""
 
-#: templates/base/index.html:88 templates/base/index.html:89
+#: templates/base/index.html:90 templates/base/index.html:91
 msgid "Reset Map"
 msgstr "Map löschen"
 
-#: templates/base/index.html:124
+#: templates/base/index.html:128
 msgid "Are you sure that you want to delete the Map?"
 msgstr "Sind Sie sicher, dass Sie Ihre Map löschen möchten?"
 
-#: templates/base/index.html:127
+#: templates/base/index.html:131
 msgid "Close"
 msgstr "Schließen"
 
-#: templates/base/index.html:138
+#: templates/base/index.html:142
 msgid "IMPORT FILE"
 msgstr "Datei importieren"
 
-#: templates/base/index.html:149 templates/create_project.html:148
+#: templates/base/index.html:153 templates/create_project.html:148
 #: templates/project_settings.html:143
 msgid "Browse"
 msgstr "Durchsuchen"
 
-#: templates/base/index.html:149 templates/create_project.html:148
+#: templates/base/index.html:153 templates/create_project.html:148
 #: templates/project_settings.html:143
 msgid "Choose File"
 msgstr "Datei auswählen"
 
-#: templates/base/index.html:153
+#: templates/base/index.html:157
 msgid "Check this box if you would like these concepts to be non-deletable"
 msgstr "Hier ankreuzen, wenn diese Konzepte schreibgeschützt werden sollen."
 
-#: templates/base/index.html:155
+#: templates/base/index.html:159
 msgid "Upload"
 msgstr "Hochladen"
 
-#: templates/base/index.html:265
+#: templates/base/index.html:269
 msgid "Add Concept"
 msgstr "Konzepte"
 
-#: templates/base/index.html:266
+#: templates/base/index.html:270
 msgid "Mod Concept"
 msgstr "Konzepte"
 
@@ -602,7 +601,7 @@ msgid "Participants will add themselves"
 msgstr "Teilnehmer:innen fügen sich selbst hinzu"
 
 #: templates/create_project.html:125 templates/project_settings.html:119
-#: templates/registration/register_participant.html:75
+#: templates/registration/register_participant.html:76
 #: templates/registration/register_researcher.html:56
 msgid "Language Preference"
 msgstr "Bevorzugte Sprache"
@@ -901,7 +900,11 @@ msgid ""
 msgstr ""
 "Dies wird nur benötigt, wenn Sie sich als Projektteilnehmer anmelden möchten"
 
-#: templates/registration/register_participant.html:86
+#: templates/registration/register_participant.html:53
+msgid "If the checkbox does not update please try again"
+msgstr "Falls nichts passiert, Häkchen bitte nochmals setzen"
+
+#: templates/registration/register_participant.html:87
 #: templates/registration/register_researcher.html:69
 msgid "Register"
 msgstr "Registrieren"
@@ -976,7 +979,7 @@ msgstr ""
 "Dieser Benutzer ist nicht aktiviert. Bitte kontrollieren Sie Ihre E-Mails, "
 "um Ihren Account zu bestätigen."
 
-#: users/views.py:565
+#: users/views.py:574
 msgid "Your language preferences have been updated!"
 msgstr "Ihre Spracheinstellungen wurden übernommen."
 
