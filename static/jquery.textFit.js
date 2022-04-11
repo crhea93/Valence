@@ -12,10 +12,10 @@
         var settings = {
             alignVert: true, // if true, textFit will align vertically using css tables
             alignHoriz: true, // if true, textFit will set text-align: center
-            multiLine: false, // if true, textFit will not set white-space: no-wrap
+            multiLine: true, // if true, textFit will not set white-space: no-wrap
             detectMultiLine: true, // disable to turn off automatic multi-line sensing
             minFontSize: 10,
-            maxFontSize: 30,
+            maxFontSize: 24,
             reProcess: false, // if true, textFit will re-process already-fit nodes. Leave to 'false' for better performance
             widthOnly: false // if true, textFit will fit text to element width, regardless of text height
         };

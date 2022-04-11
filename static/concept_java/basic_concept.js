@@ -26,7 +26,7 @@ function def_concept(x,y,ct,note_hidden, note_value){
                         '<div class="slider custom-range" id="shape_' + ct + '" value="3"></div>' +
                         '<input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + ct + '" value="Ambivalent" title="Ambivalent">' +
                      '</div>' +
-                    '<div class="flex success_blk align-items-center text-center h-100" style="z-index:3" id="success_block_'+ct+'"></div>'+
+                    '<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index:3" id="success_block_'+ct+'"></div>'+
                     '</div>';
     return def_concept_ret
 }

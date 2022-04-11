@@ -59,7 +59,8 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         '<div class="slider custom-range" id="shape_' + num + '" value="' + slide_val + '"></div>' +
         '   <input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + num + '" value="Ambivalent" title="Ambivalent">' +
         '</div>' +
-        '<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
+        //'<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
+        '<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3;" id="success_block_' + num + '"></div>' +
         '</div>';
     return def_created_concept
 }
