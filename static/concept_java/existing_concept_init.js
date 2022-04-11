@@ -6,7 +6,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
      if (shape === 'negative strong') {
          class_shape = 'hexagonNegStrong';
          slide_val = 0;
-         text_pad = 'px-4 py-2'
+         text_pad = 'px-4 py-2 text-bold'
      } else if (shape === 'negative') {
         class_shape = 'hexagonNeg';
         slide_val = 1;
@@ -30,7 +30,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
     } else if (shape === 'positive strong') {
          class_shape = 'rounded-circle-strong';
          slide_val = 6;
-         text_pad = 'px-2 py-2'
+         text_pad = 'px-2 py-2 text-bold'
      }else {
          class_shape = 'hexagonAmb hexagonAmbCircle';
          text_pad = 'px-4 py-2'
