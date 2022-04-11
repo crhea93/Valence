@@ -34,29 +34,29 @@
                  let block__ = $('#block_'+ct);
                  block__.removeClass();
                  if (slide_val === 0) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNegStrong Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNegStrong Open px-4 py-2');
                  $(this).attr('value', 0);
              } else if (slide_val === 1) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNeg Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNeg Open px-4 py-2');
                  $(this).attr('value', 1);
              } else if (slide_val === 2) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNegWeak Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonNegWeak Open px-4 py-2');
                  $(this).attr('value', 2);
              } else if (slide_val === 3) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content rectangle Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content rectangle Open px-1');
                  $(this).attr('value', 3);
              } else if (slide_val === 4) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-weak Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-weak Open px-2 py-2');
                  $(this).attr('value', 4);
              } else if (slide_val === 5) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-normal Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-normal Open px-2 py-2');
                  $(this).attr('value', 5);
              }  else if (slide_val === 6) {
-                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-strong Open');
+                 block__.addClass('block shadow-none card draggable ui-widget-content rounded-circle-strong Open px-2 py-2');
                  $(this).attr('value', 6);
 
              } else {
-                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonAmb hexagonAmbCircle Open') //default to neutral
+                 block__.addClass('block shadow-none card draggable ui-widget-content hexagonAmb hexagonAmbCircle Open px-2 py-2') //default to neutral
              }
              }
      })

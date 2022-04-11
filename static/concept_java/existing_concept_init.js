@@ -2,29 +2,38 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
     num = parseInt(num);
     var class_shape = ''; var resizable_bool = ''
     var slide_val = 0;
+    var text_pad = '';
      if (shape === 'negative strong') {
          class_shape = 'hexagonNegStrong';
          slide_val = 0;
+         text_pad = 'px-4 py-2'
      } else if (shape === 'negative') {
         class_shape = 'hexagonNeg';
         slide_val = 1;
+        text_pad = 'px-4 py-2'
     } else if (shape === 'negative weak') {
         class_shape = 'hexagonNegWeak';
         slide_val = 2;
+        text_pad = 'px-4 py-2'
     } else if (shape === 'neutral') {
         class_shape = 'rectangle';
         slide_val = 3;
+        text_pad = 'px-1'
     } else if (shape === 'positive weak') {
         class_shape = 'rounded-circle-weak';
         slide_val = 4;
+        text_pad = 'px-2 py-2'
     } else if (shape === 'positive') {
         class_shape = 'rounded-circle-normal';
         slide_val = 5;
+        text_pad = 'px-2 py-2'
     } else if (shape === 'positive strong') {
          class_shape = 'rounded-circle-strong';
          slide_val = 6;
+         text_pad = 'px-2 py-2'
      }else {
          class_shape = 'hexagonAmb hexagonAmbCircle';
+         text_pad = 'px-4 py-2'
 
     }
      console.log(resizable)
@@ -60,7 +69,7 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         '   <input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + num + '" value="Ambivalent" title="Ambivalent">' +
         '</div>' +
         //'<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
-        '<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3;" id="success_block_' + num + '"></div>' +
+        '<div class="flex success_blk align-items-center text-center h-100 '+text_pad+'" style="z-index: 3;" id="success_block_' + num + '"></div>' +
         '</div>';
     return def_created_concept
 }

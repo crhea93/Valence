@@ -14,7 +14,7 @@
             alignHoriz: true, // if true, textFit will set text-align: center
             multiLine: true, // if true, textFit will not set white-space: no-wrap
             detectMultiLine: true, // disable to turn off automatic multi-line sensing
-            minFontSize: 10,
+            minFontSize: 8,
             maxFontSize: 24,
             reProcess: false, // if true, textFit will re-process already-fit nodes. Leave to 'false' for better performance
             widthOnly: false // if true, textFit will fit text to element width, regardless of text height
@@ -86,14 +86,14 @@
                 while ( low <= high) {
                     mid = parseInt((low + high) / 2, 10);
                     innerSpan.css('font-size', mid);
-                    if(innerSpan.width() <= originalWidth && (settings.widthOnly || innerSpan.height() <= originalHeight)){
+                    if(innerSpan.width() <= originalWidth && (innerSpan.height() <= originalHeight)){
                         low = mid + 1;
                     } else {
                         high = mid - 1;
                     }
                 }
                 // Sub 1
-                innerSpan.css('font-size', mid - 1);
+                innerSpan.css('font-size', mid - 4);
             }
         });
     };

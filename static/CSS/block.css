@@ -65,7 +65,7 @@
 
 .block{
   background: transparent;
-  line-height: 1.2rem;
+  line-height: .8;
   word-break: break-word;
 }
 
