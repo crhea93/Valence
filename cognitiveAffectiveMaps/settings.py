@@ -148,3 +148,5 @@ if os.getenv('DJANGO_DEVELOPMENT') is True:
 if os.getenv('DJANGO_LOCAL') is not None:
     from cognitiveAffectiveMaps.settings_local import *
 
+if os.getenv('WATERLOO') is not None:
+    from cognitiveAffectiveMaps.settings_waterloo import *
