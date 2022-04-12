@@ -4,7 +4,6 @@ from block.models import Block
 from link.models import Link
 from django.http import HttpResponse, JsonResponse
 from django.core.mail import EmailMultiAlternatives
-from pathlib import Path
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .forms import ContactForm, ResearcherSignupForm, ParticipantSignupForm, CustomUserChangeForm
@@ -28,7 +27,6 @@ import datetime
 from random_username.generate import generate_username
 import re
 import base64
-from weasyprint import HTML
 User = get_user_model()
 from django.conf import settings
 media_url = settings.MEDIA_URL
@@ -371,7 +369,7 @@ def Image_CAM(request):
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
     user = CustomUser.objects.get(username=request.user.username)
-    file_name = '/media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
+    file_name = media_url[1:]+'/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
     print(file_name)
     with open(file_name, 'wb') as f:
         f.write(image_data)
@@ -384,7 +382,7 @@ def Image_CAM(request):
     im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
     im.save(file_name, 'PNG', quality=1000)
     gray_image = ImageOps.grayscale(im)
-    gray_image.save('/media/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    gray_image.save(media_url[1:]+'/CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
