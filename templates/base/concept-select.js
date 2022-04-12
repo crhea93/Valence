@@ -119,6 +119,6 @@ $(document).on("click", '.block',function(e){
         }
     } // End Concept Selection for Lines
 })
-.on("dblclick", '.block',function(e){
-    e.preventDefault();  //cancel system double-click event
-});
+//.on("dblclick", '.block',function(e){
+//    e.preventDefault();  //cancel system double-click event
+//});

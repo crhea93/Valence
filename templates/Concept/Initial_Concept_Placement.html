@@ -4,7 +4,7 @@
     function block_placement(event,cam_element,drag_width,drag_height,concept_ct,currentZoom){
         event.stopPropagation();
          if( event.target.id !== cam_element.attr('id') ) {
-             return false; //Dont add element if child is clicked!
+             return false; //Don't add element if child is clicked!
          }
         //get the current x and y of the mouse pointer
         concept_ct += 1;
