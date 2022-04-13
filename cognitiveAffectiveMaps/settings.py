@@ -129,7 +129,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 LOGIN_URL = 'dashboard'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'loginpage'
-django_heroku.settings(locals())
+
 
 # Override production variables if DJANGO_DEVELOPMENT env variable is set
 if os.getenv('DJANGO_DEVELOPMENT') is True:
@@ -154,6 +154,7 @@ if os.getenv('WATERLOO') is not None:
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    django_heroku.settings(locals(), staticfiles=False)
 else:
     # Static files (CSS, JavaScript, Images)
     STATIC_URL = '/static/'
@@ -161,5 +162,6 @@ else:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
     MEDIA_URL = 'media/'
+    django_heroku.settings(locals())
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
