@@ -380,13 +380,18 @@ def Image_CAM(request):
         im = remove_transparency(im)
         im = im.convert('RGB')
     im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
-    im.save(file_name, 'PNG', quality=1000)
+    #im.save(file_name, 'PNG', quality=1000)
+    with default_storage.open(file_name, "wb") as image_file:
+        image_file.write(im)
     gray_image = ImageOps.grayscale(im)
-    gray_image.save('/'+media_url+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    #gray_image.save('/'+media_url+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    #with default_storage.open(file_name, "wb") as image_file:
+    #    image_file.write(gray_image)
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
-
+    print('Filename:')
+    print(file_name)
     return JsonResponse({'file_name': file_name})
 
 def view_pdf(request):
