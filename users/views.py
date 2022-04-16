@@ -361,7 +361,7 @@ def remove_transparency(im, bg_color=(255, 255, 255)):
     else:
         return im
 
-
+from django.core.files.storage import default_storage
 def Image_CAM(request):
     image_data = request.POST.get('html_to_convert')
     dataUrlPattern = re.compile('data:image/(png|jpeg);base64,(.*)$')
@@ -371,9 +371,9 @@ def Image_CAM(request):
     user = CustomUser.objects.get(username=request.user.username)
     file_name = media_url+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
     print(media_url)
-    with open(file_name, 'wb') as f:
+    with default_storage.open(file_name, 'wb') as f:
         f.write(image_data)
-    with open(file_name, "rb") as image_file:
+    with default_storage.open(file_name, "rb") as image_file:
         data = base64.b64encode(image_file.read())
     im = Image.open(BytesIO(base64.b64decode(data)))
     if im.mode in ('RGBA', 'LA'):
