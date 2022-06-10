@@ -164,6 +164,9 @@
             </div>
         </div>
     </div> <!-- END CONTAINER -->
+    <script>
+        let autoSave = false;
+    </script>
     {% include 'Concept/resize_function.html' %}
     {% include 'Admin/SendEmail.html' %}
     {% include 'base/resizeable-button.html' %}
@@ -190,6 +193,7 @@
     <script>
 
     $(document).ready(function(e){
+
         slider_changes();
 
         // --------------------CONCEPT SELECTION -------------//

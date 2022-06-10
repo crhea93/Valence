@@ -35,34 +35,35 @@
             arrow_type = 'bi';
         }
         const line_style = line_style_func(link_sel);
-        $.ajax({
-            async:false,
-            url: '{% url 'update_link' %}',
-            type: "POST",
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'link_id': link_sel.attr('id'),
-                'line_style': line_style,
-                'arrow_type': arrow_type,
-            },
-            success: function(data){
-                //Recreate link
-                link_sel.remove();
-                var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
-                var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
-                $("#CAM_items").append(link);
-                $('#'+data.id).children().each(function(){
-                     $(this).addClass('Selected-arrow')
-                 })
-            },
-            error: function(){
-                console.log("Error")
-            }
-        })
+        if (autoSave){
+            $.ajax({
+                async:false,
+                url: '{% url 'update_link' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'link_id': link_sel.attr('id'),
+                    'line_style': line_style,
+                    'arrow_type': arrow_type,
+                },
+                success: function(data){
+                    //Recreate link
+                    link_sel.remove();
+                    var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
+                    var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
+                    $("#CAM_items").append(link);
+                    $('#'+data.id).children().each(function(){
+                         $(this).addClass('Selected-arrow')
+                     })
+                },
+                error: function(){
+                    console.log("Error")
+                }
+            })  // end ajax
+        }  // end autoSave
     };
 
     function update_link(link_sel){
-        console.log('make arrow')
         let start_block_id = link_sel.attr('data-start_id');
         let end_block_id = link_sel.attr('data-end_id')
         var start_x = parseFloat($('#block_'+start_block_id).css('left'));
@@ -76,28 +77,29 @@
         else if (link_sel.hasClass('bi')){
             arrow_type = 'bi';
         }
-        $.ajax({
-            async:false,
-            url: '{% url 'update_link_pos' %}',
-            type: "POST",
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'link_id': link_sel.attr('id'),
-                'start_x': start_x,
-                'start_y': start_y,
-                'end_x': end_x,
-                'end_y': end_y
-            },
-            success: function(data){
-                var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
-                console.log(data)
-                var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, data.line_style+' '+arrow_type);
-                $("#CAM_items").append(link);
-            },
-            error: function(){
-                console.log("Error")
-            }
-        })
+        if (autoSave){
+            $.ajax({
+                async:false,
+                url: '{% url 'update_link_pos' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'link_id': link_sel.attr('id'),
+                    'start_x': start_x,
+                    'start_y': start_y,
+                    'end_x': end_x,
+                    'end_y': end_y
+                },
+                success: function(data){
+                    var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
+                    var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, data.line_style+' '+arrow_type);
+                    $("#CAM_items").append(link);
+                },
+                error: function(){
+                    console.log("Error")
+                }
+            })  // end ajax
+        }  // end autoSave
     }
 
 </script>

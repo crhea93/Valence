@@ -1,7 +1,6 @@
 {% load static %}
 <script>
     $('#swap_direction').click(function(){
-        console.log('meow');
         // Check if link is directional
         let link_sel = $('.Selected-link').first();
         let arrow_type = 'none';
@@ -12,30 +11,31 @@
             arrow_type = 'bi';
         }
         const line_style = line_style_func(link_sel);
-        console.log(line_style)
-        $.ajax({
-            async:false,
-            url: '{% url 'swap_link_direction' %}',
-            type: "POST",
-            data: {
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'link_id': link_sel.attr('id'),
-            },
-            success: function(data){
-                //Recreate link
-                link_sel.remove();
-                var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
-                var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
-                $("#CAM_items").append(link);
-                let link_ = $('#'+data.id)
-                link_.addClass('Selected-link');
-                link_.children().each(function(){
-                    $(this).addClass('Selected-arrow');
-                })
-            },
-            error: function(){
-                console.log("Error")
-            }
-        })
+        if (autoSave){
+            $.ajax({
+                async:false,
+                url: '{% url 'swap_link_direction' %}',
+                type: "POST",
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'link_id': link_sel.attr('id'),
+                },
+                success: function(data){
+                    //Recreate link
+                    link_sel.remove();
+                    var point_array = [data.start_x,data.start_y,data.end_x,data.end_y];
+                    var link = createLine(data.id,data.id,point_array,data.starting_block,data.ending_block, 'Selected-link '+line_style+' '+arrow_type);
+                    $("#CAM_items").append(link);
+                    let link_ = $('#'+data.id)
+                    link_.addClass('Selected-link');
+                    link_.children().each(function(){
+                        $(this).addClass('Selected-arrow');
+                    })
+                },
+                error: function(){
+                    console.log("Error")
+                }
+            }) // end ajax
+        } // end autoSave
     })
 </script>

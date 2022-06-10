@@ -36,7 +36,6 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
          text_pad = 'px-4 py-2'
 
     }
-     console.log(resizable)
     if (resizable === 'True'){
         resizable_bool = 'resizable'
     }

@@ -3,6 +3,7 @@
 <script>
     function resize_func(num_block_global,num_block_local,left,top,height,width, text_scale){
         //Pass information to django to update database
+
         $.ajax({
             async:false,
             url: "{% url 'drag_function' %}",

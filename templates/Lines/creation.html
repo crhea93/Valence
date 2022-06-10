@@ -18,63 +18,65 @@
                 }
             }
             //-------------DJANGO CALL-------------------//
-            $.ajax({
-                async: false,
-                type: "POST",
-                url: '{% url 'add_link' %}',
-                data: {
-                    'starting_block': start_block_id,
-                    'ending_block': end_block_id,
-                    'line_style': 'Solid-Weak',//$('#line_style').val(),
-                    'arrow_type': 'none',
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'link_valid': true,
-                    'line_type': 'bold'
-                },
-                //dataType: 'json',
-                success: function (data) {
-                    //Get x and y coordinates of starting and ending block
-                    var link = createLine(data.id,data.id,point_array,start_block_id,end_block_id,'Solid-Weak');
-                    let end_block = $('#title_'+end_block_id);
-                    let start_block = $('#title_'+start_block_id);
-                    // Add link to blocks data-links
-                    if (end_block.attr('data-links').slice(0,-1).length > 0){
-                        end_block.attr('data-links',end_block.attr('data-links').slice(0,-1)+', '+data.id+']');
+            if (autoSave){
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: '{% url 'add_link' %}',
+                    data: {
+                        'starting_block': start_block_id,
+                        'ending_block': end_block_id,
+                        'line_style': 'Solid-Weak',//$('#line_style').val(),
+                        'arrow_type': 'none',
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'link_valid': true,
+                        'line_type': 'bold'
+                    },
+                    //dataType: 'json',
+                    success: function (data) {
+                        //Get x and y coordinates of starting and ending block
+                        var link = createLine(data.id,data.id,point_array,start_block_id,end_block_id,'Solid-Weak');
+                        let end_block = $('#title_'+end_block_id);
+                        let start_block = $('#title_'+start_block_id);
+                        // Add link to blocks data-links
+                        if (end_block.attr('data-links').slice(0,-1).length > 0){
+                            end_block.attr('data-links',end_block.attr('data-links').slice(0,-1)+', '+data.id+']');
+                        }
+                        else{
+                            end_block.attr('data-links','[,'+data.id+']');
+                        }
+                        if (start_block.attr('data-links').slice(0,-1).length > 0){
+                            start_block.attr('data-links',start_block.attr('data-links').slice(0,-1)+', '+data.id+']');
+                        }
+                        else{
+                            start_block.attr('data-links','[,'+data.id+']');
+                        }
+                        // Add new item with chosen attributes and make draggable
+                        $("#CAM_items").append(link);
+                        //unselect blocks
+                        $('.Selected').each(function(){
+                            $(this).removeClass("Selected");
+                        });
+                        $('.FirstSelected').each(function(){
+                            $(this).removeClass("FirstSelected");
+                        });
+                        $('.SecondSelected').each(function(){
+                            $(this).removeClass("SecondSelected");
+                        });
+                        // Select and Open Link
+                        const link_ = $('#'+data.id);
+                        link_.addClass('Selected-link');
+                        $('#Link_Info').attr('hidden', false);
+                        $("#No_Link_Info").attr('hidden', true);
+                        // Set link slider choice
+                        $("#link_slider_choice").val('0');
+                        //location.reload()
+                    },
+                    error: function(){
+                         console.log("Error")
                     }
-                    else{
-                        end_block.attr('data-links','[,'+data.id+']');
-                    }
-                    if (start_block.attr('data-links').slice(0,-1).length > 0){
-                        start_block.attr('data-links',start_block.attr('data-links').slice(0,-1)+', '+data.id+']');
-                    }
-                    else{
-                        start_block.attr('data-links','[,'+data.id+']');
-                    }
-                    // Add new item with chosen attributes and make draggable
-                    $("#CAM_items").append(link);
-                    //unselect blocks
-                    $('.Selected').each(function(){
-                        $(this).removeClass("Selected");
-                    });
-                    $('.FirstSelected').each(function(){
-                        $(this).removeClass("FirstSelected");
-                    });
-                    $('.SecondSelected').each(function(){
-                        $(this).removeClass("SecondSelected");
-                    });
-                    // Select and Open Link
-                    const link_ = $('#'+data.id);
-                    link_.addClass('Selected-link');
-                    $('#Link_Info').attr('hidden', false);
-                    $("#No_Link_Info").attr('hidden', true);
-                    // Set link slider choice
-                    $("#link_slider_choice").val('0');
-                    //location.reload()
-                },
-                error: function(){
-                     console.log("Error")
-                }
-            });//Ajax done
+                });//Ajax done
+            } // end autoSave
             //Now to add the new item in the CAM
         } //end of clicking form
     </script>

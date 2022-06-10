@@ -70,28 +70,34 @@
                 shape_ = $('#shape_'+ct).attr('value')
             }
             checkbox_changes($('#check_'+ct),$("#block_"+ct),ct)
-            console.log(shape_)
-            $.ajax({
-                async: false,
-                type: "POST",
-                url: "{% url 'update_block' %}",
-                data: {
-                    'title': $('#title_'+ct).val(),
-                    'shape': shape_,
-                    'x_pos': X,
-                    'y_pos': Y,
-                    'width': width,
-                    'height': height,
-                    'num_block': ct,
-                    'local_block_id': blk_.attr("data-title"),
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'update_valid': true,
-                },
-                success: function (data) {
-                },
-                error: function () {
-                }
-            })//end ajax
+
+            if (autoSave){
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "{% url 'update_block' %}",
+                    data: {
+                        'title': $('#title_'+ct).val(),
+                        'shape': shape_,
+                        'x_pos': X,
+                        'y_pos': Y,
+                        'width': width,
+                        'height': height,
+                        'num_block': ct,
+                        'local_block_id': blk_.attr("data-title"),
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'update_valid': true,
+                    },
+                    success: function (data) {
+                    },
+                    error: function () {
+                    }
+                })//end ajax
+            }
+            else{
+                console.log('AUTOSAVE IS OFF')
+            }
+
         });
 
          //----------Define Modification Button---------//
@@ -113,38 +119,43 @@
                 else {
                     shape_ = $('#shape_'+num).attr('value')
                 }
-                $.ajax({
-                    async: false,
-                    type: "POST",
-                    url: "{% url 'update_block' %}",
-                    data: {
-                        'title': $('#title_'+num).val(),
-                        'shape': shape_,
-                        'x_pos': X,
-                        'y_pos': Y,
-                        'width': width,
-                        'height': height,
-                        'num_block':block_id,//$('#block_'+block_id).attr("title"),
-                        'local_block_id':  $('#block_'+block_id).attr("data-title"),
-                        'csrfmiddlewaretoken': '{{ csrf_token }}',
-                        'update_valid': true,
-                    },
-                    success: function (data) {
-                        $('#block_form_'+data.num).attr('hidden',true);
-                        $('#success_block_'+data.num).empty();
-                        $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
-                        $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
-                        $('.Selected').each(function(){
-                            $(this).removeClass("Selected");
-                            $(this).removeClass("FirstSelected");
-                            $(this).removeClass("SecondSelected");
-                            $(this).removeClass('Open')
-                        });
-                    },
-                    error: function () {
-                        console.log("Error")
-                    }
-                })//end ajax
+                if (autoSave){
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "{% url 'update_block' %}",
+                        data: {
+                            'title': $('#title_'+num).val(),
+                            'shape': shape_,
+                            'x_pos': X,
+                            'y_pos': Y,
+                            'width': width,
+                            'height': height,
+                            'num_block':block_id,//$('#block_'+block_id).attr("title"),
+                            'local_block_id':  $('#block_'+block_id).attr("data-title"),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            'update_valid': true,
+                        },
+                        success: function (data) {
+                            $('#block_form_'+data.num).attr('hidden',true);
+                            $('#success_block_'+data.num).empty();
+                            $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                            $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
+                            $('.Selected').each(function(){
+                                $(this).removeClass("Selected");
+                                $(this).removeClass("FirstSelected");
+                                $(this).removeClass("SecondSelected");
+                                $(this).removeClass('Open')
+                            });
+                        },
+                        error: function () {
+                            console.log("Error")
+                        }
+                    })//end ajax
+                } // end autosave
+                else {
+
+                }
             }); //end block modification button
 
     }

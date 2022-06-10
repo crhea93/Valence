@@ -10,7 +10,6 @@
         concept_ct += 1;
         var X = ((event.pageX)-100)/currentZoom;
         var Y = ((event.pageY)-150)/currentZoom;
-        console.log(X,Y)
         var cam_item = def_concept(X, Y, concept_ct, 'hidden', '');
         //add concept to CAM
         $("#CAM_items").append(cam_item);
@@ -71,7 +70,6 @@
         var Y = blk_.css('top');//event.pageY;
         var width = blk_.css('width').trim('px');
         var height = blk_.css('height').trim('px');
-        console.log(X+' '+Y)
         shape_ = 5;
         if (blk_.hasClass('hexagonAmb')){
             shape_ = 7
@@ -80,29 +78,29 @@
             shape_ = $('#shape_'+ct).attr('value')
         }
         checkbox_changes($('#check_'+ct),$("#block_"+ct),ct)
-        console.log(shape_)
-        $.ajax({
-            async: false,
-            type: "POST",
-            url: "{% url 'update_block' %}",
-            data: {
-                'title': $('#title_'+ct).val(),
-                'shape': shape_,
-                'x_pos': X,
-                'y_pos': Y,
-                'width': width,
-                'height': height,
-                'num_block': ct,
-                'local_block_id': blk_.attr("data-title"),
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'update_valid': true,
-            },
-            success: function (data) {
-            },
-            error: function () {
-            }
-        })//end ajax
-
+        if (autoSave){
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "{% url 'update_block' %}",
+                data: {
+                    'title': $('#title_'+ct).val(),
+                    'shape': shape_,
+                    'x_pos': X,
+                    'y_pos': Y,
+                    'width': width,
+                    'height': height,
+                    'num_block': ct,
+                    'local_block_id': blk_.attr("data-title"),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'update_valid': true,
+                },
+                success: function (data) {
+                },
+                error: function () {
+                }
+            })//end ajax
+        }
     });
 
     //-------------SEND DATA TO DJANGO FOR SAVE----------------//
@@ -122,79 +120,81 @@
             shape_ = $('#shape_'+ct).attr('value')
         }
         if ($('#title_'+ct).val()){
-            $.ajax({
-                async: false,
-                type: "POST",
-                url: "{% url 'add_block' %}",
-                data: {
-                    'title': $('#title_'+ct).val(),
-                    'shape': shape_,
-                    'checked': $('#check_'+ct).is(':checked'),
-                    'x_pos': X,
-                    'y_pos': Y,// - drag_height,
-                    'height': height,
-                    'width': width,
-                    'num_block': ct,
-                    'csrfmiddlewaretoken': '{{ csrf_token }}',
-                    'add_valid': true,
-                },
-                //dataType: 'json',
-                success: function (data) {
-                    //ADD BLOCKS and CREATE LINK SETUP
-                    $('.Selected').each(function(){
-                        $(this).removeClass('Selected');
-                        $(this).removeClass('Open')
-                        $(this).removeClass('resizable')
-                        $(this).removeClass('ui-resizable')
-                    });
-                    $('#block_form_'+data.num).attr('hidden',true);
-                    $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
-                    $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
-                    $("#link_blocks").load(location.href + " #link_blocks");
-                    $("#link_blocks_del").load(location.href + " #link_blocks_del");
-                    var block_ = $('#block_' + data.num);
-                    block_.attr('data-title',data.num);
-                    block_.removeClass('Open');
-                    var title_ = $('#title_' + data.num);
-                    title_.attr('data-links','[,'+data.links+']');
-                    //--------------BLOCK DRAGGING-------------------------------//
-                    block_.draggable({
-                         containment: "#CAM_items",
-                         scroll: true,
-                         start: function( event, ui ) {
-                             $(this).addClass('my_class');
-                         },
-                        drag: function(evt,ui){
-                            var factor = (1 / currentZoom) - 1;
-                            ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
-                            ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
-                            let link_numbers = $('#title_'+data.num).attr('data-links');
-                            link_numbers = link_numbers.slice(1,-1);
-                            link_numbers = link_numbers.split(',');
-                            for (let link_ct in link_numbers){
-                                let link_number = link_numbers[link_ct].trim();
-                                // Make sure we have something in link numbers
-                                if (link_number !== '') {
-                                    let link_sel = $('#' + link_number);
-                                    if (block_.attr('data-title') === link_sel.attr('data-start_id')) {
-                                        update_link_start(link_sel);
-                                    } else {
-                                        update_link_end(link_sel)
+            if (autoSave){
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "{% url 'add_block' %}",
+                    data: {
+                        'title': $('#title_'+ct).val(),
+                        'shape': shape_,
+                        'checked': $('#check_'+ct).is(':checked'),
+                        'x_pos': X,
+                        'y_pos': Y,// - drag_height,
+                        'height': height,
+                        'width': width,
+                        'num_block': ct,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        'add_valid': true,
+                    },
+                    //dataType: 'json',
+                    success: function (data) {
+                        //ADD BLOCKS and CREATE LINK SETUP
+                        $('.Selected').each(function(){
+                            $(this).removeClass('Selected');
+                            $(this).removeClass('Open')
+                            $(this).removeClass('resizable')
+                            $(this).removeClass('ui-resizable')
+                        });
+                        $('#block_form_'+data.num).attr('hidden',true);
+                        $('#success_block_'+data.num).append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                        $('#success_block_'+data.num).textFit({alignHoriz:true, alignVert:true})
+                        $("#link_blocks").load(location.href + " #link_blocks");
+                        $("#link_blocks_del").load(location.href + " #link_blocks_del");
+                        var block_ = $('#block_' + data.num);
+                        block_.attr('data-title',data.num);
+                        block_.removeClass('Open');
+                        var title_ = $('#title_' + data.num);
+                        title_.attr('data-links','[,'+data.links+']');
+                        //--------------BLOCK DRAGGING-------------------------------//
+                        block_.draggable({
+                             containment: "#CAM_items",
+                             scroll: true,
+                             start: function( event, ui ) {
+                                 $(this).addClass('my_class');
+                             },
+                            drag: function(evt,ui){
+                                var factor = (1 / currentZoom) - 1;
+                                ui.position.top += Math.round((ui.position.top - ui.originalPosition.top) * factor);
+                                ui.position.left += Math.round((ui.position.left- ui.originalPosition.left) * factor);
+                                let link_numbers = $('#title_'+data.num).attr('data-links');
+                                link_numbers = link_numbers.slice(1,-1);
+                                link_numbers = link_numbers.split(',');
+                                for (let link_ct in link_numbers){
+                                    let link_number = link_numbers[link_ct].trim();
+                                    // Make sure we have something in link numbers
+                                    if (link_number !== '') {
+                                        let link_sel = $('#' + link_number);
+                                        if (block_.attr('data-title') === link_sel.attr('data-start_id')) {
+                                            update_link_start(link_sel);
+                                        } else {
+                                            update_link_end(link_sel)
+                                        }
                                     }
-                                }
-                            }// end updating links
-                        },
-                         stop: function( event, ui ) {
-                             $(this).removeClass('my_class');
-                             let this_block = $('#block_' + data.num);
-                             drag_func(data.num,data.num,this_block.css("left"),this_block.css("top"),this_block.css("width"),this_block.css("height"), currentZoom)
-                         }
-                     })
-                },
-                error: function () {
-                    console.log("Error")
-                }
-            });//Ajax done
+                                }// end updating links
+                            },
+                             stop: function( event, ui ) {
+                                 $(this).removeClass('my_class');
+                                 let this_block = $('#block_' + data.num);
+                                 drag_func(data.num,data.num,this_block.css("left"),this_block.css("top"),this_block.css("width"),this_block.css("height"), currentZoom)
+                             }
+                         })
+                    },
+                    error: function () {
+                        console.log("Error")
+                    }
+                });//Ajax done
+            } // End autosave
         } // if title
         else {
             // if no title --> delete concept
@@ -219,37 +219,39 @@
         else {
             shape_ = $('#shape_'+ct).attr('value')
         }
-        $.ajax({
-            async: false,
-            type: "POST",
-            url: "{% url 'update_block' %}",
-            data: {
-                'title': $('#title_'+ct).val(),
-                'shape': shape_,
-                'x_pos': X,
-                'y_pos': Y,
-                'width': width,
-                'height': height,
-                'num_block': ct,
-                'local_block_id': blk_.attr("data-title"),
-                'csrfmiddlewaretoken': '{{ csrf_token }}',
-                'update_valid': true,
-            },
-            success: function (data) {
-                $('#block_form_'+data.num).attr('hidden',true);
-                let success_blk = $('#success_block_'+data.num);
-                success_blk.empty();
-                success_blk.append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
-                success_blk.textFit({alignHoriz:true, alignVert:true})
-                $(".Selected").each(function(){
-                     $(this).removeClass("Selected");
-                     $(this).removeClass("FirstSelected");
-                     $(this).removeClass("SecondSelected");
-                 });
-            },
-            error: function () {
-                console.log("Error")
-            }
-        })//end ajax
+        if (autoSave){
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "{% url 'update_block' %}",
+                data: {
+                    'title': $('#title_'+ct).val(),
+                    'shape': shape_,
+                    'x_pos': X,
+                    'y_pos': Y,
+                    'width': width,
+                    'height': height,
+                    'num_block': ct,
+                    'local_block_id': blk_.attr("data-title"),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'update_valid': true,
+                },
+                success: function (data) {
+                    $('#block_form_'+data.num).attr('hidden',true);
+                    let success_blk = $('#success_block_'+data.num);
+                    success_blk.empty();
+                    success_blk.append('<span class="h-100 d-inline-flex align-items-center">'+$('#title_'+data.num).val()+'</span>');
+                    success_blk.textFit({alignHoriz:true, alignVert:true})
+                    $(".Selected").each(function(){
+                         $(this).removeClass("Selected");
+                         $(this).removeClass("FirstSelected");
+                         $(this).removeClass("SecondSelected");
+                     });
+                },
+                error: function () {
+                    console.log("Error")
+                }
+            })//end ajax
+        } // end autoSave
     }); //end block modification button
 </script>
