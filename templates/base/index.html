@@ -43,6 +43,13 @@
                       <div class="row">
                         <div class="col-sm-4">
 
+                            <div>
+                                <div class="custom-control custom-switch">
+                                  <input type="checkbox" checked class="custom-control-input" id="autoSaveToggle">
+                                  <label class="custom-control-label" for="autoSaveToggle">Auto Save</label>
+                                </div>
+                            </div>
+
 
                             <div> <!-- ZOOM -->
                                   <a class="btn-floating btn-sm text-primary" style="cursor:pointer" id="btn_ZoomIn"><i class="fas fa-plus-circle text-black"></i></a>
@@ -122,7 +129,7 @@
                         <h5 class="modal-title" id="DeleteModalLabel">{% trans 'Delete Map' %}</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
-                        </button>
+                         </button>
                     </div>
                     <div class="modal-body">
                         {% trans 'Are you sure that you want to delete the Map?' %}
@@ -165,7 +172,17 @@
         </div>
     </div> <!-- END CONTAINER -->
     <script>
-        let autoSave = false;
+        let autoSave = true;
+        $('#autoSaveToggle').on('click', function() {
+            if (this.checked){
+                autoSave = false
+                this.removeClass('checked')
+            }
+            else {
+                autoSave = true
+                this.addClass('checked')
+            }
+        })
     </script>
     {% include 'Concept/resize_function.html' %}
     {% include 'Admin/SendEmail.html' %}

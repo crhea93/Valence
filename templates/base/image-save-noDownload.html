@@ -44,7 +44,28 @@
                 }
             })//end ajax
         });
-        console.log('Saved')
+        // Ajax call to backend to save all blocks and links
+        // First collect all the block information
+        let blocks = [];
+        $(".block").each(function() {
+            let ct = $(this).attr('data-title');
+            let textsize = $(this).children('div').eq(1).children('span').eq(0).css('font-size')  // Get updated font-size attribute
+            let X = $(this).css('left');
+            let Y = $(this).css('top');
+            let width = $(this).css('width').trim('px');
+            let height = $(this).css('height').trim('px');
+            let title =$ ('#title_'+ct).val(),
+            shape_ = 5;
+            if ($(this).hasClass('hexagonAmb')){
+                shape_ = 7
+            }
+            else {
+                shape_ = $('#shape_'+ct).attr('value')
+            }
+            blocks.push()
+        });
+
+        // Quick note to user
         let fadeComment = '<div class="text-success text-center fadeCom">{% trans 'You response has been saved' %}</div>';
         $('#SaveMessage').prepend(fadeComment);
         $('.fadeCom').fadeOut(5000);

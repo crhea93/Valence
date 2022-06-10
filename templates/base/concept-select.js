@@ -1,6 +1,5 @@
 var DELAY = 500, clicks = 0, timer=null;
-$(document).on("click", '.block',function(e){
-
+$(document).on("click", '.block', function(e){
     e.preventDefault();
     let ct_ = this.id.split("_")[1];
     var target_el = $('#block_'+ct_);
