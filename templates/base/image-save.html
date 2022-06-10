@@ -12,7 +12,7 @@
             },
             success: function(data){
                 console.log(data)
-                saveAs(data.file_name);
+                saveAs(data.file_name, data.file_name);
             },
             error: function(){
                 console.log("Error")
@@ -23,19 +23,32 @@
         })//end ajax
         });
         });
-    function saveAs(uri, filename) {
-        var link = document.createElement('a');
-        if (typeof link.download === 'string') {
-            link.href = uri;
-            link.download = filename;
+    function saveAs(filename, dataUrl) {
+        //var link = document.createElement('a');
+        //if (typeof link.download === 'string') {
+            //link.href = uri;
+            //link.download = filename;
             //Firefox requires the link to be in the body
-            document.body.appendChild(link);
+            //document.body.appendChild(link);
             //simulate click
-            link.click();
+            //link.click();
             //remove the link when done
-            document.body.removeChild(link);
-        } else {
-            window.open(uri);
-        }
+            //document.body.removeChild(link);
+        //} else {
+        //    window.open(uri);
+        //}
+        // Construct the 'a' element
+    var link = document.createElement("a");
+    link.download = filename;
+    link.target = "_blank";
+
+    // Construct the URI
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+
+    // Cleanup the DOM
+    document.body.removeChild(link);
+    delete link;
     }
 </script>
