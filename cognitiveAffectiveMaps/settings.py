@@ -12,7 +12,7 @@ import dj_database_url
 import django_heroku
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
-load_dotenv('.env')
+load_dotenv('.env-local')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -118,6 +118,16 @@ print(LOCALE_PATHS)
 USE_L10N = False
 USE_TZ = True
 
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+STATIC_ROOT = os.path.join(BASE_DIR, '')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = os.getenv('EMAIL_HOST')  # 'smtp.gmail.com'
@@ -129,7 +139,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 LOGIN_URL = 'dashboard'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'loginpage'
-
+django_heroku.settings(locals())
 
 # Override production variables if DJANGO_DEVELOPMENT env variable is set
 if os.getenv('DJANGO_DEVELOPMENT') is True:
@@ -138,33 +148,5 @@ if os.getenv('DJANGO_DEVELOPMENT') is True:
 if os.getenv('DJANGO_LOCAL') is not None:
     from cognitiveAffectiveMaps.settings_local import *
 
-if os.getenv('WATERLOO') is not None:
-    # aws settings
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    #AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    # s3 static settings
-    #STATIC_LOCATION = 'static'
-    #STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
-    #STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, '')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    # s3 public media settings
-    PUBLIC_MEDIA_LOCATION = 'media'
-    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    django_heroku.settings(locals(), staticfiles=False)
-else:
-    # Static files (CSS, JavaScript, Images)
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, '')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = 'media/'
-    django_heroku.settings(locals())
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#if os.getenv('WATERLOO') is not None:
+#    from cognitiveAffectiveMaps.settings_waterloo import *
