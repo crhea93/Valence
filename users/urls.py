@@ -43,4 +43,5 @@ urlpatterns = [
     path('FAQ', views.FAQ, name='FAQ'),
     path('clone_cam', views_CAM.clone_CAM, name='clone_cam'),
     path('undo_action', views_undo.undo_action, name='undo_action'),
+    path('full_save', views.full_save, name='full_save')
 ]

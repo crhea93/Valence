@@ -16,6 +16,7 @@ from tablib import Dataset
 from PIL import Image, ImageOps
 import pandas as pd
 import numpy as np
+import json
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
@@ -27,8 +28,10 @@ import datetime
 from random_username.generate import generate_username
 import re
 import base64
+
 User = get_user_model()
 from django.conf import settings
+
 media_url = settings.MEDIA_URL
 
 
@@ -41,7 +44,6 @@ def translate(request, user):
 
 @login_required(login_url='loginpage')
 def index(request):
-
     print(datetime.datetime.now())
     if request.method == 'POST':
         print('nope!')
@@ -64,9 +66,9 @@ def index(request):
             for line in lines:
                 lines_.append(line)
             content = {
-                'user':user,
-                'existing_blocks':blocks_,
-                'existing_lines':lines_
+                'user': user,
+                'existing_blocks': blocks_,
+                'existing_lines': lines_
             }
             return render(request, 'base/index.html', content)
         else:
@@ -109,6 +111,7 @@ def privacy(request):
 def FAQ(request):
     context = {}
     return render(request, "FAQ.html", context=context)
+
 
 def background(request):
     context = {
@@ -226,7 +229,8 @@ def create_participant(request):
                         'message': form.errors,
                         "form": form,
                         'projects': Project.objects.all(),
-                        'password_message': "Project does not exist. Please select from the following options: \n"+', '.join(project_names),
+                        'password_message': "Project does not exist. Please select from the following options: \n" + ', '.join(
+                            project_names),
                     }
                     return render(request, 'registration/register.html', context=context)
                 else:  # Project does exist
@@ -234,7 +238,7 @@ def create_participant(request):
                     project_pword = project.password
                     # If user has entered a project, we need to check that the password is correct
                     if project_pword is not None:  # User entered a password for the project
-                        if project_password == project.password:# or project.password == 'None' or project.password is None or project.password == project_name:
+                        if project_password == project.password:  # or project.password == 'None' or project.password is None or project.password == project_name:
                             # Correct password! Create user and sign them up for the project using upload_cam_participant
                             # User with a project
                             form.save()
@@ -246,7 +250,7 @@ def create_participant(request):
                             user.active_project_num = project.id
                             user.save()
                             upload_cam_participant(user, project)
-                            #print('Created user affiliated to project')
+                            # print('Created user affiliated to project')
                             return redirect('index')
                         elif project_password != '' and project_password != project.password:
                             # Incorrect password --> Return error message
@@ -342,6 +346,7 @@ def clear_CAM(request):
             link.delete()
         return HttpResponse()
 
+
 def remove_transparency(im, bg_color=(255, 255, 255)):
     """
     Taken from https://stackoverflow.com/a/35859141/7444782
@@ -369,7 +374,7 @@ def Image_CAM(request):
     image_data = image_data.encode()
     image_data = base64.b64decode(image_data)
     user = CustomUser.objects.get(username=request.user.username)
-    file_name = media_url[1:]+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'.png'
+    file_name = media_url[1:] + 'CAMS/' + request.user.username + '_' + str(user.active_cam_num) + '.png'
     print(media_url)
     with open(file_name, 'wb') as f:
         f.write(image_data)
@@ -379,15 +384,17 @@ def Image_CAM(request):
     if im.mode in ('RGBA', 'LA'):
         im = remove_transparency(im)
         im = im.convert('RGB')
-    im = im.resize((im.width*5, im.height*5), Image.ANTIALIAS)
+    im = im.resize((im.width * 5, im.height * 5), Image.ANTIALIAS)
     im.save(file_name, 'PNG', quality=1000)
     gray_image = ImageOps.grayscale(im)
-    gray_image.save(media_url[1:]+'CAMS/'+request.user.username+'_'+str(user.active_cam_num)+'_grayscale.png', 'PNG')
+    gray_image.save(media_url[1:] + 'CAMS/' + request.user.username + '_' + str(user.active_cam_num) + '_grayscale.png',
+                    'PNG')
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
 
     return JsonResponse({'file_name': file_name})
+
 
 def view_pdf(request):
     print('meow meow')
@@ -413,11 +420,11 @@ def export_CAM(request):
     names = ['blocks', 'links']
     ct = 0
     with ZipFile(outfile, 'w') as zf:
-        for resource in [block_resource,link_resource]:
+        for resource in [block_resource, link_resource]:
             zf.writestr("{}.csv".format(names[ct]), resource)
             ct += 1
     response = HttpResponse(outfile.getvalue(), content_type='application/octet-stream')
-    response['Content-Disposition'] = 'attachment; filename="'+request.user.username+'_CAM.zip"'
+    response['Content-Disposition'] = 'attachment; filename="' + request.user.username + '_CAM.zip"'
     return response
 
 
@@ -446,7 +453,7 @@ def import_CAM(request):
         for link in links:
             link.delete()
         ct = 0
-        #try:
+        # try:
         # Read zip file
         with ZipFile(uploaded_CAM) as z:
             for filename in z.namelist():
@@ -455,7 +462,7 @@ def import_CAM(request):
                     data = z.extract(filename)
                     test = pd.read_csv(data)
                     # Set creator and CAM to the current user and their CAM
-                    #test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
+                    # test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
                     test['creator'] = test['creator'].apply(lambda x: request.user.id)
                     test['CAM'] = test['CAM'].apply(lambda x: current_cam.id)
                     if 'blocks' in filename:
@@ -483,8 +490,8 @@ def import_CAM(request):
                     ct += 1
                 else:
                     pass
-        #except:
-       # print('Import didnt work')
+        # except:
+        # print('Import didnt work')
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
         for block in blocks_imported:
@@ -535,7 +542,7 @@ def send_cam(request):
         'Admin/send_CAM.html',
         {'contacter': username})
     text_content = strip_tags(html_content)
-    email_subject = request.user.username+"'s CAM"
+    email_subject = request.user.username + "'s CAM"
     email_from = 'thibeaultrheaprogramming@gmail.com'
     message = EmailMultiAlternatives(
         email_subject, text_content, email_from, ['thibeaultrheaprogramming@gmail.com']
@@ -543,9 +550,9 @@ def send_cam(request):
     message.attach_alternative(html_content, 'text/html')
     block_resource = BlockResource().export(Block.objects.filter(creator=user_id)).csv
     link_resource = LinkResource().export(Link.objects.filter(creator=user_id)).csv
-    message.attach(username+'_blocks.csv', block_resource, 'text/csv')
-    message.attach(username+'_links.csv', link_resource, 'text/csv')
-    message.attach(username+'_CAM.pdf', open('media/'+username+'.pdf', 'rb').read())
+    message.attach(username + '_blocks.csv', block_resource, 'text/csv')
+    message.attach(username + '_links.csv', link_resource, 'text/csv')
+    message.attach(username + '_CAM.pdf', open('media/' + username + '.pdf', 'rb').read())
     message.send()
     return redirect('/')
 
@@ -592,7 +599,7 @@ def language_change_anonymous(request):
     return redirect(request.META['HTTP_REFERER'])
 
 
-#@login_required(login_url='login')
+# @login_required(login_url='login')
 def settings(request):
     """This view is the user settings view.
     Depending of the request, we want to either show the user's settings
@@ -644,3 +651,104 @@ def create_random(request):
         login(request, user)
         create_individual_cam_randomUser(request, user)
         return redirect('index')
+
+
+def full_save(request):
+    """
+    Function to save CAM when autosave is off. This is called also when autosave is turned back on.
+    The saving is done by clearing a user's CAM information, then reading in the new information like it was an import
+    then updating the user's cam information with the "imported" data. To do this, we will create temporary csv files
+    which can be easily ported into resources.
+    """
+    block_resource = BlockResource()
+    link_resource = LinkResource()
+    dataset = Dataset()
+    user = User.objects.get(username=request.user.username)
+    current_cam = CAM.objects.get(id=user.active_cam_num)
+    blocks = current_cam.block_set.all()
+    new_id_block = np.max([block.id for block in blocks])
+    block_id_old_dict = dict(zip([block.num for block in blocks], [block.id for block in blocks]))
+    #block_id_new_dict = {}  # {new_num: new_id}
+    ##for block in blocks:
+    ##    block.delete()
+    links = current_cam.link_set.all()
+    link_id_old_dict = dict(zip([link.num for link in links], [link.id for link in links]))
+    new_id_link = Link.objects.last().id
+    #for link in links:
+    #    link.delete()
+    # Step 1: Collect concept and link information -- they are sent as lists of blocks and lists of links
+    if request.method == 'POST':
+        blocks = json.loads(request.POST.get('blocks'))
+        links = json.loads(request.POST.get('links'))
+        #print(blocks)
+        #print(links)
+        # Step 2: Create and fill in temporary csv files with pertinent information
+        blk_num = 1
+        with open('temp_block.csv', 'w+') as block_csv:
+            block_csv.write('id,title,x_pos,y_pos,width,height,shape,creator,num,comment,timestamp,modifiable,'
+                            'text_scale,CAM,resizable\n')
+            for block in blocks:
+                title = block[0]
+                shape = block[1]
+                id_ = block_id_old_dict[blk_num]
+                x_pos = block[3].replace('px', '')
+                y_pos = block[4].replace('px', '')
+                width = block[5].replace('px', '')
+                height = block[6].replace('px', '')
+                comment = block[7]
+                text_scale = block[8].replace('px', '')
+                block_csv.write('%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%i,%s,%i,%i\n' % (
+                    id_, title, x_pos, y_pos, width, height, shape, user.id, id_, comment, datetime.datetime.now(), 1,
+                    text_scale, current_cam.id, 0))
+                #block_id_new_dict[blk_num] = id_
+                new_id_block += 1
+                blk_num += 1
+        with open('temp_link.csv', 'w+') as link_csv:
+            link_csv.write('id,starting_block,ending_block,line_style,creator,num,arrow_type,timestamp,CAM\n')
+            for link in links:
+                id_ = new_id_link
+                starting_block = block_id_old_dict[link[0]]
+                ending_block = block_id_old_dict[link[1]]
+                line_style = link[2]
+                arrow_type = link[3]
+                link_csv.write('%s,%s,%s,%s,%s,%i,%s,%s,%i\n' % (
+                    id_, starting_block, ending_block, line_style, user.id, id_, arrow_type, '',
+                    current_cam.id))
+                new_id_link += 1
+        # Step 3: Load in files using the import module
+        imported_data = dataset.load(open('temp_block.csv').read())
+        print('BLOCK')
+        print(imported_data)
+        result = block_resource.import_data(imported_data, dry_run=True)  # Test the data import
+        if not result.has_errors():
+            block_resource.import_data(imported_data, dry_run=False)  # Actually import now
+        else:
+            print('Error in reading in concepts')
+            print(result.row_errors())
+        current_cam.block_set.all()
+        print(current_cam.block_set.all())
+        ## NOW THE LINKS
+        imported_data = dataset.load(open('temp_link.csv').read())
+        print('LINK')
+        print(imported_data)
+        result = link_resource.import_data(imported_data, dry_run=True, raise_errors=True)  # Test the data import
+        if not result.has_errors():
+            link_resource.import_data(imported_data, dry_run=False)  # Actually import now
+        else:
+            print('Error in reading in links')
+            print(result.row_errors()[0])
+        # We now have to clean up the blocks' links...
+        blocks_imported = current_cam.block_set.all()
+        for block in blocks_imported:
+            # Clean up Comments ('none' -> '')
+            if block.comment == 'None' or block.comment == 'none':
+                block.comment = ''
+            block.modifiable = True
+            # Change block creator to current user
+            block.creator = request.user
+            block.save()
+        links_imported = current_cam.link_set.all()
+        for link in links_imported:
+            link.creator = request.user
+            link.save()
+        return redirect('/')

@@ -25,13 +25,9 @@ def add_link(request):
             else:
                 link_data['creator'] = 1
             # Check that link doesn't already exist
-            print(link_data)
             if cam.link_set.filter(starting_block=start_block.num).filter(ending_block=end_block.num):
-                print('sad')
                 pass
-
             else:
-                print('link')
                 form_link = LinkForm(link_data)  # Create from for link
                 print(form_link.errors)
                 link = form_link.save()  # Save form for link

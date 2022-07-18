@@ -54,17 +54,48 @@
             let Y = $(this).css('top');
             let width = $(this).css('width').trim('px');
             let height = $(this).css('height').trim('px');
-            let title =$ ('#title_'+ct).val(),
-            shape_ = 5;
+            let title =$ ('#title_'+ct).val();
+            let comment = $(this).children('span').eq(0).text()
+            let shape_ = 5;
             if ($(this).hasClass('hexagonAmb')){
                 shape_ = 7
             }
             else {
                 shape_ = $('#shape_'+ct).attr('value')
             }
-            blocks.push()
+            let block = [title, shape_, ct, X, Y, width, height, comment, textsize]
+            blocks.push(block)
         });
-
+        // Collect all link information
+        let links = [];
+        $(".link").each(function() {
+            console.log($(this).data())
+            let start_block = $(this).data('start_id');
+            let end_block = $(this).data('end_id');
+            let line_style = line_style_func($(this));
+            let arrow_type = 'none';
+            if ($(this).hasClass('uni')){
+                arrow_type = 'uni';
+            }
+            else if ($(this).hasClass('bi')){
+                arrow_type = 'bi';
+            }
+            let link = [start_block, end_block, line_style, arrow_type]
+            links.push(link)
+        });
+        // Submit via ajax call
+        $.ajax({
+                async: false,
+                type: "POST",
+                url: "{% url 'full_save' %}",
+                data: {
+                    'blocks': JSON.stringify(blocks),
+                    'links': JSON.stringify(links),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',},
+                success: function (data) {
+                    console.log('wooohooo')
+                }
+        })
         // Quick note to user
         let fadeComment = '<div class="text-success text-center fadeCom">{% trans 'You response has been saved' %}</div>';
         $('#SaveMessage').prepend(fadeComment);

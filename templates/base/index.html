@@ -175,11 +175,11 @@
         let autoSave = true;
         $('#autoSaveToggle').on('click', function() {
             if (this.checked){
-                autoSave = false
+                autoSave = true
                 this.removeClass('checked')
             }
             else {
-                autoSave = true
+                autoSave = false
                 this.addClass('checked')
             }
         })

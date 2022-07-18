@@ -18,6 +18,7 @@ class LinkForm(forms.ModelForm):
     def save(self, commit=True):
         link = super(forms.ModelForm, self).save(commit=False)
         link.starting_block = self.cleaned_data["starting_block"]
+        print(self.cleaned_data)
         link.ending_block = self.cleaned_data["ending_block"]
         link.lin_color = self.cleaned_data["line_style"]
         link.creator = self.cleaned_data["creator"]
