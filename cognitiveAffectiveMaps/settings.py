@@ -12,7 +12,7 @@ import dj_database_url
 import django_heroku
 from django.utils.translation import gettext_lazy as _
 from dotenv import load_dotenv
-load_dotenv('.env')
+load_dotenv('.env-local')
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,11 +36,13 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'fileprovider',
     'config_admin',
+    'corsheaders',
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -52,6 +54,8 @@ MIDDLEWARE = [
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'fileprovider.middleware.FileProviderMiddleware'
 ]
+CORS_ORIGIN_ALLOW_ALL = True
+
 ROOT_URLCONF = 'cognitiveAffectiveMaps.urls'
 TEMPLATES = [
     {
@@ -87,7 +91,7 @@ DATABASES = {
 
 # DjangoSecure Requirements -- SET ALL TO FALSE FOR DEV
 # Redirect all requests to SSL
-SECURE_SSL_REDIRECT = True
+'''SECURE_SSL_REDIRECT = True
 # Use HHTP Strict Transport Security
 SECURE_HSTS_SECONDS = 68400  # An entire day
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
@@ -99,7 +103,7 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
 # Technically not django-secure, but recommended on their site
 SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_HTTPONLY = True'''
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -157,11 +161,12 @@ if os.getenv('WATERLOO') is not None:
     django_heroku.settings(locals(), staticfiles=False)
 else:
     # Static files (CSS, JavaScript, Images)
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, '')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-    MEDIA_URL = 'media/'
-    django_heroku.settings(locals())
+    pass
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, '')
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = 'media/'
+django_heroku.settings(locals())
 
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
