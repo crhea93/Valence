@@ -17,6 +17,7 @@
         $('#title_'+num).value = title;
         $('#success_block_'+num).append('<span class="h-100 d-inline-flex align-items-center">'+title+'</span>');
         $('#success_block_'+num).textFit({alignHoriz:true, alignVert:true})
+        $('#success_block_'+num).children().css({'font-size': text_scale+'px'})
         var block_ = $('#block_' + num);
         block_.draggable({
              containment: "#CAM_items",
