@@ -36,7 +36,6 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
          text_pad = 'px-4 py-2'
 
     }
-     console.log(resizable)
     if (resizable === 'True'){
         resizable_bool = 'resizable'
     }
@@ -62,14 +61,14 @@ function existing_concept_init(title,x,y,width,height,text_scale,shape,num,note_
         '<div id="block_form_' + num + '" class="card-body block-form concept_form" hidden>' +
             '<div class="form-row">' +
                 '<div class="form-group">' +
-                    '<input class="col-md-10" type="text" placeholder="text" id="title_' + num + '"  value="'+title+'" maxlength = "50" >'+
+                    '<input class="col-md-10" type="text" placeholder="text" id="title_' + num + '"  value="'+title+'" maxlength = "50"">'+
                 '</div>'+
             '</div>' +
         '<div class="slider custom-range" id="shape_' + num + '" value="' + slide_val + '"></div>' +
         '   <input type="checkbox" class="col-md-2 checkbox Ambivalence" id="check_' + num + '" value="Ambivalent" title="Ambivalent">' +
         '</div>' +
         //'<div class="flex success_blk align-items-center text-center h-100 pr-2 pl-2" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
-        '<div class="flex success_blk align-items-center text-center h-100 '+text_pad+'" style="z-index: 3;" id="success_block_' + num + '"></div>' +
+        '<div class="flex success_blk align-items-center text-center h-100 '+text_pad+'" style="z-index: 3; font-size:'+text_scale+'px" id="success_block_' + num + '"></div>' +
         '</div>';
     return def_created_concept
 }

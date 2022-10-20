@@ -3,7 +3,6 @@
         let curr_block = $('.Selected');
         let new_text_scale = $('#NewTextScale').val()
         const curr_block_num = curr_block.attr("data-title");
-        console.log('Updating Text Size')
         $.ajax({
             async: false,
             type: "POST",

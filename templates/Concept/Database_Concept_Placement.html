@@ -17,6 +17,7 @@
         $('#title_'+num).value = title;
         $('#success_block_'+num).append('<span class="h-100 d-inline-flex align-items-center">'+title+'</span>');
         $('#success_block_'+num).textFit({alignHoriz:true, alignVert:true})
+        $('#success_block_'+num).children().css({'font-size': text_scale+'px'})
         var block_ = $('#block_' + num);
         block_.draggable({
              containment: "#CAM_items",
@@ -61,7 +62,6 @@
             var Y = blk_.css('top');//event.pageY;
             var width = blk_.css('width').trim('px');
             var height = blk_.css('height').trim('px');
-            console.log(X+' '+Y)
             shape_ = 5;
             if (blk_.hasClass('hexagonAmb')){
                 shape_ = 7
@@ -70,7 +70,6 @@
                 shape_ = $('#shape_'+ct).attr('value')
             }
             checkbox_changes($('#check_'+ct),$("#block_"+ct),ct)
-            console.log(shape_)
             $.ajax({
                 async: false,
                 type: "POST",
