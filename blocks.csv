@@ -1,31 +1,39 @@
 ,id,title,x_pos,y_pos,width,height,shape,creator,num,comment,timestamp,modifiable,text_scale,CAM,resizable
-0,324,opportunities,404.0,572.0,140.0,75.0,positive weak,17,4.0,,19:24:34,1,14.0,38,0
-1,337,water,25.0,276.0,140.0,75.0,positive weak,17,18.0,,19:24:18,1,14.0,38,0
-2,322,ESG factors,399.0,20.0,126.8,67.0,positive strong,17,2.0,,20:22:51,1,14.0,38,0
-3,326,climate-related financial disclosures,20.0,413.0,123.2,66.0,positive weak,17,6.0,,21:47:44,1,12.0,38,0
-4,341,fiduciary responsibility to shareholders,332.0,327.0,130.663,70.0,positive strong,17,22.0,,20:22:58,1,12.755745373195037,38,0
-5,350,LEED buildings,903.0,589.0,140.0,75.0,positive weak,17,37.0,,,1,14.0,38,0
-6,336,"""engagement focus areas""",176.0,145.0,140.0,75.0,neutral,17,17.0,,,1,14.0,38,0
-7,342,diversification,899.0,158.0,140.0,75.0,positive strong,17,25.0,,,1,14.0,38,0
-8,321,renewable energy,890.0,400.988,140.0,75.0,positive weak,17,1.0,,19:42:18,1,14.0,38,0
-9,347,carbon reduction,625.0,438.0,140.0,75.0,positive weak,17,31.0,,,1,14.0,38,0
-10,325,sustainable investing,407.0,171.0,140.0,75.0,positive weak,17,5.0,,19:34:40,1,14.0,38,0
-11,327,green bonds,826.0,494.0,140.0,75.0,positive weak,17,7.0,,19:41:15,1,14.0,38,0
-12,345,accountability,263.0,247.988,117.463,62.0,positive weak,17,29.0,,,1,13.986341463414634,38,0
-13,343,organizational survival/endurance,656.0,22.0,140.0,75.0,positive strong,17,26.0,,20:22:39,1,14.0,38,0
-14,346,emerging technologies,537.0,369.0,140.0,75.0,positive weak,17,30.0,,,1,14.0,38,0
-15,338,human rights,206.0,20.0,140.0,75.0,positive weak,17,19.0,,19:24:24,1,14.0,38,0
-16,340,board effectiveness,24.0,115.0,140.0,75.0,positive weak,17,21.0,,19:25:13,1,14.0,38,0
-17,334,"""evolution to a lower-carbon world""",742.0,283.0,140.0,75.0,positive,17,15.0,,20:22:32,1,14.0,38,0
-18,332,resilience,901.0,27.0,140.0,75.0,positive weak,17,13.0,,19:16:35,1,14.0,38,0
-19,330,long-term value,406.0,254.0,140.0,75.0,positive strong,17,10.0,,20:23:10,1,14.0,38,0
-20,335,growth,404.0,421.0,140.0,75.0,positive strong,17,16.0,,,1,14.0,38,0
-21,344,diversity/inclusion,26.0,20.0,140.0,75.0,positive weak,17,28.0,,,1,14.0,38,0
-22,339,executive compensation,20.0,190.988,140.0,75.0,positive weak,17,20.0,,19:24:10,1,14.0,38,0
-23,349,sustainable water management,751.0,589.0,140.0,75.0,positive weak,17,36.0,,21:49:15,1,14.0,38,0
-24,348,undue risk of loss,177.0,409.0,140.0,75.0,negative strong,17,34.0,,,1,14.0,38,0
-25,329,risks,175.0,498.987,140.0,75.0,ambivalent,17,9.0,,19:27:34,1,14.0,38,0
-26,352,profitability,324.0,135.0,106.25,56.0,positive weak,17,39.0,,,1,12.373333333333331,38,0
-27,353,reputational harm,540.0,94.0,113.725,60.0,negative,17,40.0,,,1,13.226666666666668,38,0
-28,331,climate change,21.0,568.0,130.525,69.0,negative,17,11.0,,20:47:47,1,14.0,38,0
-29,351,"""resource efficiency"" innovations in oil & gas",651.0,155.988,140.0,75.0,positive weak,17,38.0,,20:47:13,1,13.0,38,0
+0,45,Technology & Innovation,601.0,142.0,147.462,79,positive strong,1,4,,18:51:28,1,18.1778884186651,1,0
+1,49,Reducing Canadian AND global emissions,468.0,159.975,108.125,57,positive strong,1,8,,18:44:31,1,12.5866666666667,1,0
+2,44,Environmental performance,783.4,21.0,91.325,48,positive weak,1,3,,18:47:50,1,10.6666666666667,1,0
+3,56,Carbon capture & storage,501.0,20.0,106.25,56,positive weak,1,15,,18:49:59,1,12.3733333333333,1,0
+4,52,Job creation,928.125,354.0,111.863,59,positive weak,1,11,,18:48:00,1,13.0133333333333,1,0
+5,47,Responsibly produced oil & gas,123.4,69.0,126.925,68,positive strong,1,6,,18:48:15,1,15.0733333333333,1,0
+6,61,Global competitiveness,823.0,512.0,108.125,57,positive weak,1,20,,18:50:01,1,12.5866666666667,1,0
+7,58,Bill C-69,151.0,502.0,117.463,62,negative strong,1,17,,18:50:15,1,13.6533333333333,1,0
+8,59,Canada Energy Regulator (CER),50.0,546.0,108.125,57,negative weak,1,18,,18:50:20,1,12.5866666666667,1,0
+9,42,Reducing environmental impact,622.0,20.0,108.125,57,positive weak,1,1,,01:16:55,1,12.5866666666667,1,0
+10,55,Oil & gas industry,620.0,352.0,134.4,72,positive strong,1,14,,22:32:36,1,15.9517651798561,1,0
+11,64,Industry monitoring,737.0,122.0,102.525,54,positive weak,1,23,,18:44:22,1,11.9466666666667,1,0
+12,80,Carbon price,300.0,350.0,87.725,47,positive weak,1,41,,18:47:45,1,10.398024691358,1,0
+13,75,Coal,267.0,217.988,85.8625,46,negative weak,1,36,,18:47:01,1,10.1840091715744,1,0
+14,53,Government revenues,752.088,458.275,100.65,53,positive weak,1,12,,18:49:59,1,11.7333333333333,1,0
+15,70,Growing energy demand,871.0,429.4,110.0,58,positive strong,1,31,,18:49:55,1,12.8,1,0
+16,74,Prosperity,931.75,280.163,106.25,56,positive strong,1,35,,18:47:55,1,12.3733333333333,1,0
+17,81,Carbon leakage,166.0,340.0,108.125,57,negative strong,1,42,,18:49:41,1,12.5866666666667,1,0
+18,46,Climate change,413.0,474.0,130.663,70,negative weak,1,5,,01:18:42,1,15.4974052610915,1,0
+19,51,Industry growth (& recovery),784.0,353.0,125.062,67,positive strong,1,10,,02:21:00,1,14.8516666666667,1,0
+20,76,Addressing climate change,428.0,349.0,134.4,72,positive,1,37,,18:49:53,1,15.96,1,0
+21,73,Stringent environmental regulations,34.0,340.0,102.525,54,ambivalent,1,34,,01:48:01,1,11.9466666666667,1,0
+22,373,Exporting to new global markets,943.675,502.0,95.0625,50,positive weak,1,52,,18:50:04,1,13.6563347255807,1,0
+23,385,ESG,922.0,20.0,84.0,45,positive weak,1,67,,18:44:11,1,10.3395059832246,1,0
+24,379,Trade deficit,930.0,589.0,111.863,59,negative weak,1,61,,18:50:06,1,13.0133333333333,1,0
+25,371,Pipeline upgrading,470.0,86.0,111.863,59,positive weak,1,49,,18:44:38,1,13.0133333333333,1,0
+26,377,Green Recovery,26.0,118.0,95.0625,50,positive weak,1,56,,18:46:56,1,11.0933333333333,1,0
+27,374,Partnerships with Indigenous communities,774.0,231.0,104.4,55,positive weak,1,53,,01:41:00,1,12.6808193668529,1,0
+28,383,National debt,784.0,595.0,108.125,57,negative weak,1,65,,18:50:08,1,12.5866666666667,1,0
+29,380,Economic reconciliation,925.0,149.988,108.125,57,positive weak,1,62,,18:47:53,1,12.5866666666667,1,0
+30,376,Hydrocarbons,650.0,513.0,102.525,54,positive strong,1,55,,18:50:09,1,11.9466666666667,1,0
+31,378,Trade-offs and sacrifices,177.0,248.0,102.525,54,negative weak,1,57,,18:48:07,1,11.9466666666667,1,0
+32,384,Divestment,293.0,410.0,93.2,49,negative strong,1,66,,18:49:43,1,10.88,1,0
+33,386,Building a lower-carbon future,548.0,244.0,95.0625,50,positive weak,1,68,,18:50:23,1,11.0933333333333,1,0
+34,375,Human progress & quality of life,655.0,575.0,98.8,52,positive weak,1,54,,18:56:01,1,11.52,1,0
+35,71,Canada's relatively small GHG emissions,428.0,584.0,119.325,63,positive weak,1,32,,02:05:15,1,13.8666666666667,1,0
+36,382,ITMOs & carbon offset credits trading,408.0,277.0,83.8625,44,positive weak,1,64,,02:36:23,1,12.281689805089,1,0
+37,381,Environmental stewardship & traditional knowledge,885.0,87.0,106.25,56,positive weak,1,63,,18:49:59,1,12.3733333333333,1,0

@@ -19,7 +19,7 @@ import numpy as np
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from users.models import CAM, Project, CustomUser
 from .views_CAM import upload_cam_participant, create_individual_cam, create_individual_cam_randomUser
@@ -34,7 +34,7 @@ media_url = settings.MEDIA_URL
 
 def translate(request, user):
     translation.activate(user.language_preference)
-    request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
+    #request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
     response = HttpResponse(...)
     response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user.language_preference)
 
@@ -48,7 +48,7 @@ def index(request):
     else:  # request.method = "GET"
         user = User.objects.get(username=request.user.username)
         translation.activate(user.language_preference)
-        request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
+        #request.session[translation.LANGUAGE_SESSION_KEY] = user.language_preference
         response = HttpResponse(...)
         response.set_cookie(settings_dj.LANGUAGE_COOKIE_NAME, user.language_preference)
         if user.is_authenticated:
