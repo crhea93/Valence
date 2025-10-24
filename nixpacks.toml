@@ -1,4 +1,7 @@
 # nixpacks.toml
+[project]
+ignore_detected = true
+
 [phases.setup]
 nixPkgs = ["python311Full", "pip"]
 
