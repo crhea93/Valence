@@ -1,15 +1,11 @@
-# nixpacks.toml
-[project]
-ignore_detected = true
-
 [phases.setup]
-nixPkgs = ["python311Full", "pip"]
+nixPkgs = ["python39", "postgresql"]
 
 [phases.install]
-cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
+cmds = ["pip install -r requirements.txt"]
 
 [phases.build]
 cmds = ["python manage.py collectstatic --noinput"]
 
 [start]
-cmd = "gunicorn cognitiveAffectiveMaps.wsgi --bind 0.0.0.0:$PORT"
+cmd = "python manage.py migrate && gunicorn cognitiveAffectiveMaps.wsgi --bind 0.0.0.0:$PORT"
