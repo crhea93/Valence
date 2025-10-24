@@ -1,14 +1,14 @@
 [phases.setup]
-nixPkgs = ["python311", "pip"]
+nixPkgs = ["python311Full"]
 
 [phases.install]
-cmds = ["pip install -r requirements.txt"]
+cmds = ["pip install --upgrade pip", "pip install -r requirements.txt"]
 
 [phases.build]
-cmds = []
-
-[start]
-cmd = "gunicorn cognitiveAffectiveMaps.wsgi --bind 0.0.0.0:$PORT"
+cmds = ["python manage.py collectstatic --noinput || echo 'No static files to collect'"]
 
 [release]
 cmd = "python manage.py migrate"
+
+[start]
+cmd = "gunicorn cognitiveAffectiveMaps.wsgi --bind 0.0.0.0:$PORT"
