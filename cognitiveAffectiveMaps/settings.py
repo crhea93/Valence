@@ -19,9 +19,12 @@ load_dotenv(".env-local")
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY")
-DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv("DEBUG", "False") == "True"
 DEBUG_PROPAGATE_EXCEPTIONS = True  # Application definition
 
+# SECURITY WARNING: In production, replace "*" with your actual domain names
+# For now, keeping "*" for development flexibility, but this should be changed
 ALLOWED_HOSTS = [
     "*",
     "localhost",
@@ -61,6 +64,8 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "fileprovider.middleware.FileProviderMiddleware",
 ]
+# SECURITY WARNING: CORS_ORIGIN_ALLOW_ALL = True allows any domain to make requests
+# In production, consider setting specific allowed origins instead
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "cognitiveAffectiveMaps.urls"
@@ -125,7 +130,6 @@ USE_I18N = True
 SITE_ROOT = os.path.dirname(os.path.realpath(__name__))
 LOCALE_PATHS = (os.path.join(SITE_ROOT, "locale"),)
 # LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale'), ]
-print(LOCALE_PATHS)
 USE_L10N = False
 USE_TZ = True
 

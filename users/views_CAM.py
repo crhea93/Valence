@@ -11,7 +11,10 @@ from tablib import Dataset
 from django.forms.models import model_to_dict
 from django.conf import settings
 import datetime
+import logging
 from django.contrib.auth import get_user_model
+
+logger = logging.getLogger(__name__)
 
 User = get_user_model()
 
@@ -22,7 +25,7 @@ def create_individual_cam(request):
     """
     user_ = request.user
     # Get current number of cams for user and add one to value
-    num = len(user_.cam_set.all()) + 1
+    num = user_.cam_set.count() + 1
     form = IndividualCAMCreationForm(
         {"name": user_.username + str(num), "user": user_.id}
     )  # Fill in form
@@ -100,7 +103,9 @@ def upload_cam_participant(participant, project):
                         test.to_csv(data)
                         imported_data = dataset.load(open(data).read())
                         blocks_imported = current_cam.block_set.all()
-                        print([block.id for block in blocks_imported])
+                        logger.debug(
+                            f"Imported blocks: {[block.id for block in blocks_imported]}"
+                        )
                         if ct == 0:  # first csv is blocks.csv
                             result = block_resource.import_data(
                                 imported_data, dry_run=True
@@ -110,8 +115,9 @@ def upload_cam_participant(participant, project):
                                     imported_data, dry_run=False
                                 )  # Actually import now
                             else:
-                                print("Error in reading in concepts")
-                                print(result.row_errors())
+                                logger.error(
+                                    f"Error in reading in concepts: {result.row_errors()}"
+                                )
                         else:  # Second csv is links.csv
                             result = link_resource.import_data(
                                 imported_data, dry_run=True
@@ -121,8 +127,9 @@ def upload_cam_participant(participant, project):
                                     imported_data, dry_run=False
                                 )  # Actually import now
                             else:
-                                print("Error in reading in links")
-                                print(result.row_errors())
+                                logger.error(
+                                    f"Error in reading in links: {result.row_errors()}"
+                                )
                         ct += 1
                     else:
                         pass
@@ -164,7 +171,7 @@ def delete_cam(request):
     # Get current CAM
     # TODO: TEST
     curr_cam = CAM.objects.get(id=request.POST.get("cam_id"))
-    print(curr_cam)
+    logger.debug(f"Deleting CAM: {curr_cam}")
     curr_cam.delete()
     return HttpResponse("Deleted")
 
@@ -175,11 +182,11 @@ def update_cam_name(request):
     curr_cam = CAM.objects.get(id=request.POST.get("cam_id"))
     new_name = request.POST.get("new_name")
     new_description = request.POST.get("description")
-    print(new_name)
+    logger.debug(f"Updating CAM {curr_cam.id} with name: {new_name}")
     curr_cam.name = new_name
     curr_cam.description = new_description
     curr_cam.save()
-    print(curr_cam)
+    logger.debug(f"CAM updated: {curr_cam}")
     return HttpResponse("Name Updated")
 
 
@@ -235,7 +242,7 @@ def create_individual_cam_randomUser(request, user_):
     # TODO:TEST
     """
     # Get current number of cams for user and add one to value
-    num = len(user_.cam_set.all()) + 1
+    num = user_.cam_set.count() + 1
     form = IndividualCAMCreationForm(
         {"name": user_.username + str(num), "user": user_.id}
     )  # Fill in form
@@ -272,14 +279,14 @@ def clone_CAM(request):
 
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
-    num = len(user_.cam_set.all()) + 1
+    num = user_.cam_set.count() + 1
     cam_.name = original_name + "_clone"
     cam_.user = original_user
     cam_.project = original_project
     cam_.description = original_description
     cam_.cam_image = original_cam_image
     cam_.save()  # Save new CAM
-    print("Making new CAM")
+    logger.info(f"Cloning CAM {original_name} for user {user_.username}")
     # Create dictionary for links  {link: [start_concept_new, end_concept_new]}
     for link_ in links_:
         link_dict[link_.pk] = [link_.starting_block.id, link_.ending_block.id]
@@ -309,7 +316,7 @@ def clone_CAM(request):
         link_.save()
         # Now update link starting and ending IDs with the new block ids
 
-    return JsonResponse({"message": "Success"})
+    return JsonResponse({"message": "Success", "cloned_cam_id": cam_.id})
 
 
 def clone_CAM_call(user, cam_id):
@@ -332,20 +339,20 @@ def clone_CAM_call(user, cam_id):
 
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
-    num = len(user_.cam_set.all()) + 1
+    num = user_.cam_set.count() + 1
     cam_.name = original_name + "_clone"
     cam_.user = original_user
     cam_.project = original_project
     cam_.description = original_description
     cam_.cam_image = original_cam_image
     cam_.save()  # Save new CAM
-    print("Making new CAM")
+    logger.info(f"Cloning CAM {original_name} for user {user_.username}")
     # Create dictionary for links  {link: [start_concept_new, end_concept_new]}
     for link_ in links_:
         link_dict[link_.pk] = [link_.starting_block.id, link_.ending_block.id]
     # Add blocks and links
     for block_ in blocks_:
-        print(block_)
+        logger.debug(f"Cloning block: {block_}")
         # Check if block is the starting block for some link
         old_id = block_.pk
         block_.pk = None
@@ -370,4 +377,4 @@ def clone_CAM_call(user, cam_id):
         link_.save()
         # Now update link starting and ending IDs with the new block ids
 
-    return JsonResponse({"message": "Success"})
+    return cam_  # Return the cloned CAM object
