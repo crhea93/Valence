@@ -233,7 +233,7 @@ def create_participant(request):
             project_password = str(request.POST.get("project_password"))
             project = None
             # Check if they entered a project name
-            if project_name != "":
+            if project_name is not None:
                 # If yes then we need to make sure the project exists
                 project_names = [project.name for project in Project.objects.all()]
                 if project_name not in project_names:
