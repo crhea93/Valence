@@ -393,6 +393,11 @@ def remove_transparency(im, bg_color=(255, 255, 255)):
         return im
 
 
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from io import BytesIO
+
+
 def Image_CAM(request):
     image_data = request.POST.get("html_to_convert")
     dataUrlPattern = re.compile("data:image/(png|jpeg);base64,(.*)$")
@@ -408,28 +413,36 @@ def Image_CAM(request):
         + str(user.active_cam_num)
         + ".png"
     )
-    print(media_url)
-    default_storage.save(file_name, ContentFile(image_data))
-    with open(file_name, "wb") as f:
-        f.write(image_data)
-    with open(file_name, "rb") as image_file:
-        data = base64.b64encode(image_file.read())
-    im = Image.open(BytesIO(base64.b64decode(data)))
+
+    # Open image from decoded data (no file system needed yet)
+    im = Image.open(BytesIO(image_data))
     if im.mode in ("RGBA", "LA"):
         im = remove_transparency(im)
         im = im.convert("RGB")
     im = im.resize((im.width * 5, im.height * 5), Image.ANTIALIAS)
-    im.save(file_name, "PNG", quality=1000)
+
+    # Save color image to S3
+    color_buffer = BytesIO()
+    im.save(color_buffer, "PNG", quality=1000)
+    color_buffer.seek(0)
+    default_storage.save(file_name, ContentFile(color_buffer.read()))
+
+    # Create and save grayscale image to S3
     gray_image = ImageOps.grayscale(im)
-    gray_image.save(
+    gray_buffer = BytesIO()
+    gray_image.save(gray_buffer, "PNG")
+    gray_buffer.seek(0)
+    gray_file_name = (
         media_url[1:]
         + "CAMS/"
         + request.user.username
         + "_"
         + str(user.active_cam_num)
-        + "_grayscale.png",
-        "PNG",
+        + "_grayscale.png"
     )
+    default_storage.save(gray_file_name, ContentFile(gray_buffer.read()))
+
+    # Update database
     current_cam = CAM.objects.get(id=user.active_cam_num)
     current_cam.cam_image = file_name
     current_cam.save()
