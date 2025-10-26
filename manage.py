@@ -1,11 +1,21 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cognitiveAffectiveMaps.settings')
+    # Check environment variables to determine which settings to use
+    if os.getenv("DJANGO_LOCAL"):
+        settings_module = "cognitiveAffectiveMaps.settings_local"
+    elif os.getenv("DJANGO_DEVELOPMENT"):
+        settings_module = "cognitiveAffectiveMaps.settings_dev"
+    else:
+        settings_module = "cognitiveAffectiveMaps.settings"
+
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
@@ -17,5 +27,5 @@ def main():
     execute_from_command_line(sys.argv)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

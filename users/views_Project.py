@@ -40,6 +40,15 @@ def create_project(request):
     form = ProjectCreationForm()
     if request.method == "POST":
         user_ = request.user
+
+        # Check if user has researcher profile
+        if not hasattr(user_, "researcher") or user_.researcher is None:
+            context = {
+                "message": "Only researchers can create projects. Please contact an administrator.",
+                "form": form,
+            }
+            return render(request, "create_project.html", context=context)
+
         # Get information to pass to Project Form
         project_info = {
             "name": request.POST.get("label"),
@@ -297,14 +306,39 @@ def load_project(request):
 
 
 def delete_project(request):
-    # Get current CAM
-    curr_project = Project.objects.get(id=request.POST.get("project_id"))
-    curr_project.delete()
-    return HttpResponse("Deleted")
+    # Get current project
+    project_id = request.POST.get("project_id")
+    try:
+        curr_project = Project.objects.get(id=project_id)
+
+        # Check if user is the owner of the project
+        if curr_project.researcher != request.user:
+            return HttpResponse("Unauthorized", status=403)
+
+        curr_project.delete()
+        return HttpResponse("Deleted")
+    except Project.DoesNotExist:
+        return HttpResponse("Project not found", status=404)
 
 
 def download_project(request):
-    current_project = Project.objects.get(id=request.GET.get("pk"))
+    pk = request.GET.get("pk")
+
+    # If no pk provided, try to use user's active project
+    if not pk:
+        if (
+            hasattr(request.user, "active_project_num")
+            and request.user.active_project_num
+        ):
+            pk = request.user.active_project_num
+        else:
+            return HttpResponse("Project ID is required", status=400)
+
+    try:
+        current_project = Project.objects.get(id=pk)
+    except Project.DoesNotExist:
+        return HttpResponse("Project not found", status=404)
+
     outfile = BytesIO()  # io.BytesIO() for python 3
     with ZipFile(outfile, "w") as zf:
         for current_cam in current_project.cam_set.all():

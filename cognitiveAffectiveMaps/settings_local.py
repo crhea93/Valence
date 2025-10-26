@@ -1,10 +1,16 @@
-import os
-import dj_database_url
-import django_heroku
-print('Using Local Settings!')
+# Import all settings from base settings
+from .settings import *
 
+print("Using Local Settings!")
+
+# Override with local/test specific settings
 DEBUG = True
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Use a fixed SECRET_KEY for testing (never use in production!)
+SECRET_KEY = (
+    "django-insecure-test-key-for-local-development-only-do-not-use-in-production"
+)
+
 # DjangoSecure Requirements -- SET ALL TO FALSE FOR DEV
 # Redirect all requests to SSL
 SECURE_SSL_REDIRECT = False
@@ -21,14 +27,16 @@ SECURE_BROWSER_XSS_FILTER = False
 SESSION_COOKIE_SECURE = False
 SESSION_COOKIE_HTTPONLY = False
 
-print('Set HTTPS to False')
+print("Set HTTPS to False")
+
+# Override database to use SQLite for local/testing
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }
 
-
-prod_db = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
+# Don't update from dj_database_url in local settings
+# prod_db = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(prod_db)

@@ -15,7 +15,7 @@ from .forms import (
 from django.utils import translation
 from django.conf import settings as settings_dj
 from .resources import BlockResource, LinkResource
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 from io import BytesIO
 from tablib import Dataset
 from PIL import Image, ImageOps
@@ -24,7 +24,7 @@ import numpy as np
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import get_user_model
-from django.utils.translation import ugettext as _
+from django.utils.translation import gettext as _
 from django.contrib.auth.decorators import login_required
 from users.models import CAM, Project, CustomUser
 from .views_CAM import (
@@ -511,16 +511,21 @@ def import_CAM(request):
         ct = 0
         # try:
         # Read zip file
-        with ZipFile(uploaded_CAM) as z:
-            for filename in z.namelist():
-                # Step through csv file
-                if filename.endswith(".csv"):
-                    data = z.extract(filename)
-                    test = pd.read_csv(data)
-                    # Set creator and CAM to the current user and their CAM
-                    # test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
-                    test["creator"] = test["creator"].apply(lambda x: request.user.id)
-                    test["CAM"] = test["CAM"].apply(lambda x: current_cam.id)
+        try:
+            with ZipFile(uploaded_CAM) as z:
+                for filename in z.namelist():
+                    # Step through csv file
+                    if filename.endswith(".csv"):
+                        data = z.extract(filename)
+                        test = pd.read_csv(data)
+                        # Set creator and CAM to the current user and their CAM
+                        # test['id'] = test['id'].apply(lambda x: ' ')  # Must be empty to auto id
+                        if "creator" in test.columns:
+                            test["creator"] = test["creator"].apply(
+                                lambda x: request.user.id
+                            )
+                        if "CAM" in test.columns:
+                            test["CAM"] = test["CAM"].apply(lambda x: current_cam.id)
                     if "blocks" in filename:
                         test["text_scale"] = test["text_scale"].apply(
                             lambda x: x if ~np.isnan(x) else 14
@@ -556,8 +561,10 @@ def import_CAM(request):
                     ct += 1
                 else:
                     pass
-        # except:
-        # print('Import didnt work')
+        except (BadZipFile, KeyError, Exception) as e:
+            print(f"Import failed: {e}")
+            return HttpResponse(f"Import failed: {str(e)}", status=400)
+
         # We now have to clean up the blocks' links...
         blocks_imported = current_cam.block_set.all()
         for block in blocks_imported:
@@ -605,26 +612,38 @@ def contact_form(request):
             message.attach_alternative(html_content, "text/html")
             message.send()
             return HttpResponse("done")
+        else:
+            # Form is invalid, return error response
+            return HttpResponse("Invalid form data", status=400)
 
 
 def send_cam(request):
     user_id = request.user.id
     username = request.user.username
+
+    # Get recipient email from request, default to admin email if not provided
+    recipient_email = request.POST.get("email", "thibeaultrheaprogramming@gmail.com")
+
     html_content = render_to_string("Admin/send_CAM.html", {"contacter": username})
     text_content = strip_tags(html_content)
     email_subject = request.user.username + "'s CAM"
     email_from = "thibeaultrheaprogramming@gmail.com"
     message = EmailMultiAlternatives(
-        email_subject, text_content, email_from, ["thibeaultrheaprogramming@gmail.com"]
+        email_subject, text_content, email_from, [recipient_email]
     )
     message.attach_alternative(html_content, "text/html")
     block_resource = BlockResource().export(Block.objects.filter(creator=user_id)).csv
     link_resource = LinkResource().export(Link.objects.filter(creator=user_id)).csv
     message.attach(username + "_blocks.csv", block_resource, "text/csv")
     message.attach(username + "_links.csv", link_resource, "text/csv")
-    message.attach(
-        username + "_CAM.pdf", open("media/" + username + ".pdf", "rb").read()
-    )
+
+    # Only attach PDF if it exists
+    import os
+
+    pdf_path = "media/" + username + ".pdf"
+    if os.path.exists(pdf_path):
+        message.attach(username + "_CAM.pdf", open(pdf_path, "rb").read())
+
     message.send()
     return redirect("/")
 
@@ -672,6 +691,7 @@ def language_change_anonymous(request):
 
 
 # @login_required(login_url='login')
+@login_required
 def settings(request):
     """This view is the user settings view.
     Depending of the request, we want to either show the user's settings

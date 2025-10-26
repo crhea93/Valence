@@ -140,7 +140,7 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Contact(models.Model):
     contacter = models.CharField(max_length=256)
-    email = models.CharField(max_length=256)
+    email = models.EmailField(max_length=256)
     message = models.CharField(max_length=1000)
 
     def __str__(self):
