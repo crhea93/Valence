@@ -307,7 +307,7 @@ class BlockViewsTestCase(TestCase):
     def test_update_text_size_get_request(self):
         """Test update_text_size with GET request instead of POST"""
         response = self.client.get("/block/update_text_size")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 400)
 
     def test_add_block_without_add_valid_param(self):
         """Test add_block without add_valid parameter"""
