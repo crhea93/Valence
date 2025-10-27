@@ -89,16 +89,25 @@ WSGI_APPLICATION = "cognitiveAffectiveMaps.wsgi.application"
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("DBNAME"),
-        "USER": os.getenv("DBUSER"),
-        "PASSWORD": os.getenv("DBPASSWORD"),
-        "HOST": os.getenv("DBHOST"),
-        "PORT": os.getenv("DBPORT"),
+# Support SQLite for testing
+if os.getenv("DB_ENGINE") == "sqlite3":
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db_test.sqlite3"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql_psycopg2",
+            "NAME": os.getenv("DBNAME"),
+            "USER": os.getenv("DBUSER"),
+            "PASSWORD": os.getenv("DBPASSWORD"),
+            "HOST": os.getenv("DBHOST"),
+            "PORT": os.getenv("DBPORT"),
+        }
+    }
 
 
 # DjangoSecure Requirements -- SET ALL TO FALSE FOR DEV

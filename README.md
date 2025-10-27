@@ -1,8 +1,10 @@
 # Valence
 
+[![CI](https://github.com/crhea93/Valence/actions/workflows/ci.yml/badge.svg)](https://github.com/crhea93/Valence/actions/workflows/ci.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![Django 3.2](https://img.shields.io/badge/django-3.2-green.svg)](https://www.djangoproject.com/)
+[![codecov](https://codecov.io/gh/crhea93/Valence/branch/master/graph/badge.svg)](https://codecov.io/gh/crhea93/Valence)
 
 A web application for creating and analyzing Cognitive Affective Maps (CAMs) in research contexts.
 
@@ -440,13 +442,13 @@ Valence is configured for Heroku deployment out of the box.
    heroku config:set SECRET_KEY='your-generated-secret-key'
    heroku config:set DEBUG=False
    heroku config:set DJANGO_SETTINGS_MODULE=cognitiveAffectiveMaps.settings
-   
+
    # Email settings (optional)
    heroku config:set EMAIL_HOST='smtp.gmail.com'
    heroku config:set EMAIL_HOST_USER='your-email@example.com'
    heroku config:set EMAIL_HOST_PASSWORD='your-email-password'
    heroku config:set EMAIL_PORT=587
-   
+
    # AWS S3 settings (recommended for production)
    heroku config:set AWS_ACCESS_KEY_ID='your-aws-key'
    heroku config:set AWS_SECRET_ACCESS_KEY='your-aws-secret'
@@ -493,7 +495,7 @@ If you use Valence in your research, please cite:
 ```bibtex
 @software{Rhea2020,
   title={Valence software release},
-  author={Rhea, Carter and Thibeault, Christian and Reuter, Lisa 
+  author={Rhea, Carter and Thibeault, Christian and Reuter, Lisa
           and Piereder, Jinelle and Mansell, Jordan},
   year={2020}
 }
@@ -524,4 +526,4 @@ Further information on this tool can be found at https://osf.io/9tza2/.
 This code was funded by the University of Waterloo's Basille School and the LivMats
 Cluster at the University of Freiburg. The code was programmed solely by Carter Rhea
 and Christian Thibeault. The primary Valence website was constructed by
-[Vibrant Content](https://vibrantcontent.ca/). 
+[Vibrant Content](https://vibrantcontent.ca/).

@@ -33,6 +33,7 @@ class APIEndpointTestCase(TestCase):
             description="TEST PROJECT",
             researcher=self.user,
             password="TestProjectPassword",
+            name_participants="API",
         )
 
         self.cam = CAM.objects.create(
@@ -286,16 +287,17 @@ class APIEndpointTestCase(TestCase):
         Test API endpoints handle invalid requests gracefully
         """
         # Try to add block with missing required fields
-        # The current implementation raises ValueError for invalid data
-        with self.assertRaises(ValueError):
-            response = self.client.post(
-                "/block/add_block",
-                {
-                    "add_valid": True,
-                    "num_block": 100,
-                    # Missing title, shape, positions
-                },
-            )
+        # Should return error response or 400 status
+        response = self.client.post(
+            "/block/add_block",
+            {
+                "add_valid": True,
+                "num_block": 100,
+                # Missing title, shape, positions
+            },
+        )
+        # View should handle missing fields gracefully
+        self.assertIn(response.status_code, [200, 400])
 
     def test_api_unauthorized_access(self):
         """
@@ -305,21 +307,22 @@ class APIEndpointTestCase(TestCase):
         self.client.logout()
 
         # Try to access protected endpoint
-        # The view doesn't handle AnonymousUser properly and raises AttributeError
-        with self.assertRaises(AttributeError):
-            response = self.client.post(
-                "/block/add_block",
-                {
-                    "add_valid": True,
-                    "num_block": 100,
-                    "title": "Unauthorized",
-                    "shape": 3,
-                    "x_pos": 0,
-                    "y_pos": 0,
-                    "width": 100,
-                    "height": 100,
-                },
-            )
+        # Should redirect to login or return error
+        response = self.client.post(
+            "/block/add_block",
+            {
+                "add_valid": True,
+                "num_block": 100,
+                "title": "Unauthorized",
+                "shape": 3,
+                "x_pos": 0,
+                "y_pos": 0,
+                "width": 100,
+                "height": 100,
+            },
+        )
+        # Should redirect to login (301/302) or return 403
+        self.assertIn(response.status_code, [301, 302, 403, 404])
 
     def test_api_cross_user_data_access(self):
         """

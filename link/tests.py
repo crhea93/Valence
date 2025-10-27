@@ -23,11 +23,13 @@ class LinkTestCase(TestCase):
             description="TEST PROJECT",
             researcher=self.user,
             password="TestProjectPassword",
+            name_participants="LINK",
         )
         self.cam = CAM.objects.create(
             name="testCAM", user=self.user, project=self.project
         )
         self.user.active_cam_num = self.cam.id
+        self.user.save()
         self.block1 = Block.objects.create(
             title="Meow1",
             x_pos=1.0,
@@ -314,6 +316,114 @@ class LinkTestCase(TestCase):
         # Bidirectional links should maintain both start and end blocks
         self.assertEqual(link_.starting_block, self.block1)
         self.assertEqual(link_.ending_block, self.block2)
+
+    def test_add_link_missing_blocks(self):
+        """
+        Test adding link with missing blocks - view raises exception
+        """
+        # Create blocks first to establish the CAM context
+        block_start = Block.objects.create(
+            title="StartBlock",
+            x_pos=1.0,
+            y_pos=1.0,
+            height=100,
+            width=100,
+            creator=self.user,
+            shape="neutral",
+            CAM_id=self.cam.id,
+            num=500,
+        )
+
+        # Try to add link with non-existent ending block
+        # The view will raise Block.DoesNotExist exception
+        try:
+            response = self.client.post(
+                "/link/add_link",
+                {
+                    "link_valid": True,
+                    "starting_block": 500,
+                    "ending_block": 9999,  # This block doesn't exist
+                    "line_style": "Solid-Weak",
+                    "arrow_type": "uni",
+                },
+            )
+        except Exception:
+            # Expected - the view raises exception for missing block
+            pass
+
+        # Verify link wasn't created
+        self.assertFalse(Link.objects.filter(starting_block__num=500).exists())
+
+    def test_update_link_properties(self):
+        """
+        Test updating link properties
+        """
+        link_ = Link.objects.create(
+            starting_block=self.block1,
+            ending_block=self.block2,
+            creator=self.user,
+            CAM_id=self.cam.id,
+            arrow_type="uni",
+            line_style="Solid-Weak",
+        )
+
+        response = self.client.post(
+            "/link/update_link",
+            {
+                "link_id": link_.id,
+                "line_style": "Dashed-Strong",
+                "arrow_type": "bi",
+            },
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        link_.refresh_from_db()
+        self.assertEqual(link_.line_style, "Dashed-Strong")
+        self.assertEqual(link_.arrow_type, "bi")
+
+    def test_swap_link_changes_direction(self):
+        """
+        Test swapping link direction
+        """
+        link_ = Link.objects.create(
+            starting_block=self.block1,
+            ending_block=self.block2,
+            creator=self.user,
+            CAM_id=self.cam.id,
+        )
+
+        original_start = link_.starting_block
+        original_end = link_.ending_block
+
+        response = self.client.post("/link/swap_link_direction", {"link_id": link_.id})
+
+        self.assertEqual(response.status_code, 200)
+
+        link_.refresh_from_db()
+        # After swap, start and end should be reversed
+        self.assertEqual(link_.starting_block, original_end)
+        self.assertEqual(link_.ending_block, original_start)
+
+    def test_delete_link_removes_from_database(self):
+        """
+        Test deleting link removes it completely
+        """
+        link_ = Link.objects.create(
+            starting_block=self.block1,
+            ending_block=self.block2,
+            creator=self.user,
+            CAM_id=self.cam.id,
+        )
+
+        link_id = link_.id
+
+        response = self.client.post(
+            "/link/delete_link", {"link_delete_valid": True, "link_id": link_id}
+        )
+
+        # Verify link is deleted
+        self.assertFalse(Link.objects.filter(id=link_id).exists())
 
 
 def trans_shape_to_slide(slide_val):

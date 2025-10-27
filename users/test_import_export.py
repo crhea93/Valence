@@ -121,15 +121,17 @@ class CAMImportExportTestCase(TestCase):
         # Create a test zip file with blocks and links CSV
         zip_buffer = BytesIO()
         with ZipFile(zip_buffer, "w") as zip_file:
-            # Create blocks CSV
-            blocks_csv = "id,title,x_pos,y_pos,width,height,shape,num,comment,text_scale,modifiable,resizable,creator_id,CAM_id\n"
+            # Create blocks CSV - use same column format as exported CSV
+            blocks_csv = "id,title,x_pos,y_pos,width,height,shape,num,comment,text_scale,modifiable,resizable,creator,CAM\n"
             blocks_csv += f"1,ImportedBlock1,50.0,60.0,100,100,neutral,3,,14,True,False,{self.user.id},{self.cam.id}\n"
             blocks_csv += f"2,ImportedBlock2,200.0,250.0,120,120,positive,4,,14,True,False,{self.user.id},{self.cam.id}\n"
             zip_file.writestr("blocks.csv", blocks_csv)
 
-            # Create links CSV
-            links_csv = "id,starting_block_id,ending_block_id,line_style,arrow_type,num,creator_id,CAM_id\n"
-            links_csv += f"1,1,2,Dashed,bi,5,{self.user.id},{self.cam.id}\n"
+            # Create links CSV - use same column format as exported CSV
+            links_csv = (
+                "id,starting_block,ending_block,line_style,arrow_type,num,creator,CAM\n"
+            )
+            links_csv += f"1,1,2,Dashed-Weak,bi,5,{self.user.id},{self.cam.id}\n"
             zip_file.writestr("links.csv", links_csv)
 
         # Upload the zip file
@@ -142,7 +144,7 @@ class CAMImportExportTestCase(TestCase):
             "/users/import_CAM", {"myfile": uploaded_file, "Deletable": "true"}
         )
 
-        # Verify the import was successful (should redirect or return 200)
+        # Verify the import was successful (should redirect on success)
         self.assertIn(response.status_code, [200, 302])
 
     def test_import_cam_clears_existing_blocks(self):

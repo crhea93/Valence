@@ -26,8 +26,14 @@ def create_individual_cam(request):
     user_ = request.user
     # Get current number of cams for user and add one to value
     num = user_.cam_set.count() + 1
+
+    # Check if name is provided in POST request
+    cam_name = request.POST.get("cam_name") if request.method == "POST" else None
+    if not cam_name:
+        cam_name = user_.username + str(num)
+
     form = IndividualCAMCreationForm(
-        {"name": user_.username + str(num), "user": user_.id}
+        {"name": cam_name, "user": user_.id}
     )  # Fill in form
     if form.is_valid():
         cam = form.save()
@@ -171,6 +177,9 @@ def delete_cam(request):
     # Get current CAM
     # TODO: TEST
     curr_cam = CAM.objects.get(id=request.POST.get("cam_id"))
+    # Check if the user owns this CAM
+    if curr_cam.user != request.user:
+        return HttpResponse("Unauthorized", status=403)
     logger.debug(f"Deleting CAM: {curr_cam}")
     curr_cam.delete()
     return HttpResponse("Deleted")
@@ -192,7 +201,8 @@ def update_cam_name(request):
 
 def download_cam(request):
     # TODO: TEST
-    current_cam = CAM.objects.get(id=request.GET.get("pk"))
+    cam_id = request.GET.get("pk") or request.GET.get("cam_id")
+    current_cam = CAM.objects.get(id=cam_id)
     block_resource = BlockResource().export(current_cam.block_set.all()).csv
     link_resource = LinkResource().export(current_cam.link_set.all()).csv
     outfile = BytesIO()  # io.BytesIO() for python 3
@@ -280,7 +290,9 @@ def clone_CAM(request):
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
     num = user_.cam_set.count() + 1
-    cam_.name = original_name + "_clone"
+    # Check if new name is provided in POST request
+    new_name = request.POST.get("new_name")
+    cam_.name = new_name if new_name else original_name + "_clone"
     cam_.user = original_user
     cam_.project = original_project
     cam_.description = original_description

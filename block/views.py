@@ -1,11 +1,27 @@
 from .forms import BlockForm
+from .models import Block
 from django.http import JsonResponse
 from django.template.defaulttags import register
 from datetime import datetime
 from django.forms.models import model_to_dict
-from users.models import CAM,logCamActions
+from users.models import CAM, logCamActions
 from django.contrib.auth import get_user_model
 import numpy as np
+
+from .services import (
+    trans_slide_to_shape,
+    validate_block_number,
+    validate_block_number_exists,
+    create_block,
+    update_block_data,
+    resize_block_dimensions,
+    set_all_blocks_resizable,
+    update_block_text_scale,
+    delete_block_with_logging,
+    get_links_data_for_block,
+    update_block_position,
+)
+
 User = get_user_model()
 
 
@@ -27,228 +43,279 @@ def integer(val):
 
 def add_block(request):
     """
-    Functionality to add a block to the databaase. This functionality is called from templates/Concept/Initial_Concept_Placement.html
-    or templates/Concept/Initial_Placement. The Jquery/Ajax call passes all block information to django. The information is
-    augmented to include any other relavent features (i.e. creator id). The block is then created in the database
-    via the BlockForm form defined in block/forms.py. The complete block data is then passed back to the drawing canvas.
+    Add a block to the CAM. Block data is passed via AJAX from the frontend,
+    created in the database, and returned with additional metadata for the canvas.
     """
-    block_data = {}
-    if request.method == 'POST':
-        add_valid = request.POST.get('add_valid')
+    response_data = {}
+
+    # Check authentication
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "User not authenticated"}, status=403)
+
+    if request.method != "POST":
+        return JsonResponse(response_data)
+
+    add_valid = request.POST.get("add_valid")
+    if not add_valid:
+        return JsonResponse(response_data)
+
+    try:
         cam = CAM.objects.get(id=request.user.active_cam_num)
-        blocks_existing = cam.block_set.all().values_list('num', flat=True)
-        if add_valid and request.POST.get('num_block') not in blocks_existing:
-            # If we are only adding a new element
-            # Getting basic block information
-            block_data['title'] = request.POST.get('title')
-            block_data['shape'] = trans_slide_to_shape(request.POST.get('shape'))
-            block_data['num'] = request.POST.get('num_block')
-            block_data['x_pos'] = request.POST.get('x_pos')
-            block_data['y_pos'] = request.POST.get('y_pos')
-            block_data['width'] = request.POST.get('width')
-            block_data['height'] = request.POST.get('height')
-            block_data['comment'] = ''  # Initially no comment
-            block_data['CAM'] = request.user.active_cam_num
-            if request.user.is_authenticated:  # Making sure we have an authenticated user
-                block_data['creator'] = request.user.id
-            else:
-                block_data['creator'] = 1
-            form_block = BlockForm(block_data)  # Getting our block form
-            block = form_block.save()  # Saving the form and getting the block
-            block_data['id'] = block.id  # Additional information about block
-            if block_data['shape'] == 'circle':
-                block_data['shape'] = 'rounded-circle'
-            block_data['links'] = []  # Need associated links for JQuery purposes
-            if cam.link_set.filter(starting_block=block.id)|cam.link_set.filter(ending_block=block.id):
-                block_data['links'] = block.links
-    return JsonResponse(block_data)
+
+        # Prepare block data from request
+        block_data = {
+            "title": request.POST.get("title", ""),
+            "shape": trans_slide_to_shape(request.POST.get("shape")),
+            "num": request.POST.get("num_block"),
+            "x_pos": request.POST.get("x_pos", 0),
+            "y_pos": request.POST.get("y_pos", 0),
+            "width": request.POST.get("width", 150),
+            "height": request.POST.get("height", 100),
+            "comment": "",  # Initially no comment
+        }
+
+        # Create block using service
+        block, success, error = create_block(cam, request.user, block_data)
+
+        if not success:
+            return JsonResponse({"error": error}, status=400)
+
+        # Prepare response
+        response_data["id"] = block.id
+        response_data["title"] = block.title
+        response_data["shape"] = (
+            "rounded-circle" if block.shape == "circle" else block.shape
+        )
+        response_data["num"] = block.num
+        response_data["x_pos"] = block.x_pos
+        response_data["y_pos"] = block.y_pos
+        response_data["width"] = block.width
+        response_data["height"] = block.height
+        response_data["comment"] = block.comment
+        response_data["links"] = block.links if hasattr(block, "links") else []
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse(response_data)
 
 
 def update_block(request):
     """
-    Function to update the information associated with a block. This is called whenever a block is modified (with
-    the exception of being moved/dragged -- See below for that function). This can be invoked either from templates/Concept/Initial_Concept_Placement.html
-    or templates/Concept/Initial_Placement or templates/Concept/resize_function.html. The block data is taken from the Jquery/Ajax
-    call. The block is updated using the block.update() command defined in block/model.py. The block data is returned to
-    the Jquery call to update the drawing canvas.
+    Update block information. Validates block exists and updates all provided fields.
+    Returns updated block data for the canvas.
     """
-    block_data = {}
-    if request.method == 'POST':
-        update_valid = request.POST.get('update_valid')
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
+    update_valid = request.POST.get("update_valid")
+    if not update_valid:
+        return JsonResponse({"error": "Invalid request"}, status=400)
+
+    try:
         cam = CAM.objects.get(id=request.user.active_cam_num)
-        blocks_existing = cam.block_set.all().values_list('num', flat=True)
-        if update_valid and (request.POST.get('num_block') not in blocks_existing):
-            block_num = request.POST.get('num_block')
-            block = cam.block_set.all().get(num=block_num)  # Get block number
-            # Fill in basic information for the block form
-            block_data['title'] = request.POST.get('title')
-            block_data['shape'] = trans_slide_to_shape(request.POST.get('shape'))
-            block_data['num'] = block_num
-            try:  # If there is a newline, be sure to strip it
-                comment = request.POST.get('comment').strip('\n')
-            except:  # Otherwise just take the comment
-                comment = request.POST.get('comment')
-            block_data['comment'] = comment
-            block_data['timestamp'] = datetime.now()
-            block_data['x_pos'] = float(request.POST.get('x_pos')[:-2])  # Ignore the px at the end
-            block_data['y_pos'] = float(request.POST.get('y_pos')[:-2])
-            block_data['width'] = float(request.POST.get('width')[:-2])  # Ignore the px at the end
-            block_data['height'] = float(request.POST.get('height')[:-2])
-            block.update(block_data)
-            return JsonResponse(block_data)
+        block_num = request.POST.get("num_block")
+
+        # Validate block number exists
+        is_valid, error = validate_block_number_exists(cam, block_num)
+        if not is_valid:
+            return JsonResponse({"error": error}, status=404)
+
+        block = cam.block_set.get(num=block_num)
+
+        # Prepare update data
+        block_data = {
+            "title": request.POST.get("title"),
+            "shape": trans_slide_to_shape(request.POST.get("shape")),
+            "comment": request.POST.get("comment"),
+            "x_pos": request.POST.get("x_pos"),
+            "y_pos": request.POST.get("y_pos"),
+            "width": request.POST.get("width"),
+            "height": request.POST.get("height"),
+        }
+
+        # Update block using service
+        block, success, error = update_block_data(block, block_data)
+
+        if not success:
+            return JsonResponse({"error": error}, status=400)
+
+        # Return updated data
+        return JsonResponse(
+            {
+                "title": block.title,
+                "shape": block.shape,
+                "comment": block.comment,
+                "x_pos": block.x_pos,
+                "y_pos": block.y_pos,
+                "width": block.width,
+                "height": block.height,
+            }
+        )
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
+    except Block.DoesNotExist:
+        return JsonResponse({"error": "Block not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 def resize_block(request):
     """
-    Function to turn on or off the resizable boolean for blocks
+    Resize a block's dimensions or toggle resizable property for all blocks in CAM.
     """
-    if request.method == 'POST':
-        update_valid = request.POST.get('update_valid')
+    if request.method != "POST":
+        return JsonResponse({"resize_message": "Invalid request"}, status=400)
+
+    try:
         cam = CAM.objects.get(id=request.user.active_cam_num)
-        #blocks_existing = cam.block_set.all().values_list('num', flat=True)
-        resize_bool = request.POST.get('resize')
-        print(resize_bool)
-        if update_valid:
-            for block in cam.block_set.all():
-                if resize_bool == 'True':
-                    block.resizable = True
-                else:
-                    block.resizable = False
-                block.save()
-            for block in cam.block_set.all():
-                print(block.resizable)
-            message = 'Blocks resized'
-        else:
-            message = 'Failed to change block resizeable'
-        print(message)
-    return JsonResponse({'resize_message': message})
+
+        # Check if this is a dimension resize
+        resize_valid = request.POST.get("resize_valid")
+        if resize_valid:
+            block_id = request.POST.get("block_id")
+            width = request.POST.get("width")
+            height = request.POST.get("height")
+
+            block = cam.block_set.get(num=block_id)
+            block, success, message = resize_block_dimensions(block, width, height)
+
+            if not success:
+                return JsonResponse({"resize_message": message}, status=400)
+
+            return JsonResponse({"resize_message": message})
+
+        # Otherwise toggle resizable for all blocks
+        update_valid = request.POST.get("update_valid")
+        if not update_valid:
+            return JsonResponse({"resize_message": "Invalid request"}, status=400)
+
+        resize_bool_str = request.POST.get("resize")
+        resizable = resize_bool_str == "True"
+
+        count, success, message = set_all_blocks_resizable(cam, resizable)
+
+        return JsonResponse({"resize_message": message})
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"resize_message": "CAM not found"}, status=404)
+    except Block.DoesNotExist:
+        return JsonResponse({"resize_message": "Block not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"resize_message": str(e)}, status=500)
+
 
 def delete_block(request):
     """
-    Function to delete a block from the current CAM. The id of the block to be deleted is passed through the Jquery/Ajax call
-    defined in templates/Concept/delete_block.html. After deleting the block all links associated with the block are deleted
-    from the database. The function returns a list of those links so that the Jquery/Ajax call can delete from them the
-    drawing canvas.
+    Delete a block from the CAM. Also deletes all associated links and logs the deletion.
+    Returns list of deleted links for the frontend to update the canvas.
     """
-    user_ = User.objects.get(username=request.user.username)
-    links_ = []
-    if request.method == 'POST':
-        delete_valid = request.POST.get('delete_valid')  # block delete
-        if delete_valid:
-            cam = CAM.objects.get(id=request.user.active_cam_num)
-            block_id = request.POST.get('block_id')
-            block = cam.block_set.get(num=block_id)
-            # Delete related links
-            links = cam.link_set.filter(starting_block=block.id)|cam.link_set.filter(ending_block=block.id)
-            links_ = [model_to_dict(link) for link in links]
+    if request.method != "POST":
+        return JsonResponse({"links": []})
 
-            try:
-                actionId = cam.logcamactions_set.latest('actionId').actionId + 1
-            except:
-                actionId = 0
+    delete_valid = request.POST.get("delete_valid")
+    if not delete_valid:
+        return JsonResponse({"links": []})
 
-            # Log block deletion in the logAction database
-            try:
-                logCamActions(camId=cam,
-                                actionId=actionId,
-                                actionType =0, # 0 = deleting
-                                objType = 1, # 1 = block
-                                objDetails = model_to_dict(block)
-                          ).save()
-                # Log link deletion in the logAction database
-                for link in links:
-                    logCamActions(camId=cam,
-                                    actionId=actionId,
-                                    actionType =0, # 0 = deleting
-                                    objType = 0, # 0 = link
-                                    objDetails = model_to_dict(link)
-                              ).save()
+    try:
+        cam = CAM.objects.get(id=request.user.active_cam_num)
+        block_id = request.POST.get("block_id")
+        block = cam.block_set.get(num=block_id)
 
-                listActionIdDistinct = cam.logcamactions_set.order_by().values_list('actionId', flat=True).distinct()
-                if listActionIdDistinct.count() >9:
-                    minActionId = np.amin(listActionIdDistinct)
-                    logCamActions.objects.filter(actionId=minActionId).delete()
-            except:
-                pass
-            block.delete()
+        # Check if block is modifiable (can be deleted)
+        if block.modifiable is False:
+            return JsonResponse({"error": "This block cannot be deleted"}, status=403)
 
-    return JsonResponse({'links': links_})
+        # Delete block with logging (handles links and action logs)
+        deleted_links, success, error = delete_block_with_logging(cam, block)
+
+        if not success:
+            return JsonResponse({"error": error}, status=400)
+
+        return JsonResponse({"links": deleted_links})
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
+    except Block.DoesNotExist:
+        return JsonResponse({"error": "Block not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 def drag_function(request):
     """
-    Functionality to update a block's position after it is dragged on the canvas. This call is invoked via a Jquery/Ajax
-    call defined in templates/Concepts/drag_function.html. The function takes the new positions of the block and updates the current blocks
-    position. Then each link associated with the block is collected and their information is passed back to the drawing
-    canvas in order to be updated via a Jquery call.
+    Update block position when dragged on canvas. Returns updated link data for
+    all links connected to the block so the frontend can update them visually.
     """
-    if request.method == 'POST':
-        drag_valid = request.POST.get('drag_valid')
-        if drag_valid:
-            cam = CAM.objects.get(id=request.user.active_cam_num)
+    if request.method != "POST":
+        return JsonResponse({})
 
-            # Just need this information for later
-            ids = []; starting_x_ = []; ending_x_ = []; starting_y_ = []; ending_y_ = []
-            style_ = []; width_ = []; starting_block_ = []; ending_block_ = []
-            # Grab block ID
-            block_id = request.POST.get('block_id')
-            if cam.block_set.get(num=block_id):  # Make sure block exists (it really should)
-                block = cam.block_set.get(num=block_id)
-                try:
-                    text_scale = float(request.POST.get('text_scale'))
-                except:
-                    text_scale = block.text_scale
-                block.x_pos = float(request.POST.get('x_pos')[:-2])  # get rid of px at the end
-                block.y_pos = float(request.POST.get('y_pos')[:-2])  # Ditto
-                block.width = float(request.POST.get('width')[:-2])  # get rid of px at the end
-                block.height = float(request.POST.get('height')[:-2])  # Ditto
-                block.text_scale = text_scale
-                block.save()  # Update position
-                # Link will be automatically updated, but we need to get the information to pass to JQuery!
-                links = cam.link_set.filter(starting_block=block.id)|cam.link_set.filter(ending_block=block.id)
-                for link in links:
-                    # Get all that good info
-                    ids.append(link.id); starting_x_.append(link.starting_block.x_pos); starting_y_.append(link.starting_block.y_pos)
-                    ending_x_.append(link.ending_block.x_pos); ending_y_.append(link.ending_block.y_pos); style_.append(link.line_style)
-                    starting_block_.append(link.starting_block.num); ending_block_.append(link.ending_block.num)
-            return JsonResponse({'id':ids,'start_x':starting_x_,'start_y':starting_y_,'end_x':ending_x_,
-                                 'end_y':ending_y_,'style':style_,'width':width_,'starting_block':starting_block_,
-                                 'ending_block':ending_block_})
+    drag_valid = request.POST.get("drag_valid")
+    if not drag_valid:
+        return JsonResponse({})
+
+    try:
+        cam = CAM.objects.get(id=request.user.active_cam_num)
+        block_id = request.POST.get("block_id")
+        block = cam.block_set.get(num=block_id)
+
+        # Get position and dimension data
+        x_pos = request.POST.get("x_pos")
+        y_pos = request.POST.get("y_pos")
+        width = request.POST.get("width")
+        height = request.POST.get("height")
+        text_scale = request.POST.get("text_scale")
+
+        # Update block position using service
+        block, success, error = update_block_position(
+            block, x_pos, y_pos, width, height, text_scale
+        )
+
+        if not success:
+            return JsonResponse({"error": error}, status=400)
+
+        # Get link data for all related links
+        link_data = get_links_data_for_block(cam, block)
+
+        return JsonResponse(link_data)
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
+    except Block.DoesNotExist:
+        return JsonResponse({"error": "Block not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
 
 
 def update_text_size(request):
     """
-    Update the text size of an individual concept
+    Update the text scale/size of a block.
     """
-    new_text_scale = request.POST.get("text_scale")
-    block_id = request.POST.get("block_id")
-    cam = CAM.objects.get(id=request.user.active_cam_num)
-    block = cam.block_set.get(num=block_id)
-    block.update({"text_scale": new_text_scale})
-    message = 'Successfully updated the text size of node %s'%block_id
-    return JsonResponse({"message": message})
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request"}, status=400)
 
+    try:
+        # Accept both text_scale and text_size parameter names
+        new_text_scale = request.POST.get("text_scale") or request.POST.get("text_size")
+        block_id = request.POST.get("block_id")
 
-def trans_slide_to_shape(slide_val):
-    """
-    Translate between slider value and shape
-    """
-    if slide_val == '0':
-        shape = 'negative strong'
-    elif slide_val == '1':
-        shape = 'negative'
-    elif slide_val == '2':
-        shape = 'negative weak'
-    elif slide_val == '3':
-        shape = 'neutral'
-    elif slide_val == '4':
-        shape = 'positive weak'
-    elif slide_val == '5':
-        shape = 'positive'
-    elif slide_val == '6':
-        shape = 'positive strong'
-    elif slide_val == '7':
-        shape = 'ambivalent'
-    else:
-        shape = 'neutral'
-    return shape
+        cam = CAM.objects.get(id=request.user.active_cam_num)
+        block = cam.block_set.get(num=block_id)
+
+        # Update text scale using service
+        block, success, message = update_block_text_scale(block, new_text_scale)
+
+        if not success:
+            return JsonResponse({"error": message}, status=400)
+
+        return JsonResponse({"message": message})
+
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
+    except Block.DoesNotExist:
+        return JsonResponse({"error": "Block not found"}, status=404)
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

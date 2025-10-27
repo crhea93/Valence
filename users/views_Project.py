@@ -379,6 +379,17 @@ def project_settings(request):
     if request.method == "POST":
         user_ = request.user
         project = Project.objects.get(id=user_.active_project_num)
+        # Check if the user is the project owner
+        if project.researcher != user_:
+            return render(
+                request,
+                "project_settings.html",
+                context={
+                    "user": user_,
+                    "active_project": project,
+                    "error": "You do not have permission to edit this project.",
+                },
+            )
         # Get information to pass to Project Form
         project_info = {
             "name": request.POST.get("nameUpdate"),

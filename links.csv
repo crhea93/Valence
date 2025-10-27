@@ -1,2 +1,2 @@
-,id,starting_block_id,ending_block_id,line_style,arrow_type,num,creator_id,CAM_id
-0,1,1,2,Dashed,bi,5,1,1
+,id,starting_block,ending_block,line_style,arrow_type,num,creator,CAM
+0,1,1,2,Dashed-Weak,bi,5,1,1
