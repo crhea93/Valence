@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ master, Heroku ]
+    branches: [master, Heroku]
   pull_request:
-    branches: [ master, Heroku ]
+    branches: [master, Heroku]
 
 jobs:
   test:
@@ -32,45 +32,45 @@ jobs:
       DEBUG: False
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.9'
-        cache: 'pip'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+          cache: "pip"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install pytest-cov coverage
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest-cov coverage
+          pip install -r requirements.txt
 
-    - name: Run migrations
-      run: |
-        python manage.py migrate --noinput
+      - name: Run migrations
+        run: |
+          python manage.py migrate --noinput
 
-    - name: Run tests with coverage
-      run: |
-        pytest --cov --cov-report=xml --cov-report=term --cov-report=html
+      - name: Run tests with coverage
+        run: |
+          pytest --cov --cov-report=xml --cov-report=term --cov-report=html
 
-    - name: Check coverage threshold
-      run: |
-        coverage report --fail-under=60
+      - name: Check coverage threshold
+        run: |
+          coverage report --fail-under=60
 
-    - name: Upload coverage reports
-      uses: codecov/codecov-action@v3
-      if: always()
-      with:
-        file: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
-        fail_ci_if_error: false
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v4
+        if: always()
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: false
 
-    - name: Upload coverage HTML report
-      uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: coverage-report
-        path: htmlcov/
+      - name: Upload coverage HTML report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: htmlcov/
