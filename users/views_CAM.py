@@ -163,60 +163,116 @@ def upload_cam_participant(participant, project):
 def load_cam(request):
     """
     Change user's current CAM and go to the CAM
-    TODO: TEST
     """
+    if request.method != "POST":
+        return HttpResponse("Invalid request method", status=400)
+
     user_ = request.user
-    # Get current CAM number
-    curr_cam = request.POST.get("cam_id")
-    user_.active_cam_num = curr_cam
-    user_.save()
-    return HttpResponse("Success")
+    cam_id = request.POST.get("cam_id")
+
+    if not cam_id:
+        return HttpResponse("No CAM ID provided", status=400)
+
+    try:
+        # Verify CAM exists
+        CAM.objects.get(id=cam_id)
+        user_.active_cam_num = cam_id
+        user_.save()
+        return HttpResponse("Success")
+    except CAM.DoesNotExist:
+        return HttpResponse("CAM not found", status=404)
 
 
 def delete_cam(request):
-    # Get current CAM
-    # TODO: TEST
-    curr_cam = CAM.objects.get(id=request.POST.get("cam_id"))
+    """
+    Delete a CAM owned by the user
+    """
+    if request.method != "POST":
+        return HttpResponse("Invalid request method", status=400)
+
+    cam_id = request.POST.get("cam_id")
+    if not cam_id:
+        return HttpResponse("No CAM ID provided", status=400)
+
+    try:
+        curr_cam = CAM.objects.get(id=cam_id)
+    except CAM.DoesNotExist:
+        return HttpResponse("CAM not found", status=404)
+
     # Check if the user owns this CAM
     if curr_cam.user != request.user:
         return HttpResponse("Unauthorized", status=403)
+
     logger.debug(f"Deleting CAM: {curr_cam}")
     curr_cam.delete()
     return HttpResponse("Deleted")
 
 
 def update_cam_name(request):
-    # Get current CAM
-    # TODO: TEST
-    curr_cam = CAM.objects.get(id=request.POST.get("cam_id"))
+    """
+    Update CAM name and description
+    """
+    if request.method != "POST":
+        return HttpResponse("Invalid request method", status=400)
+
+    cam_id = request.POST.get("cam_id")
+    if not cam_id:
+        return HttpResponse("No CAM ID provided", status=400)
+
+    try:
+        curr_cam = CAM.objects.get(id=cam_id)
+    except CAM.DoesNotExist:
+        return HttpResponse("CAM not found", status=404)
+
     new_name = request.POST.get("new_name")
     new_description = request.POST.get("description")
-    logger.debug(f"Updating CAM {curr_cam.id} with name: {new_name}")
-    curr_cam.name = new_name
-    curr_cam.description = new_description
+
+    if new_name:
+        logger.debug(f"Updating CAM {curr_cam.id} with name: {new_name}")
+        curr_cam.name = new_name
+
+    if new_description is not None:  # Allow empty string
+        curr_cam.description = new_description
+
     curr_cam.save()
     logger.debug(f"CAM updated: {curr_cam}")
     return HttpResponse("Name Updated")
 
 
 def download_cam(request):
-    # TODO: TEST
+    """
+    Download a CAM as a ZIP file containing blocks and links CSVs
+    """
+    if request.method != "GET":
+        return HttpResponse("Invalid request method", status=400)
+
     cam_id = request.GET.get("pk") or request.GET.get("cam_id")
-    current_cam = CAM.objects.get(id=cam_id)
+    if not cam_id:
+        return HttpResponse("No CAM ID provided", status=400)
+
+    try:
+        current_cam = CAM.objects.get(id=cam_id)
+    except CAM.DoesNotExist:
+        return HttpResponse("CAM not found", status=404)
+
+    # Export blocks and links
     block_resource = BlockResource().export(current_cam.block_set.all()).csv
     link_resource = LinkResource().export(current_cam.link_set.all()).csv
-    outfile = BytesIO()  # io.BytesIO() for python 3
+    outfile = BytesIO()
     names = ["blocks", "links"]
     ct = 0
+
     with ZipFile(outfile, "w") as zf:
         for resource in [block_resource, link_resource]:
             zf.writestr("{}.csv".format(names[ct]), resource)
             ct += 1
+        # Optionally include CAM image if available
         if current_cam.cam_image:
             try:
                 zf.write(str(current_cam.cam_image))
-            except:
-                pass
+            except Exception as e:
+                logger.warning(f"Could not include CAM image: {e}")
+
     response = HttpResponse(outfile.getvalue(), content_type="application/octet-stream")
     response["Content-Disposition"] = (
         'attachment; filename="' + current_cam.user.username + '_CAM.zip"'
@@ -225,8 +281,22 @@ def download_cam(request):
 
 
 def initial_cam(request):
-    current_project = Project.objects.get(id=request.GET.get("pk"))
-    outfile = BytesIO()  # io.BytesIO() for python 3
+    """
+    Download all CAMs for a project as a ZIP file
+    """
+    if request.method != "GET":
+        return HttpResponse("Invalid request method", status=400)
+
+    project_id = request.GET.get("pk")
+    if not project_id:
+        return HttpResponse("No project ID provided", status=400)
+
+    try:
+        current_project = Project.objects.get(id=project_id)
+    except Project.DoesNotExist:
+        return HttpResponse("Project not found", status=404)
+
+    outfile = BytesIO()
     with ZipFile(outfile, "w") as zf:
         for current_cam in current_project.cam_set.all():
             block_resource = BlockResource().export(current_cam.block_set.all()).csv
@@ -239,6 +309,7 @@ def initial_cam(request):
                     resource,
                 )
                 ct += 1
+
     response = HttpResponse(outfile.getvalue(), content_type="application/octet-stream")
     response["Content-Disposition"] = (
         'attachment; filename="' + request.user.username + '_CAM.zip"'
@@ -272,13 +343,23 @@ def create_individual_cam_randomUser(request, user_):
 def clone_CAM(request):
     """
     Clone a CAM for a user
-    TODO: TEST
     """
-    user_ = User.objects.get(username=request.user.username)
-    cam_ = CAM.objects.get(id=request.POST.get("cam_id"))  # Get current CAM
-    blocks_ = cam_.block_set.all()
-    links_ = cam_.link_set.all()
-    link_dict = {}
+    if request.method != "POST":
+        return JsonResponse({"error": "Invalid request method"}, status=400)
+
+    original_cam_id = request.POST.get("cam_id")
+    if not original_cam_id:
+        return JsonResponse({"error": "No CAM ID provided"}, status=400)
+
+    try:
+        user_ = User.objects.get(username=request.user.username)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User not found"}, status=404)
+
+    try:
+        cam_ = CAM.objects.get(id=original_cam_id)
+    except CAM.DoesNotExist:
+        return JsonResponse({"error": "CAM not found"}, status=404)
 
     # Store original values before cloning
     original_user = cam_.user
@@ -286,6 +367,11 @@ def clone_CAM(request):
     original_description = cam_.description
     original_cam_image = cam_.cam_image
     original_name = cam_.name
+
+    # Get blocks and links BEFORE modifying cam_ - force evaluation with list()
+    blocks_ = list(cam_.block_set.all())
+    links_ = list(cam_.link_set.all())
+    link_dict = {}
 
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value
@@ -334,13 +420,9 @@ def clone_CAM(request):
 def clone_CAM_call(user, cam_id):
     """
     Clone a CAM for a user. This is called by join_project_link in views_Project.py
-    TODO: TEST
     """
     user_ = user
     cam_ = CAM.objects.get(id=cam_id)  # Get current CAM
-    blocks_ = cam_.block_set.all()
-    links_ = cam_.link_set.all()
-    link_dict = {}
 
     # Store original values before cloning
     original_user = cam_.user
@@ -348,6 +430,11 @@ def clone_CAM_call(user, cam_id):
     original_description = cam_.description
     original_cam_image = cam_.cam_image
     original_name = cam_.name
+
+    # Get blocks and links BEFORE modifying cam_ - force evaluation with list()
+    blocks_ = list(cam_.block_set.all())
+    links_ = list(cam_.link_set.all())
+    link_dict = {}
 
     cam_.pk = None  # Give new primary key
     # Get current number of cams for user and add one to value

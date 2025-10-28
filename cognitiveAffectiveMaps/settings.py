@@ -29,9 +29,6 @@ ALLOWED_HOSTS = [
     "*",
     "localhost",
     "127.0.0.1:8000",
-    "psychologie.uni-freiburg.de",
-    "cam1.psychologie.uni-freiburg.de",
-    "cam.psychologie.uni-freiburg.de",
 ]
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -45,7 +42,6 @@ INSTALLED_APPS = [
     "link",
     "users.apps.UsersConfig",
     "fileprovider",
-    "config_admin",
     "corsheaders",
 ]
 AUTH_USER_MODEL = "users.CustomUser"

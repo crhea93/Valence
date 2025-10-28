@@ -220,7 +220,6 @@ The application uses the following main models:
 - **Users** (`users/models.py`): Custom user model with project and participant management
 - **Blocks** (`block/models.py`): CAM nodes/concepts
 - **Links** (`link/models.py`): Relationships between blocks
-- **Config Admin** (`config_admin/models.py`): Administrative configuration settings
 
 ### Troubleshooting
 
@@ -258,7 +257,6 @@ Valence/
 ├── users/                       # User management app
 ├── block/                       # CAM blocks/nodes app
 ├── link/                        # CAM links/relationships app
-├── config_admin/                # Admin configuration app
 ├── static/                      # Static files (CSS, JS, images)
 ├── templates/                   # HTML templates
 ├── manage.py                    # Django management script

@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     "link",
     "users.apps.UsersConfig",
     "fileprovider",
-    "config_admin",
 ]
 
 MIDDLEWARE = [
